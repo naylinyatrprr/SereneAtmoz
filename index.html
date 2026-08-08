@@ -97,17 +97,20 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 .primary:hover { background: #5b4cc4; transform: translateY(-2px); }
 .secondary { background: #00cec9; color: #fff; }
 
-.stats { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+/* ปรับสไตล์แทปรอง (Stats) ให้เล็กลงและเป็นทรงรีทรงเดียวกับแทปหลัก */
+.stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
 .stat {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 15px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 20px; /* ทรงรี */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   font-weight: bold;
-  color: #2d3436;
+  font-size: 0.88rem;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
 }
-.stat.clickable { cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
-.stat.clickable:hover { border-color: #6c5ce7; background: #fff; transform: scale(1.05); }
+.stat.clickable { cursor: pointer; transition: all 0.25s ease; }
+.stat.clickable:hover { border-color: #6c5ce7; color: #6c5ce7; background: #fff; transform: translateY(-1px); }
 
 /* Backlog Dashboard Styles */
 .backlog-dashboard {
@@ -345,18 +348,19 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   border-top: 1px solid #eee;
 }
 
+/* ปรับแต่ง Filter Summary Badge ให้เป็นทรงรี ฟอนต์กระชับ */
 .filter-summary-badge {
   background: linear-gradient(135deg, #6c5ce7, #00cec9);
   color: white;
-  padding: 10px 18px;
-  border-radius: 12px;
+  padding: 8px 18px;
+  border-radius: 20px; /* ทรงรี */
   font-weight: bold;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   margin-bottom: 20px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.2);
 }
 
 .pagination-controls {
@@ -384,53 +388,45 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   cursor: not-allowed;
 }
 
-/* Image Zoom Modal Style */
+/* Image Zoom Modal Style (ปรับให้รูปขนาดใหญ่ฟิตเต็มหน้าจอ) */
 #imageZoomModal {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.92);
   z-index: 2000;
   backdrop-filter: blur(8px);
   align-items: center;
   justify-content: center;
+  padding: 10px;
 }
 .zoom-container {
-  max-width: 95%;
-  max-height: 90vh;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 #zoomedImg {
-  max-width: 100%;
-  max-height: 75vh;
+  max-width: 95vw;
+  max-height: 92vh;
   object-fit: contain; 
-  border-radius: 8px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
-  animation: zoomAnimation 0.25s ease-out;
+  border-radius: 6px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+  animation: zoomAnimation 0.2s ease-out;
   cursor: pointer; /* ดับเบิ้ลคลิกรูปเพื่อปิด */
 }
 #zoomCaption {
   color: #fff;
-  margin-top: 15px;
-  font-size: 1.1rem;
+  margin-top: 8px;
+  font-size: 1rem;
   font-weight: bold;
   text-align: center;
   text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
-.zoom-hint {
-  color: #00cec9;
-  font-size: 0.88rem;
-  margin-top: 6px;
-  background: rgba(0,0,0,0.6);
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 206, 201, 0.4);
-}
 @keyframes zoomAnimation {
-  from { transform: scale(0.9); opacity: 0; }
+  from { transform: scale(0.92); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 </style>
@@ -446,16 +442,16 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   <!-- โซนเมนูแท็บด้านบน -->
   <div class="nav-header-wrapper">
     <div class="sales-tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">ตัวอย่างห้อง Room Types</button>
-      <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">ยูนิตพร้อมขาย Ready to Move!</button>
-      <button class="tab-btn" onclick="switchTab(event, 'projectTab')">รายละเอียดโครงการ Project detail</button>
-      <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">แปลนผังชั้น Floor Plan</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ตัวอย่างห้อง Room Types</button>
+      <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move!</button>
+      <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail</button>
+      <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนผังชั้น Floor Plan</button>
     </div>
 
     <button class="admin-tab-btn" onclick="switchTab(event, 'backlogTab')">🔒 Admin Backlog</button>
   </div>
 
-  <!-- แท็บ 1: Room Types (ปรับแต่งตามบรีฟข้อ 2: กดรูปแล้วแสดงแปลนห้อง) -->
+  <!-- แท็บ 1: Room Types (กดรูปแสดงแปลนห้อง) -->
   <div id="roomTypesTab" class="tab-content active">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Room type (คลิกที่รูปเพื่อดูแปลนห้อง)</h2>
     <div class="gallery-layout">
@@ -699,12 +695,11 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
-<!-- Modal ซูมรูปภาพ (ปรับเงื่อนไขปิดด้วยการ Double Click ตามบรีฟข้อ 1) -->
+<!-- Modal ซูมรูปภาพ (ขยายใหญ่เต็มหน้าจอ นำคำแนะนำออก) -->
 <div id="imageZoomModal">
   <div class="zoom-container">
     <img id="zoomedImg" src="" alt="Zoomed Image" ondblclick="closeImageZoom()">
     <div id="zoomCaption"></div>
-    <div class="zoom-hint">💡 ดับเบิ้ลคลิก (Double-click) ที่ตัวรูปภาพเพื่อปิดการซูม</div>
   </div>
 </div>
 
@@ -728,7 +723,6 @@ const roomGallery = {
   'default': 'https://i.ibb.co/Xkdny7Lr/Image00015.jpg'
 };
 
-/* แมปรูปแปลนห้องสำหรับแสดงเมื่อกดจากหน้าแรก (บรีฟข้อ 2) */
 const roomPlans = {
   '1 Bed Extra': {
     src: 'https://i.ibb.co/fdVvVsqg/1786206078940-0.jpg',
@@ -842,7 +836,6 @@ function switchTab(evt, tabName) {
   evt.currentTarget.classList.add("active");
 }
 
-/* ฟังก์ชันกดรูปในแท็บแรก แล้วเปิดรูปแปลนห้อง (บรีฟข้อ 2) */
 function openRoomPlan(roomType) {
   const plan = roomPlans[roomType];
   if (plan) {
@@ -852,7 +845,6 @@ function openRoomPlan(roomType) {
   }
 }
 
-/* เปิด Modal ซูมรูปภาพทั่วไป */
 function openImageZoom(element) {
   const imgSource = element.querySelector('img').src;
   const imgAlt = element.querySelector('img').alt || '';
@@ -861,7 +853,6 @@ function openImageZoom(element) {
   document.getElementById('imageZoomModal').style.display = 'flex';
 }
 
-/* ปิด Modal ซูมรูปภาพ (เรียกใช้จากการ Double Click) */
 function closeImageZoom() { 
   document.getElementById('imageZoomModal').style.display = 'none'; 
 }
@@ -1038,7 +1029,7 @@ function render() {
       
       <div style="margin: 10px 0;">
         <div style="font-size: 0.85rem; color: #7f8c8d; text-decoration: line-through;">ปกติ ${u.price || '-'}</div>
-        <div style="font-size: 1.15rem; color: #ff4757; font-weight: bold;">โปร ${u.sale || '-'}</div>
+        <div style="font-size: 1.15rem; color: #ff4757; font-weight: bold;">Hotdeal! ${u.sale || '-'}</div>
       </div>
 
       <div style="display:flex; gap:8px; margin-bottom:10px; margin-top:auto;">
