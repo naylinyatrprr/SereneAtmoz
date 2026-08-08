@@ -1143,7 +1143,6 @@ function renderBacklog() {
       <p style="margin: 4px 0; color:#ff4757;"><strong>ราคาขาย:</strong> ${u.sale || '-'}</p>
       
       <div style="margin: 10px 0; background: #f8f9fa; padding: 10px; border-radius: 8px;">
-        <div style="font-size: 0.8rem; font-weight: bold; color: #636e72; margin-bottom: 6px;">เลือกสถานะงาน (ดับเบิ้ลคลิกเพื่อเปลี่ยน):</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
           <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}" ondblclick="setBacklogSubStatus('${u.id}', 'Booking')">Booking</button>
           <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}" ondblclick="setBacklogSubStatus('${u.id}', 'On progress')">On progress</button>
