@@ -71,30 +71,6 @@ header p {
   transform: scale(1.05); 
 }
 
-.sold-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  cursor: pointer;
-}
-.sold-badge {
-  color: #ff4757;
-  font-size: 3rem;
-  font-weight: 900;
-  border: 5px solid #ff4757;
-  padding: 5px 20px;
-  text-transform: uppercase;
-  transform: rotate(-15deg);
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
-  letter-spacing: 2px;
-  user-select: none; 
-}
 .btn-sold {
   background: #7f8c8d;
   color: white;
@@ -129,6 +105,67 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 }
 .stat.clickable { cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
 .stat.clickable:hover { border-color: #6c5ce7; background: #fff; transform: scale(1.05); }
+
+/* Backlog Dashboard Styles */
+.backlog-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.backlog-stat-card {
+  padding: 16px;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.backlog-stat-card:hover {
+  transform: translateY(-3px);
+}
+.backlog-stat-card .count {
+  font-size: 2rem;
+  margin-top: 5px;
+}
+
+/* Category Button Colors */
+.status-btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  transition: all 0.2s;
+  opacity: 0.6;
+  flex: 1;
+}
+.status-btn.active {
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transform: scale(1.03);
+}
+
+.btn-booking { background: #2ed573; color: white; }
+.btn-on-progress { background: #ffa502; color: white; }
+.btn-transfer { background: #1e90ff; color: white; }
+.btn-urgent { background: #ff6b81; color: white; }
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 8px;
+}
 
 #modal, #summaryModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; backdrop-filter: blur(5px); }
 
@@ -171,11 +208,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   overflow-y: auto; 
 }
 .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
-.highlight-title { color: #6c5ce7; font-weight: bold; margin-top: 18px; font-size: 1.1rem; }
-.highlight-list { margin: 8px 0 0 0; padding-left: 20px; color: #4a5568; line-height: 1.6; }
-
-.summary-price-box { font-size: 13px; margin-top: 6px; color: #718096; }
-.summary-sale-price { color: #ff4757; font-weight: bold; }
 
 .sales-tabs {
   display: flex;
@@ -329,6 +361,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   <div class="sales-tabs">
     <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ตัวอย่างห้อง Room Types</button>
     <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move!</button>
+    <button class="tab-btn" onclick="switchTab(event, 'backlogTab')">📋 Backlog (ขายแล้ว)</button>
     <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail</button>
     <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนผังชั้น Floor Plan</button>
   </div>
@@ -356,7 +389,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     </div>
   </div>
 
-  <!-- แท็บ 2: Units -->
+  <!-- แท็บ 2: Units Ready to Move -->
   <div id="unitsTab" class="tab-content">
     <div class="stats">
       <div class="stat clickable" onclick="showSummary('available')">🏢 จำนวนยูนิตที่ว่าง: <span id="availableCount">0</span></div>
@@ -421,7 +454,49 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     </div>
   </div>
 
-  <!-- แท็บ 3: Project Detail -->
+  <!-- แท็บ 3: Backlog -->
+  <div id="backlogTab" class="tab-content">
+    <h2 style="color: #2d3436; border-left: 5px solid #2ed573; padding-left: 15px; margin-bottom: 20px;">Backlog Status Summary</h2>
+    
+    <!-- Dashboard นับจำนวนห้อง -->
+    <div class="backlog-dashboard">
+      <div class="backlog-stat-card" style="background: #2ed573;" onclick="filterBacklogStatus('Booking')">
+        <div>🟢 Booking</div>
+        <div class="count" id="countBooking">0</div>
+      </div>
+      <div class="backlog-stat-card" style="background: #ffa502;" onclick="filterBacklogStatus('On progress')">
+        <div>🟡 On progress</div>
+        <div class="count" id="countOnProgress">0</div>
+      </div>
+      <div class="backlog-stat-card" style="background: #1e90ff;" onclick="filterBacklogStatus('Transfer')">
+        <div>🔵 Transfer</div>
+        <div class="count" id="countTransfer">0</div>
+      </div>
+      <div class="backlog-stat-card" style="background: #ff6b81;" onclick="filterBacklogStatus('Urgent support!')">
+        <div>🔴 Urgent support!</div>
+        <div class="count" id="countUrgent">0</div>
+      </div>
+      <div class="backlog-stat-card" style="background: #6c5ce7;" onclick="filterBacklogStatus('all')">
+        <div>📦 Total Sold</div>
+        <div class="count" id="countTotalSold">0</div>
+      </div>
+    </div>
+
+    <div class="filter-bar" style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+      <input type="text" id="backlogSearchInput" placeholder="🔍 ค้นหาเลขห้อง Backlog..." oninput="renderBacklog()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; flex: 1; min-width: 200px;">
+      <select id="backlogStatusFilter" onchange="renderBacklog()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+        <option value="all">ทุกสถานะ Backlog</option>
+        <option value="Booking">Booking</option>
+        <option value="On progress">On progress</option>
+        <option value="Transfer">Transfer</option>
+        <option value="Urgent support!">Urgent support!</option>
+      </select>
+    </div>
+
+    <div class="grid" id="backlogUnits"></div>
+  </div>
+
+  <!-- แท็บ 4: Project Detail -->
   <div id="projectTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">รายละเอียดโครงการ</h2>
     <div class="gallery-layout">
@@ -441,22 +516,22 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
         <img src="https://i.ibb.co/99DZKqY6/1786206572523-0.jpg" alt="แผนที่ตั้งโครงการ">
         <div class="gallery-title">แผนที่ตั้งโครงการ</div>
       </div>
-        <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openImageZoom(this)">
         <img src="https://i.ibb.co/WWNKSCsC/1786206615986-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
         <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
       </div>
-       <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openImageZoom(this)">
         <img src="https://i.ibb.co/5XDFpC07/1786206627622-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
         <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
       </div>
-       <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openImageZoom(this)">
         <img src="https://i.ibb.co/DPt6DSqd/1786206647561-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
         <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
       </div>
     </div>
   </div>
 
-  <!-- แท็บ 4: Floor Plan -->
+  <!-- แท็บ 5: Floor Plan -->
   <div id="floorplanTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Floor Plan & Room Plan</h2>
     <div class="gallery-layout">
@@ -468,11 +543,11 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
         <img src="https://i.ibb.co/xS0QkTZ8/1786206126415-0.jpg" alt="2. แบบห้อง 1 Bed Exclusive">
         <div class="gallery-title">2. แบบห้อง 1 Bed Exclusive</div>
       </div>
-       <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openImageZoom(this)">
         <img src="https://i.ibb.co/60JGfhSn/1786206096716-0.jpg" alt="3. แบบห้อง 1 Bed Exclusive-Private">
         <div class="gallery-title">3. แบบห้อง 1 Bed Exclusive-Private</div>
       </div>
- <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openImageZoom(this)">
         <img src="https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg" alt="4. แบบห้อง 1 Bed plus">
         <div class="gallery-title">4. แบบห้อง 1 Bed plus</div>
       </div>
@@ -541,7 +616,8 @@ const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmn
 let units = [];
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let compare = JSON.parse(localStorage.getItem('compare')) || [];
-let solds = JSON.parse(localStorage.getItem('solds')) || [];
+let solds = JSON.parse(localStorage.getItem('solds')) || []; // เก็บ id ของยูนิตขายแล้ว
+let backlogStatus = JSON.parse(localStorage.getItem('backlogStatus')) || {}; // เก็บสถานะ { unitId: 'Booking' | 'On progress' | 'Transfer' | 'Urgent support!' }
 
 let currentPage = 1;
 const itemsPerPage = 15;
@@ -587,7 +663,6 @@ function parseCSV(text) {
     headers.forEach((h, index) => {
       let val = row[index] ? row[index] : '';
       
-      // แมปชื่อคอลัมน์จาก Google Sheet จริง
       if (['id', 'unit', 'unit_id', 'room', 'เลขห้อง'].includes(h)) {
         item['id'] = val;
       } else if (['type', 'room_type', 'ประเภท'].includes(h)) {
@@ -623,14 +698,15 @@ async function loadSheetsData() {
     units = parseCSV(csvData);
 
     if (units.length === 0) {
-      gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ โหลดไฟล์สำเร็จ แต่ไม่พบข้อมูลยูนิต โปรดเช็คหัวคอลัมน์ใน Google Sheets</div>';
+      gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ โหลดไฟล์สำเร็จ แต่ไม่พบข้อมูลยูนิต</div>';
       return;
     }
 
     render();
+    renderBacklog();
   } catch (error) {
     console.error("Error loading CSV:", error);
-    gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ ไม่สามารถโหลดข้อมูลได้ โปรดตรวจสอบสิทธิ์การ Publish to Web</div>';
+    gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ ไม่สามารถโหลดข้อมูลได้</div>';
   }
 }
 
@@ -678,55 +754,57 @@ function toggleFav(id) {
   render();
 }
 
-function toggleFavFromModal(id) { toggleFav(id); updateModalButtons(id); }
-function toggleCompareFromModal(id) { toggleCompare(id); updateModalButtons(id); }
-
-function updateModalButtons(id) {
-  const modalActionBox = document.getElementById('modalActionBox');
-  if (modalActionBox) {
-    const isFav = favorites.includes(id);
-    const isCompare = compare.includes(id);
-    document.getElementById('modalFavBtn').textContent = isFav ? '❤️ รายการโปรดแล้ว' : '🤍 เพิ่มในรายการโปรด';
-    document.getElementById('modalCompareBtn').textContent = isCompare ? '📊 เปรียบเทียบแล้ว' : '📊 เพิ่มเพื่อเปรียบเทียบ';
-    document.getElementById('modalFavBtn').style.background = isFav ? '#ffeaa7' : '#00cec9';
-    document.getElementById('modalCompareBtn').style.background = isCompare ? '#a29bfe' : '#6c5ce7';
-  }
-}
-
 function setSold(id) {
   if (!solds.includes(id)) {
     solds.push(id);
+    if (!backlogStatus[id]) backlogStatus[id] = 'Booking'; // ค่าเริ่มต้นเมื่อมาร์ค Sold
+    
     favorites = favorites.filter(x => x !== id);
     compare = compare.filter(x => x !== id);
+    
     localStorage.setItem('favorites', JSON.stringify(favorites));
     localStorage.setItem('compare', JSON.stringify(compare));
     localStorage.setItem('solds', JSON.stringify(solds));
+    localStorage.setItem('backlogStatus', JSON.stringify(backlogStatus));
+    
     render();
+    renderBacklog();
   }
 }
 
 function unlockSold(id) {
   if (solds.includes(id)) {
     solds = solds.filter(x => x !== id);
+    delete backlogStatus[id];
+    
     localStorage.setItem('solds', JSON.stringify(solds));
+    localStorage.setItem('backlogStatus', JSON.stringify(backlogStatus));
+    
     render();
+    renderBacklog();
   }
+}
+
+function setBacklogSubStatus(id, statusName) {
+  backlogStatus[id] = statusName;
+  localStorage.setItem('backlogStatus', JSON.stringify(backlogStatus));
+  renderBacklog();
 }
 
 function parseSalePrice(saleStr) {
   if (!saleStr) return 0;
-  // ลบตัวอักษรที่ไม่ใช่ตัวเลขหรือจุดทศนิยมออก
   const cleaned = saleStr.replace(/,/g, '');
   const match = cleaned.match(/\d+(\.\d+)?/);
   if (!match) return 0;
   let val = parseFloat(match[0]);
-  // ถ้าค่าน้อยกว่า 100 (เช่น 1.59 MB) ให้แปลงเป็นหลักล้านเพื่อให้เปรียบเทียบค่าได้อย่างแม่นยำ
   return val < 100 ? val * 1000000 : val;
 }
 
 function render() {
-  const availableUnitsCount = units.length - solds.length;
-  document.getElementById('availableCount').textContent = availableUnitsCount;
+  // กรองเฉพาะห้องที่ "ยังไม่ถูกขาย" มาแสดงใน Ready to Move
+  const availableUnits = units.filter(u => !solds.includes(u.id));
+
+  document.getElementById('availableCount').textContent = availableUnits.length;
   document.getElementById('favCount').textContent = favorites.length;
   document.getElementById('compareCount').textContent = compare.length;
 
@@ -739,8 +817,7 @@ function render() {
   const floorValue = document.getElementById('floorFilter')?.value || 'all';
   const priceValue = document.getElementById('priceFilter')?.value || 'all';
 
-  // 1. กรองข้อมูลตาม Filter
-  const filteredUnits = units.filter(u => {
+  const filteredUnits = availableUnits.filter(u => {
     const matchSearch = u.id ? u.id.toLowerCase().includes(searchText) : true;
     const buildingName = u.id ? u.id.charAt(0).toUpperCase() : '';
     const matchBuilding = (buildingValue === 'all') || (buildingName === buildingValue);
@@ -763,21 +840,11 @@ function render() {
     return matchSearch && matchBuilding && matchType && matchFloor && matchPrice;
   });
 
-  // 2. จัดเรียงข้อมูล: ยูนิตที่ขายแล้ว (Sold) ไปไว้ท้ายสุด + เรียงยูนิตที่ว่างจาก "ราคาต่ำไปสูง"
-  filteredUnits.sort((a, b) => {
-    const aSold = solds.includes(a.id);
-    const bSold = solds.includes(b.id);
-    
-    if (aSold !== bSold) {
-      return aSold ? 1 : -1; // ถ้าขายแล้ว ให้ย้ายไปไว้ข้างหลัง
-    }
-    
-    // เรียงราคาโปรโมชั่น (sale price) จากน้อยไปมาก
-    return parseSalePrice(a.sale) - parseSalePrice(b.sale);
-  });
+  // เรียงราคาจากน้อยไปมาก
+  filteredUnits.sort((a, b) => parseSalePrice(a.sale) - parseSalePrice(b.sale));
 
   if (filteredUnits.length === 0) {
-    el.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">ไม่พบยูนิตที่ตรงกับเงื่อนไขการค้นหา</div>';
+    el.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">ไม่พบยูนิตพร้อมขายที่ตรงกับเงื่อนไข</div>';
     document.getElementById('pageIndicator').textContent = 'หน้า 0 / 0';
     document.getElementById('prevPageBtn').disabled = true;
     document.getElementById('nextPageBtn').disabled = true;
@@ -789,8 +856,7 @@ function render() {
   if (currentPage < 1) currentPage = 1;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const pageUnits = filteredUnits.slice(startIndex, endIndex);
+  const pageUnits = filteredUnits.slice(startIndex, startIndex + itemsPerPage);
 
   document.getElementById('pageIndicator').textContent = `หน้า ${currentPage} / ${totalPages} (รวม ${filteredUnits.length} รายการ)`;
   document.getElementById('prevPageBtn').disabled = (currentPage === 1);
@@ -799,22 +865,15 @@ function render() {
   pageUnits.forEach(u => {
     const heartIcon = favorites.includes(u.id) ? '❤️' : '🤍';
     const imageUrl = roomGallery[u.type] || roomGallery['default'];
-    const isSold = solds.includes(u.id);
     
     const card = document.createElement('div');
     card.className = 'card';
-    
-    const soldOverlayHTML = isSold ? `<div class="sold-overlay" ondblclick="unlockSold('${u.id}')"><div class="sold-badge">SOLD</div></div>` : '';
-    const soldButtonHTML = isSold 
-      ? `<button class="btn-sold" ondblclick="unlockSold('${u.id}')" style="padding: 10px 14px;" title="ดับเบิ้ลคลิกเพื่อปลดล็อก">Unlock</button>`
-      : `<button class="btn-sold" onclick="setSold('${u.id}')" style="padding: 10px 14px;">Sold</button>`;
 
     card.innerHTML = `
     <div class="card-img-box">
-      ${soldOverlayHTML}
       <img src="${imageUrl}" alt="${u.type}">
     </div>
-    <div class="card-content" style="${isSold ? 'opacity: 0.6;' : ''}">
+    <div class="card-content">
       <h3 style="margin-top:0; color:#6c5ce7;">Unit ${u.id}</h3>
       <p style="margin: 4px 0;"><strong>Type:</strong> ${u.type}</p>
       <p style="margin: 4px 0;"><strong>Size:</strong> ${u.size} sq.m.</p>
@@ -826,53 +885,135 @@ function render() {
       </div>
 
       <div style="display:flex; gap:8px; margin-bottom:10px; margin-top:auto;">
-        <button class="primary" style="flex:1" onclick="showUnit('${u.id}')" ${isSold ? 'disabled style="background:#b2bec3;"' : ''}>รายละเอียด</button>
-        <button class="secondary" onclick="toggleFav('${u.id}')" ${isSold ? 'disabled style="background:#b2bec3;"' : ''}>${heartIcon}</button>
-        ${soldButtonHTML}
+        <button class="primary" style="flex:1" onclick="showUnit('${u.id}')">รายละเอียด</button>
+        <button class="secondary" onclick="toggleFav('${u.id}')">${heartIcon}</button>
+        <button class="btn-sold" onclick="setSold('${u.id}')">Sold</button>
       </div>
-      <label style="cursor:pointer; font-size:14px; color:#636e72; display:block; text-align:center; ${isSold ? 'pointer-events:none; color:#b2bec3;' : ''}">
-        <input type="checkbox" ${compare.includes(u.id) ? 'checked' : ''} onchange="toggleCompare('${u.id}')" ${isSold ? 'disabled' : ''}> เปรียบเทียบห้องนี้
+      <label style="cursor:pointer; font-size:14px; color:#636e72; display:block; text-align:center;">
+        <input type="checkbox" ${compare.includes(u.id) ? 'checked' : ''} onchange="toggleCompare('${u.id}')"> เปรียบเทียบห้องนี้
       </label>
     </div>`;
     el.appendChild(card);
   });
 }
+
+function renderBacklog() {
+  const el = document.getElementById('backlogUnits');
+  if (!el) return;
+  el.innerHTML = '';
+
+  const soldUnits = units.filter(u => solds.includes(u.id));
+
+  // นับจำนวนสถิติตามหมวดหมู่
+  let cBooking = 0, cProgress = 0, cTransfer = 0, cUrgent = 0;
+  soldUnits.forEach(u => {
+    const st = backlogStatus[u.id] || 'Booking';
+    if (st === 'Booking') cBooking++;
+    else if (st === 'On progress') cProgress++;
+    else if (st === 'Transfer') cTransfer++;
+    else if (st === 'Urgent support!') cUrgent++;
+  });
+
+  document.getElementById('countBooking').textContent = cBooking;
+  document.getElementById('countOnProgress').textContent = cProgress;
+  document.getElementById('countTransfer').textContent = cTransfer;
+  document.getElementById('countUrgent').textContent = cUrgent;
+  document.getElementById('countTotalSold').textContent = soldUnits.length;
+
+  const searchText = (document.getElementById('backlogSearchInput')?.value || '').trim().toLowerCase();
+  const statusFilter = document.getElementById('backlogStatusFilter')?.value || 'all';
+
+  const filtered = soldUnits.filter(u => {
+    const matchSearch = u.id ? u.id.toLowerCase().includes(searchText) : true;
+    const currentStatus = backlogStatus[u.id] || 'Booking';
+    const matchStatus = (statusFilter === 'all') || (currentStatus === statusFilter);
+    return matchSearch && matchStatus;
+  });
+
+  if (filtered.length === 0) {
+    el.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">ไม่พบห้องใน Backlog ตามเงื่อนไข</div>';
+    return;
+  }
+
+  filtered.forEach(u => {
+    const imageUrl = roomGallery[u.type] || roomGallery['default'];
+    const currentStatus = backlogStatus[u.id] || 'Booking';
+
+    let badgeBg = '#2ed573';
+    if (currentStatus === 'On progress') badgeBg = '#ffa502';
+    if (currentStatus === 'Transfer') badgeBg = '#1e90ff';
+    if (currentStatus === 'Urgent support!') badgeBg = '#ff6b81';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    card.innerHTML = `
+    <div class="card-img-box">
+      <img src="${imageUrl}" alt="${u.type}">
+    </div>
+    <div class="card-content">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0; color:#2d3436;">Unit ${u.id}</h3>
+        <span class="status-badge" style="background:${badgeBg}">${currentStatus}</span>
+      </div>
+      <p style="margin: 4px 0;"><strong>Type:</strong> ${u.type} (${u.size} sq.m.)</p>
+      <p style="margin: 4px 0; color:#ff4757;"><strong>ราคาขาย:</strong> ${u.sale || '-'}</p>
+      
+      <div style="margin: 10px 0; background: #f8f9fa; padding: 10px; border-radius: 8px;">
+        <div style="font-size: 0.8rem; font-weight: bold; color: #636e72; margin-bottom: 6px;">เลือกสถานะงาน (Backlog Status):</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}" onclick="setBacklogSubStatus('${u.id}', 'Booking')">Booking</button>
+          <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}" onclick="setBacklogSubStatus('${u.id}', 'On progress')">On progress</button>
+          <button class="status-btn btn-transfer ${currentStatus === 'Transfer' ? 'active' : ''}" onclick="setBacklogSubStatus('${u.id}', 'Transfer')">Transfer</button>
+          <button class="status-btn btn-urgent ${currentStatus === 'Urgent support!' ? 'active' : ''}" onclick="setBacklogSubStatus('${u.id}', 'Urgent support!')">Urgent!</button>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:auto;">
+        <button class="primary" style="flex:1" onclick="showUnit('${u.id}')">รายละเอียด</button>
+        <button class="btn-sold" style="background:#e17055;" onclick="unlockSold('${u.id}')" title="ย้ายกลับไปห้องว่าง">คืนห้องว่าง</button>
+      </div>
+    </div>`;
+    el.appendChild(card);
+  });
+}
+
+function filterBacklogStatus(status) {
+  const sel = document.getElementById('backlogStatusFilter');
+  if (sel) {
+    sel.value = status;
+    renderBacklog();
+  }
+}
+
 function showUnit(id) {
   const u = units.find(x => x.id === id);
   if (!u) return;
 
-  document.getElementById('title').textContent = "รายละเอียด Unit " + id;
+  document.getElementById('title').textContent = `Unit ${u.id} - ${u.type}`;
   document.getElementById('roomImg').src = roomGallery[u.type] || roomGallery['default'];
 
-  let highlightHTML = '';
-  if (Array.isArray(u.highlights)) {
-    u.highlights.forEach(text => { highlightHTML += `<li>${text}</li>`; });
+  let highlightsHTML = '';
+  if (u.highlights && u.highlights.length > 0) {
+    highlightsHTML = `
+      <div class="highlight-title">✨ จุดเด่นห้องนี้:</div>
+      <ul class="highlight-list">
+        ${u.highlights.map(h => `<li>${h}</li>`).join('')}
+      </ul>
+    `;
   }
 
-  const isFav = favorites.includes(id);
-  const isCompare = compare.includes(id);
-  const favText = isFav ? '❤️ รายการโปรดแล้ว' : '🤍 เพิ่มในรายการโปรด';
-  const compareText = isCompare ? '📊 เปรียบเทียบแล้ว' : '📊 เพิ่มเพื่อเปรียบเทียบ';
-  const favBg = isFav ? '#ffeaa7' : '#00cec9';
-  const compareBg = isCompare ? '#a29bfe' : '#6c5ce7';
+  const isSold = solds.includes(u.id);
+  const backlogSt = backlogStatus[u.id] || '-';
 
   document.getElementById('detail').innerHTML = `
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; background:#f9f9f9; padding:15px; border-radius:10px;">
-      <div><strong>ประเภท:</strong> ${u.type}</div>
-      <div><strong>ขนาด:</strong> ${u.size} sq.m.</div>
-      <div><strong>ชั้น:</strong> ${u.floor}</div>
-      <div><strong>ราคาปกติ:</strong> ${u.price}</div>
-    </div>
-    <p style="font-size:1.4rem; margin:15px 0 5px;">Hot deal!! โปรโมชั่นพิเศษ: <span style="color:#ff4757; font-weight:bold;">${u.sale}</span></p>
-    
-    <div class="highlight-title">🎯 จุดเด่นเฉพาะห้องนี้:</div>
-    <ul class="highlight-list">${highlightHTML}</ul>
-    
-    <div id="modalActionBox" style="display:flex; gap:10px; margin-top:20px; padding-top:15px; border-top:1px dashed #eee;">
-      <button id="modalFavBtn" class="secondary" style="flex:1; background:${favBg}; color:#2d3436;" onclick="toggleFavFromModal('${u.id}')">${favText}</button>
-      <button id="modalCompareBtn" class="primary" style="flex:1; background:${compareBg};" onclick="toggleCompareFromModal('${u.id}')">${compareText}</button>
-    </div>
+    <p><strong>ขนาด:</strong> ${u.size} sq.m. | <strong>ชั้น:</strong> ${u.floor}</p>
+    <p><strong>ราคาปกติ:</strong> <span style="text-decoration: line-through;">${u.price || '-'}</span></p>
+    <p><strong>ราคาโปรโมชั่น:</strong> <span style="color: #ff4757; font-weight: bold; font-size: 1.2rem;">${u.sale || '-'}</span></p>
+    ${isSold ? `<p><strong>สถานะ:</strong> <span style="color:#2ed573; font-weight:bold;">Sold (${backlogSt})</span></p>` : ''}
+    ${highlightsHTML}
   `;
+
   document.getElementById('modal').style.display = 'block';
 }
 
@@ -883,44 +1024,45 @@ function showSummary(type) {
   const title = document.getElementById('summaryTitle');
   const list = document.getElementById('summaryList');
   list.innerHTML = '';
-  
-  let targetArray = [];
-  if (type === 'favorites') { targetArray = favorites; title.textContent = '❤️ รายการโปรด'; }
-  else if (type === 'compare') { targetArray = compare; title.textContent = '📊 เปรียบเทียบห้อง'; }
-  else if (type === 'available') { 
-      targetArray = units.map(u => u.id).filter(id => !solds.includes(id)); 
-      title.textContent = '🏢 ห้องว่างทั้งหมด'; 
-  }
-  
-  if (targetArray.length === 0) {
-      list.innerHTML = '<li style="text-align:center; padding:20px; color:#888;">ไม่มีข้อมูล</li>';
-  } else {
-      targetArray.forEach(id => {
-          const u = units.find(x => x.id === id);
-          if (u) {
-              const li = document.createElement('li');
-              li.className = 'summary-item';
-              let btn = type === 'available' 
-                  ? `<button class="primary" onclick="closeSummaryModal(); showUnit('${u.id}')">ดูห้อง</button>`
-                  : `<button class="secondary" style="background:#ff4757;" onclick="${type==='favorites'?'toggleFav':'toggleCompare'}('${u.id}'); showSummary('${type}')">ลบ</button>`;
 
-              li.innerHTML = `
-                  <div>
-                      <strong>Unit ${u.id}</strong> - ${u.type} (ชั้น ${u.floor})
-                      <div class="summary-price-box">ราคาปกติ: ${u.price} | <span class="summary-sale-price">Hot deal!!: ${u.sale}</span></div>
-                  </div>
-                  ${btn}
-              `;
-              list.appendChild(li);
-          }
-      });
+  let targetUnits = [];
+
+  if (type === 'available') {
+    title.textContent = '🏢 รายการยูนิตพร้อมขายทั้งหมด';
+    targetUnits = units.filter(u => !solds.includes(u.id));
+  } else if (type === 'favorites') {
+    title.textContent = '❤️ รายการโปรดของคุณ';
+    targetUnits = units.filter(u => favorites.includes(u.id));
+  } else if (type === 'compare') {
+    title.textContent = '📊 รายการเปรียบเทียบยูนิต';
+    targetUnits = units.filter(u => compare.includes(u.id));
   }
+
+  if (targetUnits.length === 0) {
+    list.innerHTML = '<li class="summary-item" style="justify-content:center; color:#888;">ไม่มีรายการ</li>';
+  } else {
+    targetUnits.forEach(u => {
+      const li = document.createElement('li');
+      li.className = 'summary-item';
+      li.innerHTML = `
+        <div>
+          <strong>Unit ${u.id}</strong> (${u.type}) - ชั้น ${u.floor}
+          <div class="summary-price-box">ราคาโปร: <span class="summary-sale-price">${u.sale || '-'}</span></div>
+        </div>
+        <button class="primary" style="padding: 6px 12px; font-size: 12px;" onclick="closeSummaryModal(); showUnit('${u.id}');">ดู</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
   modal.style.display = 'block';
 }
 
 function closeSummaryModal() { document.getElementById('summaryModal').style.display = 'none'; }
 
-loadSheetsData();
+window.onload = function() {
+  loadSheetsData();
+};
 </script>
 </body>
 </html>
