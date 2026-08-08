@@ -186,11 +186,13 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   backdrop-filter: blur(4px);
+  flex-wrap: wrap;
 }
 .tab-btn {
   flex: 1;
+  min-width: 140px;
   padding: 12px 20px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   border-radius: 12px;
   background: transparent;
   color: #4a5568;
@@ -250,6 +252,32 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   border-top: 1px solid #eee;
 }
 
+/* Style สำหรับ Pagination Control */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 25px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.pagination-btn {
+  background: #6c5ce7;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.pagination-btn:disabled {
+  background: #dcdde1;
+  cursor: not-allowed;
+}
+
 #imageZoomModal {
   display: none;
   position: fixed;
@@ -299,13 +327,39 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 </header>
 
 <div class="container">
+  <!-- สลับแท็บ ให้ Room Types ขึ้นเป็นแท็บแรก -->
   <div class="sales-tabs">
-    <button class="tab-btn active" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move! </button>
-    <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail </button>
-    <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนห้องและผังชั้น Floor Plan & Room Plan</button>
+    <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ภาพตัวอย่างห้อง Room Types</button>
+    <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move!</button>
+    <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail</button>
+    <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนผังชั้น Floor Plan</button>
   </div>
 
-  <div id="unitsTab" class="tab-content active">
+  <!-- แท็บ 1: ภาพตัวอย่างห้องแต่ละประเภท -->
+  <div id="roomTypesTab" class="tab-content active">
+    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">ภาพตัวอย่างบรรยากาศห้องพัก</h2>
+    <div class="gallery-layout">
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/5.jpg" alt="1 Bed Exclusive">
+        <div class="gallery-title">1 Bed Exclusive</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/9.jpg" alt="1 Bed Extra / 1 Bedroom Extra">
+        <div class="gallery-title">1 Bed Extra / 1 Bedroom Extra</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://img1.pic.in.th/images/1-Bedroom-Plus.jpg" alt="1 Bedroom Plus">
+        <div class="gallery-title">1 Bedroom Plus</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/2.jpg" alt="บรรยากาศรวมโครงการ Atmoz Serene">
+        <div class="gallery-title">บรรยากาศรวมโครงการ Atmoz Serene</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- แท็บ 2: ยูนิตพร้อมขาย (เดิมคือหน้าแรก) -->
+  <div id="unitsTab" class="tab-content">
     <div class="stats">
       <div class="stat clickable" onclick="showSummary('available')">🏢 จำนวนยูนิตที่ว่าง: <span id="availableCount">0</span></div>
       <div class="stat clickable" onclick="showSummary('compare')">📊 Compare: <span id="compareCount">0</span></div>
@@ -360,9 +414,19 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
         <option value=">=3.00">3.00 MB ขึ้นไป</option>
       </select>
     </div>  
+
+    <!-- ตารางการ์ดห้องพัก -->
     <div class="grid" id="units"></div>
+
+    <!-- ปุ่มเปลี่ยนหน้า Pagination (15 รายการ/หน้า) -->
+    <div class="pagination-controls">
+      <button id="prevPageBtn" class="pagination-btn" onclick="changePage(-1)">◀ ก่อนหน้า</button>
+      <span id="pageIndicator" style="font-weight: bold; color: #2d3436;">หน้า 1 / 1</span>
+      <button id="nextPageBtn" class="pagination-btn" onclick="changePage(1)">ถัดไป ▶</button>
+    </div>
   </div>
 
+  <!-- แท็บ 3: รายละเอียดโครงการ -->
   <div id="projectTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">รายละเอียดโครงการ</h2>
     <div class="gallery-layout">
@@ -385,6 +449,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     </div>
   </div>
 
+  <!-- แท็บ 4: แปลนห้องและผังชั้น -->
   <div id="floorplanTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Floor Plan & Room Plan</h2>
     <div class="gallery-layout">
@@ -433,6 +498,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
+<!-- Modal รายละเอียดห้อง -->
 <div id="modal">
   <div class="modal-content">
     <h2 id="title" style="color: #6c5ce7;"></h2>
@@ -445,6 +511,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
+<!-- Modal สรุปข้อมูล -->
 <div id="summaryModal">
   <div class="summary-modal-box">
     <h2 id="summaryTitle" style="margin-top: 0; margin-bottom: 10px;"></h2>
@@ -453,6 +520,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
+<!-- Modal ซูมรูปภาพ -->
 <div id="imageZoomModal" onclick="closeImageZoom()">
   <div class="zoom-container">
     <img id="zoomedImg" src="" alt="Zoomed Image">
@@ -461,13 +529,16 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 </div>
 
 <script>
-// แก้ไขลิงก์สำหรับดึง CSV สู่เว็บแบบตรงแล้ว
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmnW01ORgCmT0q3EIc6qDpx2vw1WJjYEKwImYcBq-td2P_WRjRqspjs2IxjJl6BPj2K-KDSlQ/pub?output=csv';
 
 let units = [];
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let compare = JSON.parse(localStorage.getItem('compare')) || [];
 let solds = JSON.parse(localStorage.getItem('solds')) || [];
+
+// ตัวแปรสำหรับ Pagination
+let currentPage = 1;
+const itemsPerPage = 15;
 
 const roomGallery = {
   '1 Bed Exclusive': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/5.jpg',
@@ -575,7 +646,18 @@ function openImageZoom(element) {
 }
 
 function closeImageZoom() { document.getElementById('imageZoomModal').style.display = 'none'; }
-function handleFilterChange() { render(); }
+
+function handleFilterChange() { 
+  currentPage = 1; // รีเซ็ตหน้าเป็น 1 ทุกครั้งที่มีการเปลี่ยนฟิลเตอร์
+  render(); 
+}
+
+function changePage(direction) {
+  currentPage += direction;
+  render();
+  // เลื่อนหน้าจอขึ้นไปที่จุดเริ่มต้นของตารางการ์ด
+  document.getElementById('unitsTab').scrollIntoView({ behavior: 'smooth' });
+}
 
 function toggleCompare(id) {
   if (compare.includes(id)) compare = compare.filter(x => x !== id);
@@ -674,10 +756,27 @@ function render() {
 
   if (filteredUnits.length === 0) {
     el.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">ไม่พบยูนิตที่ตรงกับเงื่อนไขการค้นหา</div>';
+    document.getElementById('pageIndicator').textContent = 'หน้า 0 / 0';
+    document.getElementById('prevPageBtn').disabled = true;
+    document.getElementById('nextPageBtn').disabled = true;
     return;
   }
 
-  filteredUnits.forEach(u => {
+  // คำนวณจำนวนหน้าทั้งหมด และตัดแบ่งอาเรย์สำหรับหน้าปัจจุบัน (15 ห้อง/หน้า)
+  const totalPages = Math.ceil(filteredUnits.length / itemsPerPage);
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const pageUnits = filteredUnits.slice(startIndex, endIndex);
+
+  // อัปเดตสถานะปุ่มเปลี่ยนหน้า
+  document.getElementById('pageIndicator').textContent = `หน้า ${currentPage} / ${totalPages} (รวม ${filteredUnits.length} รายการ)`;
+  document.getElementById('prevPageBtn').disabled = (currentPage === 1);
+  document.getElementById('nextPageBtn').disabled = (currentPage === totalPages);
+
+  pageUnits.forEach(u => {
     const heartIcon = favorites.includes(u.id) ? '❤️' : '🤍';
     const imageUrl = roomGallery[u.type] || roomGallery['default'];
     const isSold = solds.includes(u.id);
@@ -701,7 +800,6 @@ function render() {
       <p style="margin: 4px 0;"><strong>Size:</strong> ${u.size} sq.m.</p>
       <p style="margin: 4px 0;"><strong>Floor:</strong> ${u.floor}</p>
       
-      <!-- ส่วนแสดงทั้งสองราคาตั้งแต่หน้าแรก -->
       <div style="margin: 10px 0;">
         <div style="font-size: 0.85rem; color: #7f8c8d; text-decoration: line-through;">ปกติ ${u.price || '-'}</div>
         <div style="font-size: 1.15rem; color: #ff4757; font-weight: bold;">โปร ${u.sale || '-'}</div>
