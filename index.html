@@ -9,7 +9,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   background: linear-gradient(rgba(241, 238, 252, 0.88), rgba(232, 252, 249, 0.88)), 
-              url('https://i.ibb.co/1Y6HpcmX/09.jpg');
+              url('https://i.ibb.co/Xkdny7Lr/Image00015.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -18,7 +18,7 @@ body {
 
 header {
   background: linear-gradient(rgba(108, 92, 231, 0.6), rgba(0, 206, 201, 0.4)), 
-              url('https://i.ibb.co/1Y6HpcmX/09.jpg');
+              url('https://i.ibb.co/Xkdny7Lr/Image00015.jpg');
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -252,7 +252,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   border-top: 1px solid #eee;
 }
 
-/* Style สำหรับ Pagination Control */
 .pagination-controls {
   display: flex;
   justify-content: center;
@@ -327,20 +326,19 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 </header>
 
 <div class="container">
-  <!-- สลับแท็บ ให้ Room Types ขึ้นเป็นแท็บแรก -->
   <div class="sales-tabs">
-    <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ภาพตัวอย่างห้อง Room Types</button>
+    <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ตัวอย่างห้อง Room Types</button>
     <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move!</button>
     <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail</button>
     <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนผังชั้น Floor Plan</button>
   </div>
 
-  <!-- แท็บ 1: ภาพตัวอย่างห้องแต่ละประเภท -->
+  <!-- แท็บ 1: Room Types -->
   <div id="roomTypesTab" class="tab-content active">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Room type</h2>
     <div class="gallery-layout">
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://i.ibb.co/QvKj7pRV/LINE-ALBUM-1-Bedroom-1-Bedroom-Extra-211124-3.jpg">
+        <img src="https://i.ibb.co/QvKj7pRV/LINE-ALBUM-1-Bedroom-1-Bedroom-Extra-211124-3.jpg" alt="1 Bedroom Extra">
         <div class="gallery-title">1 Bedroom Extra</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
@@ -355,14 +353,10 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
         <img src="https://i.ibb.co/HDLQtCBb/LINE-ALBUM-1-BR-Plus-211124-2.jpg" alt="1 Bedroom Plus">
         <div class="gallery-title">1 Bedroom Plus</div>
       </div>
-      <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/2.jpg" alt="บรรยากาศรวมโครงการ Atmoz Serene">
-        <div class="gallery-title">บรรยากาศรวมโครงการ Atmoz Serene</div>
-      </div>
     </div>
   </div>
 
-  <!-- แท็บ 2: ยูนิตพร้อมขาย (เดิมคือหน้าแรก) -->
+  <!-- แท็บ 2: Units -->
   <div id="unitsTab" class="tab-content">
     <div class="stats">
       <div class="stat clickable" onclick="showSummary('available')">🏢 จำนวนยูนิตที่ว่าง: <span id="availableCount">0</span></div>
@@ -385,9 +379,8 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
         <option value="all">ทุกประเภทห้อง</option>
         <option value="1 Bed Exclusive">1 Bed Exclusive</option>
         <option value="1 Bed Extra">1 Bed Extra</option>
-        <option value="1 Bedroom Extra">1 Bedroom Extra</option>
-        <option value="1 Bedroom Extra พิเศษ">1 Bedroom Extra พิเศษ</option>
-        <option value="1 Bedroom Plus">1 Bedroom Plus</option>
+        <option value="1 Bed Exclusive-Private">1 Bed Exclusive-Private</option>
+        <option value="1 Bed plus">1 Bed plus</option>
       </select>
 
       <select id="floorFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
@@ -419,10 +412,8 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
       </select>
     </div>  
 
-    <!-- ตารางการ์ดห้องพัก -->
     <div class="grid" id="units"></div>
 
-    <!-- ปุ่มเปลี่ยนหน้า Pagination (15 รายการ/หน้า) -->
     <div class="pagination-controls">
       <button id="prevPageBtn" class="pagination-btn" onclick="changePage(-1)">◀ ก่อนหน้า</button>
       <span id="pageIndicator" style="font-weight: bold; color: #2d3436;">หน้า 1 / 1</span>
@@ -430,79 +421,93 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     </div>
   </div>
 
-  <!-- แท็บ 3: รายละเอียดโครงการ -->
+  <!-- แท็บ 3: Project Detail -->
   <div id="projectTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">รายละเอียดโครงการ</h2>
     <div class="gallery-layout">
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/ProjectSectionMainPage/Project-Detail.jpg?ver=639170294302320025" alt="รายละเอียดโครงการ Atmoz Serene">
+        <img src="https://i.ibb.co/j9WY1Yct/1786205983387-0.jpg" alt="รายละเอียดโครงการ Atmoz Serene">
         <div class="gallery-title">รายละเอียดโครงการ Atmoz Serene</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/ProjectSectionMainPage/Facilities-Detail.jpg?ver=639170294302320025" alt="พื้นที่ส่วนกลาง Atmoz Serene">
+        <img src="https://i.ibb.co/KxBh2rNQ/1786206007540-0.jpg" alt="พื้นที่ส่วนกลาง Atmoz Serene">
         <div class="gallery-title">พื้นที่ส่วนกลาง Atmoz Serene</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/28_Map2.jpg" alt="สถานที่สำคัญใกล้เคียง">
-        <div class="gallery-title">สถานที่สำคัญใกล้เคียง 1</div>
+        <img src="https://i.ibb.co/7xjYxnSX/1786206035147-0.jpg" alt="Project Highlight">
+        <div class="gallery-title">Project Highlight</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/27_Map1.jpg" alt="แผนที่ตั้งโครงการ">
+        <img src="https://i.ibb.co/99DZKqY6/1786206572523-0.jpg" alt="แผนที่ตั้งโครงการ">
         <div class="gallery-title">แผนที่ตั้งโครงการ</div>
+      </div>
+        <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/WWNKSCsC/1786206615986-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
+        <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
+      </div>
+       <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/5XDFpC07/1786206627622-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
+        <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
+      </div>
+       <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/DPt6DSqd/1786206647561-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
+        <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
       </div>
     </div>
   </div>
 
-  <!-- แท็บ 4: แปลนห้องและผังชั้น -->
+  <!-- แท็บ 4: Floor Plan -->
   <div id="floorplanTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Floor Plan & Room Plan</h2>
     <div class="gallery-layout">
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://img1.pic.in.th/images/1-Bedroom-Plus.jpg" alt="1. แบบห้อง 1 Bedroom Plus">
-        <div class="gallery-title">1. แบบห้อง 1 Bedroom Plus</div>
+        <img src="https://i.ibb.co/fdVvVsqg/1786206078940-0.jpg" alt="1. แบบห้อง 1 Bed Extra">
+        <div class="gallery-title">1. แบบห้อง 1 Bed Extra</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/16_RoomType_C.jpg" alt="2. แบบห้อง 1 Bedroom Extra">
-        <div class="gallery-title">2. แบบห้อง 1 Bedroom Extra</div>
+        <img src="https://i.ibb.co/xS0QkTZ8/1786206126415-0.jpg" alt="2. แบบห้อง 1 Bed Exclusive">
+        <div class="gallery-title">2. แบบห้อง 1 Bed Exclusive</div>
+      </div>
+       <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/60JGfhSn/1786206096716-0.jpg" alt="3. แบบห้อง 1 Bed Exclusive-Private">
+        <div class="gallery-title">3. แบบห้อง 1 Bed Exclusive-Private</div>
+      </div>
+ <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg" alt="4. แบบห้อง 1 Bed plus">
+        <div class="gallery-title">4. แบบห้อง 1 Bed plus</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://img1.pic.in.th/images/ChatGPT-Image-Jun-14-2026-04_40_25-PM.png" alt="3. แบบห้อง 1 Bedroom Extra พิเศษ">
-        <div class="gallery-title">3. แบบห้อง 1 Bedroom Extra พิเศษ</div>
-      </div>
-
-      <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/FloorPlan/2ND-ROOF-FLOOR-PLAN.jpg" alt="Floor Plan ชั้น 2">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_2.jpg" alt="Floor Plan ชั้น 2">
         <div class="gallery-title">Floor Plan ชั้น 2</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/FloorPlan/3RD-ROOF-FLOOR-PLAN.jpg" alt="Floor Plan ชั้น 3">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_3.jpg" alt="Floor Plan ชั้น 3">
         <div class="gallery-title">Floor Plan ชั้น 3</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/FloorPlan/4TH-ROOF-FLOOR-PLAN.jpg" alt="Floor Plan ชั้น 4">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_4.jpg" alt="Floor Plan ชั้น 4">
         <div class="gallery-title">Floor Plan ชั้น 4</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/FloorPlan/5TH-ROOF-FLOOR-PLAN.jpg" alt="Floor Plan ชั้น 5">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_5.jpg" alt="Floor Plan ชั้น 5">
         <div class="gallery-title">Floor Plan ชั้น 5</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/FloorPlan/6TH-ROOF-FLOOR-PLAN.jpg" alt="Floor Plan ชั้น 6">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_6.jpg" alt="Floor Plan ชั้น 6">
         <div class="gallery-title">Floor Plan ชั้น 6</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/FloorPlan/7TH-ROOF-FLOOR-PLAN.jpg" alt="Floor Plan ชั้น 7">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_7.jpg" alt="Floor Plan ชั้น 7">
         <div class="gallery-title">Floor Plan ชั้น 7</div>
       </div>
       <div class="gallery-item" onclick="openImageZoom(this)">
-        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC002/FloorPlan/8TH-ROOF-FLOOR-PLAN.jpg" alt="Floor Plan ชั้น 8">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_8.jpg" alt="Floor Plan ชั้น 8">
         <div class="gallery-title">Floor Plan ชั้น 8</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal รายละเอียดห้อง -->
 <div id="modal">
   <div class="modal-content">
     <h2 id="title" style="color: #6c5ce7;"></h2>
@@ -515,7 +520,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
-<!-- Modal สรุปข้อมูล -->
 <div id="summaryModal">
   <div class="summary-modal-box">
     <h2 id="summaryTitle" style="margin-top: 0; margin-bottom: 10px;"></h2>
@@ -524,7 +528,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
-<!-- Modal ซูมรูปภาพ -->
 <div id="imageZoomModal" onclick="closeImageZoom()">
   <div class="zoom-container">
     <img id="zoomedImg" src="" alt="Zoomed Image">
@@ -540,17 +543,15 @@ let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let compare = JSON.parse(localStorage.getItem('compare')) || [];
 let solds = JSON.parse(localStorage.getItem('solds')) || [];
 
-// ตัวแปรสำหรับ Pagination
 let currentPage = 1;
 const itemsPerPage = 15;
 
 const roomGallery = {
-  '1 Bed Exclusive': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/5.jpg',
-  '1 Bed Extra': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/9.jpg',
-  '1 Bedroom Plus': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/5.jpg',
-  '1 Bedroom Extra': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/9.jpg',
-  '1 Bedroom Extra พิเศษ': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/9.jpg',
-  'default': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/2.jpg'
+  '1 Bed Exclusive': 'https://i.ibb.co/FbHL2p8n/LINE-ALBUM-1-Bedroom-Exclusive-211124-0.jpg',
+  '1 Bed Extra': 'https://i.ibb.co/QvKj7pRV/LINE-ALBUM-1-Bedroom-1-Bedroom-Extra-211124-3.jpg',
+  '1 Bed plus': 'https://i.ibb.co/HDLQtCBb/LINE-ALBUM-1-BR-Plus-211124-2.jpg',
+  '1 Bedroom Exclusive-Private': 'https://i.ibb.co/Nd6KM49N/LINE-ALBUM-1-Bedroom-exclusive-private-211124-15.jpg',
+  'default': 'https://i.ibb.co/Xkdny7Lr/Image00015.jpg'
 };
 
 function parseCSVLine(line) {
@@ -586,6 +587,7 @@ function parseCSV(text) {
     headers.forEach((h, index) => {
       let val = row[index] ? row[index] : '';
       
+      // แมปชื่อคอลัมน์จาก Google Sheet จริง
       if (['id', 'unit', 'unit_id', 'room', 'เลขห้อง'].includes(h)) {
         item['id'] = val;
       } else if (['type', 'room_type', 'ประเภท'].includes(h)) {
@@ -593,7 +595,7 @@ function parseCSV(text) {
       } else if (['size', 'sqm', 'ขนาด'].includes(h)) {
         item['size'] = val;
       } else if (['floor', 'ชั้น'].includes(h)) {
-        item['floor'] = parseInt(val) || 0;
+        item['floor'] = parseInt(val) || (val.match(/\d+/) ? parseInt(val.match(/\d+/)[0]) : 0);
       } else if (['price', 'ราคาปกติ'].includes(h)) {
         item['price'] = val;
       } else if (['sale', 'saleprice', 'ราคาพิเศษ', 'hotdeal'].includes(h)) {
@@ -643,7 +645,7 @@ function switchTab(evt, tabName) {
 
 function openImageZoom(element) {
   const imgSource = element.querySelector('img').src;
-  const imgAlt = element.querySelector('img').alt;
+  const imgAlt = element.querySelector('img').alt || '';
   document.getElementById('zoomedImg').src = imgSource;
   document.getElementById('zoomCaption').textContent = imgAlt;
   document.getElementById('imageZoomModal').style.display = 'flex';
@@ -652,14 +654,13 @@ function openImageZoom(element) {
 function closeImageZoom() { document.getElementById('imageZoomModal').style.display = 'none'; }
 
 function handleFilterChange() { 
-  currentPage = 1; // รีเซ็ตหน้าเป็น 1 ทุกครั้งที่มีการเปลี่ยนฟิลเตอร์
+  currentPage = 1; 
   render(); 
 }
 
 function changePage(direction) {
   currentPage += direction;
   render();
-  // เลื่อนหน้าจอขึ้นไปที่จุดเริ่มต้นของตารางการ์ด
   document.getElementById('unitsTab').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -714,44 +715,48 @@ function unlockSold(id) {
 
 function parseSalePrice(saleStr) {
   if (!saleStr) return 0;
-  const cleaned = saleStr.replace(/[^0-9.]/g, '');
-  const val = parseFloat(cleaned);
-  if (isNaN(val)) return 0;
+  const cleaned = saleStr.replace(/,/g, '');
+  const match = cleaned.match(/\d+(\.\d+)?/);
+  if (!match) return 0;
+  const val = parseFloat(match[0]);
   return val > 10000 ? val / 1000000 : val;
 }
 
 function render() {
-  const selectedPrice = document.getElementById('priceFilter').value; // ปรับ ID ให้ตรงกับ <select> ของคุณ
+  const availableUnitsCount = units.length - solds.length;
+  document.getElementById('availableCount').textContent = availableUnitsCount;
+  document.getElementById('favCount').textContent = favorites.length;
+  document.getElementById('compareCount').textContent = compare.length;
 
-  const filteredRooms = rooms.filter(room => {
-    const price = parseFloat(room.price);
+  const el = document.getElementById('units');
+  el.innerHTML = '';
 
-    // 1. ถ้าไม่ได้เลือกราคา หรือเลือกทั้งหมด ให้ผ่าน
-    if (!selectedPrice || selectedPrice === 'all') return true;
+  const searchText = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+  const buildingValue = document.getElementById('buildingFilter')?.value || 'all';
+  const typeValue = document.getElementById('typeFilter')?.value || 'all';
+  const floorValue = document.getElementById('floorFilter')?.value || 'all';
+  const priceValue = document.getElementById('priceFilter')?.value || 'all';
 
-    // 2. กรณี "ไม่เกิน 1.59 MB" (<=1.59)
-    if (selectedPrice.startsWith('<=')) {
-      const max = parseFloat(selectedPrice.replace('<=', ''));
-      return price <= max;
+  const filteredUnits = units.filter(u => {
+    const matchSearch = u.id ? u.id.toLowerCase().includes(searchText) : true;
+    const buildingName = u.id ? u.id.charAt(0).toUpperCase() : '';
+    const matchBuilding = (buildingValue === 'all') || (buildingName === buildingValue);
+    const matchType = (typeValue === 'all') || (u.type === typeValue);
+    const matchFloor = (floorValue === 'all') || (u.floor.toString() === floorValue);
+    
+    let matchPrice = true;
+    if (priceValue !== 'all') {
+      const salePrice = parseSalePrice(u.sale);
+      if (priceValue.startsWith('<=')) {
+        const maxPrice = parseFloat(priceValue.replace('<=', ''));
+        matchPrice = salePrice <= maxPrice;
+      } else if (priceValue === '2.60-2.99') {
+        matchPrice = salePrice >= 2.60 && salePrice <= 2.99;
+      } else if (priceValue === '>=3.00') {
+        matchPrice = salePrice >= 3.00;
+      }
     }
 
-    // 3. กรณี "3.00 MB ขึ้นไป" (>=3.00)
-    if (selectedPrice.startsWith('>=')) {
-      const min = parseFloat(selectedPrice.replace('>=', ''));
-      return price >= min;
-    }
-
-    // 4. กรณีช่วงราคา เช่น "1.60-1.69", "2.60-2.99"
-    if (selectedPrice.includes('-')) {
-      const [min, max] = selectedPrice.split('-').map(Number);
-      return price >= min && price <= max;
-    }
-
-    return true;
-  });
-
-  // นำ filteredRooms ไปวาด UI ต่อตามเดิม...
-}
     return matchSearch && matchBuilding && matchType && matchFloor && matchPrice;
   });
 
@@ -763,7 +768,6 @@ function render() {
     return;
   }
 
-  // คำนวณจำนวนหน้าทั้งหมด และตัดแบ่งอาเรย์สำหรับหน้าปัจจุบัน (15 ห้อง/หน้า)
   const totalPages = Math.ceil(filteredUnits.length / itemsPerPage);
   if (currentPage > totalPages) currentPage = totalPages;
   if (currentPage < 1) currentPage = 1;
@@ -772,7 +776,6 @@ function render() {
   const endIndex = startIndex + itemsPerPage;
   const pageUnits = filteredUnits.slice(startIndex, endIndex);
 
-  // อัปเดตสถานะปุ่มเปลี่ยนหน้า
   document.getElementById('pageIndicator').textContent = `หน้า ${currentPage} / ${totalPages} (รวม ${filteredUnits.length} รายการ)`;
   document.getElementById('prevPageBtn').disabled = (currentPage === 1);
   document.getElementById('nextPageBtn').disabled = (currentPage === totalPages);
