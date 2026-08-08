@@ -404,16 +404,16 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
       <select id="priceFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
         <option value="all">ทุกช่วงราคา Sale</option>
         <option value="<=1.59">ไม่เกิน 1.59 MB</option>
-        <option value="1.60-1.69">ไม่เกิน 1.69 MB</option>
-        <option value="1.70-1.79">ไม่เกิน 1.79 MB</option>
-        <option value="1.80-1.89">ไม่เกิน 1.89 MB</option>
-        <option value="1.90-1.99">ไม่เกิน 1.99 MB</option>
-        <option value="2.00-2.09">ไม่เกิน 2.09 MB</option>
-        <option value="2.10-2.19">ไม่เกิน 2.19 MB</option>
-        <option value="2.20-2.29">ไม่เกิน 2.29 MB</option>
-        <option value="2.30-2.39">ไม่เกิน 2.39 MB</option>
-        <option value="2.40-2.49">ไม่เกิน 2.49 MB</option>
-        <option value="2.50-2.59">ไม่เกิน 2.59 MB</option>
+        <option value="<=1.69">ไม่เกิน 1.69 MB</option>
+        <option value="<=1.79">ไม่เกิน 1.79 MB</option>
+        <option value="<=1.89">ไม่เกิน 1.89 MB</option>
+        <option value="<=1.99">ไม่เกิน 1.99 MB</option>
+        <option value="<=2.09">ไม่เกิน 2.09 MB</option>
+        <option value="<=2.19">ไม่เกิน 2.19 MB</option>
+        <option value="<=2.29">ไม่เกิน 2.29 MB</option>
+        <option value="<=2.39">ไม่เกิน 2.39 MB</option>
+        <option value="<=2.49">ไม่เกิน 2.49 MB</option>
+        <option value="<=2.59">ไม่เกิน 2.59 MB</option>
         <option value="2.60-2.99">2.60 - 2.99 MB</option>
         <option value=">=3.00">3.00 MB ขึ้นไป</option>
       </select>
@@ -721,40 +721,37 @@ function parseSalePrice(saleStr) {
 }
 
 function render() {
-  const availableUnitsCount = units.length - solds.length;
-  document.getElementById('availableCount').textContent = availableUnitsCount;
-  document.getElementById('favCount').textContent = favorites.length;
-  document.getElementById('compareCount').textContent = compare.length;
+  const selectedPrice = document.getElementById('priceFilter').value; // ปรับ ID ให้ตรงกับ <select> ของคุณ
 
-  const el = document.getElementById('units');
-  el.innerHTML = '';
+  const filteredRooms = rooms.filter(room => {
+    const price = parseFloat(room.price);
 
-  const searchText = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
-  const buildingValue = document.getElementById('buildingFilter')?.value || 'all';
-  const typeValue = document.getElementById('typeFilter')?.value || 'all';
-  const floorValue = document.getElementById('floorFilter')?.value || 'all';
-  const priceValue = document.getElementById('priceFilter')?.value || 'all';
+    // 1. ถ้าไม่ได้เลือกราคา หรือเลือกทั้งหมด ให้ผ่าน
+    if (!selectedPrice || selectedPrice === 'all') return true;
 
-  const filteredUnits = units.filter(u => {
-    const matchSearch = u.id ? u.id.toLowerCase().includes(searchText) : true;
-    const buildingName = u.id ? u.id.charAt(0).toUpperCase() : '';
-    const matchBuilding = (buildingValue === 'all') || (buildingName === buildingValue);
-    const matchType = (typeValue === 'all') || (u.type === typeValue);
-    const matchFloor = (floorValue === 'all') || (u.floor.toString() === floorValue);
-    
-    let matchPrice = true;
-    if (priceValue !== 'all') {
-      const salePrice = parseSalePrice(u.sale);
-      if (priceValue.startsWith('<=')) {
-        const maxPrice = parseFloat(priceValue.replace('<=', ''));
-        matchPrice = salePrice <= maxPrice;
-      } else if (priceValue === '2.60-2.99') {
-        matchPrice = salePrice >= 2.60 && salePrice <= 2.99;
-      } else if (priceValue === '>=3.00') {
-        matchPrice = salePrice >= 3.00;
-      }
+    // 2. กรณี "ไม่เกิน 1.59 MB" (<=1.59)
+    if (selectedPrice.startsWith('<=')) {
+      const max = parseFloat(selectedPrice.replace('<=', ''));
+      return price <= max;
     }
 
+    // 3. กรณี "3.00 MB ขึ้นไป" (>=3.00)
+    if (selectedPrice.startsWith('>=')) {
+      const min = parseFloat(selectedPrice.replace('>=', ''));
+      return price >= min;
+    }
+
+    // 4. กรณีช่วงราคา เช่น "1.60-1.69", "2.60-2.99"
+    if (selectedPrice.includes('-')) {
+      const [min, max] = selectedPrice.split('-').map(Number);
+      return price >= min && price <= max;
+    }
+
+    return true;
+  });
+
+  // นำ filteredRooms ไปวาด UI ต่อตามเดิม...
+}
     return matchSearch && matchBuilding && matchType && matchFloor && matchPrice;
   });
 
