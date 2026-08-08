@@ -137,28 +137,49 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   margin-top: 5px;
 }
 
-/* Category Button Colors */
+/* Category Button Colors (ปรับปรุงใหม่ สบายตาขึ้น) */
 .status-btn {
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: 6px;
-  border: 2px solid transparent;
+  border: 1px solid #dcdde1;
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: bold;
-  transition: all 0.2s;
-  opacity: 0.6;
+  transition: all 0.2s ease;
+  background: #f1f2f6; /* สีเทาอ่อนตอนไม่ได้เลือก */
+  color: #57606f;       /* ตัวหนังสือสีเทาเข้ม */
   flex: 1;
 }
-.status-btn.active {
-  opacity: 1;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  transform: scale(1.03);
+.status-btn:hover {
+  background: #e4e7eb;
+  border-color: #ced6e0;
 }
 
-.btn-booking { background: #2ed573; color: white; }
-.btn-on-progress { background: #ffa502; color: white; }
-.btn-transfer { background: #1e90ff; color: white; }
-.btn-urgent { background: #ff6b81; color: white; }
+/* แสดงสีเด่นชัดเฉพาะเมื่อปุ่มถูกเลือก (Active) */
+.status-btn.btn-booking.active {
+  background: #2ed573;
+  color: white;
+  border-color: #2ed573;
+  box-shadow: 0 2px 8px rgba(46, 213, 115, 0.4);
+}
+.status-btn.btn-on-progress.active {
+  background: #ffa502;
+  color: white;
+  border-color: #ffa502;
+  box-shadow: 0 2px 8px rgba(255, 165, 2, 0.4);
+}
+.status-btn.btn-transfer.active {
+  background: #1e90ff;
+  color: white;
+  border-color: #1e90ff;
+  box-shadow: 0 2px 8px rgba(30, 144, 255, 0.4);
+}
+.status-btn.btn-urgent.active {
+  background: #ff6b81;
+  color: white;
+  border-color: #ff6b81;
+  box-shadow: 0 2px 8px rgba(255, 107, 129, 0.4);
+}
 
 .status-badge {
   display: inline-block;
