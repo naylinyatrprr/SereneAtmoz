@@ -232,7 +232,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 }
 .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
 
-/* แถบเมนูแท็บหลัก ปรับแต่งทรงรีแยกเป็นปุ่มๆ ตามบรีฟข้อ 1 */
+/* แถบเมนูแท็บหลัก ปุ่มทรงรี */
 .nav-header-wrapper {
   display: flex;
   justify-content: space-between;
@@ -249,11 +249,10 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   flex: 1;
 }
 
-/* ปรับปุ่มแท็บหลักเป็นทรงรี (Oval/Pill shape) สีโทนเดิม */
 .tab-btn {
   padding: 10px 20px;
   font-size: 0.88rem;
-  border-radius: 20px; /* รูปทรงรีเหมือน Admin */
+  border-radius: 20px;
   background: rgba(255, 255, 255, 0.85);
   color: #4a5568;
   border: 1px solid #cbd5e0;
@@ -275,7 +274,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
 }
 
-/* ปุ่ม Backlog Admin ทรงรีทรงเดียวกัน */
 .admin-tab-btn {
   padding: 10px 20px;
   font-size: 0.88rem;
@@ -347,7 +345,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   border-top: 1px solid #eee;
 }
 
-/* แถบสรุปจำนวนฟิลเตอร์ */
 .filter-summary-badge {
   background: linear-gradient(135deg, #6c5ce7, #00cec9);
   color: white;
@@ -387,6 +384,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   cursor: not-allowed;
 }
 
+/* Image Zoom Modal Style */
 #imageZoomModal {
   display: none;
   position: fixed;
@@ -396,7 +394,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   backdrop-filter: blur(8px);
   align-items: center;
   justify-content: center;
-  cursor: zoom-out;
 }
 .zoom-container {
   max-width: 95%;
@@ -408,11 +405,12 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 }
 #zoomedImg {
   max-width: 100%;
-  max-height: 80vh;
+  max-height: 75vh;
   object-fit: contain; 
   border-radius: 8px;
   box-shadow: 0 0 30px rgba(0,0,0,0.5);
   animation: zoomAnimation 0.25s ease-out;
+  cursor: pointer; /* ดับเบิ้ลคลิกรูปเพื่อปิด */
 }
 #zoomCaption {
   color: #fff;
@@ -421,6 +419,15 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   font-weight: bold;
   text-align: center;
   text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+.zoom-hint {
+  color: #00cec9;
+  font-size: 0.88rem;
+  margin-top: 6px;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 206, 201, 0.4);
 }
 @keyframes zoomAnimation {
   from { transform: scale(0.9); opacity: 0; }
@@ -436,38 +443,37 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 </header>
 
 <div class="container">
-  <!-- โซนเมนูแท็บด้านบน - ปุ่มทรงรีแยกอิสระ -->
+  <!-- โซนเมนูแท็บด้านบน -->
   <div class="nav-header-wrapper">
     <div class="sales-tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ตัวอย่างห้อง Room Types</button>
-      <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move!</button>
-      <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail</button>
-      <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนผังชั้น Floor Plan</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">ตัวอย่างห้อง Room Types</button>
+      <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">ยูนิตพร้อมขาย Ready to Move!</button>
+      <button class="tab-btn" onclick="switchTab(event, 'projectTab')">รายละเอียดโครงการ Project detail</button>
+      <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">แปลนผังชั้น Floor Plan</button>
     </div>
 
-    <!-- ปุ่ม Admin (Backlog) ทรงรีแบบเดียวกัน -->
     <button class="admin-tab-btn" onclick="switchTab(event, 'backlogTab')">🔒 Admin Backlog</button>
   </div>
 
-  <!-- แท็บ 1: Room Types -->
+  <!-- แท็บ 1: Room Types (ปรับแต่งตามบรีฟข้อ 2: กดรูปแล้วแสดงแปลนห้อง) -->
   <div id="roomTypesTab" class="tab-content active">
-    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Room type</h2>
+    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Room type (คลิกที่รูปเพื่อดูแปลนห้อง)</h2>
     <div class="gallery-layout">
-      <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openRoomPlan('1 Bed Extra')">
         <img src="https://i.ibb.co/QvKj7pRV/LINE-ALBUM-1-Bedroom-1-Bedroom-Extra-211124-3.jpg" alt="1 Bedroom Extra">
-        <div class="gallery-title">1 Bedroom Extra</div>
+        <div class="gallery-title">1 Bedroom Extra 📐 (ดูแปลนห้อง)</div>
       </div>
-      <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openRoomPlan('1 Bed Exclusive')">
         <img src="https://i.ibb.co/FbHL2p8n/LINE-ALBUM-1-Bedroom-Exclusive-211124-0.jpg" alt="1 Bedroom Exclusive">
-        <div class="gallery-title">1 Bedroom Exclusive</div>
+        <div class="gallery-title">1 Bedroom Exclusive 📐 (ดูแปลนห้อง)</div>
       </div>
-      <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openRoomPlan('1 Bed Exclusive-Private')">
         <img src="https://i.ibb.co/B2jjkQjx/LINE-ALBUM-1-Bedroom-exclusive-private-211124-0-0.jpg" alt="1 Bedroom Exclusive-Private">
-        <div class="gallery-title">1 Bedroom Exclusive-Private</div>
+        <div class="gallery-title">1 Bedroom Exclusive-Private 📐 (ดูแปลนห้อง)</div>
       </div>
-      <div class="gallery-item" onclick="openImageZoom(this)">
+      <div class="gallery-item" onclick="openRoomPlan('1 Bed plus')">
         <img src="https://i.ibb.co/HDLQtCBb/LINE-ALBUM-1-BR-Plus-211124-2.jpg" alt="1 Bedroom Plus">
-        <div class="gallery-title">1 Bedroom Plus</div>
+        <div class="gallery-title">1 Bedroom Plus 📐 (ดูแปลนห้อง)</div>
       </div>
     </div>
   </div>
@@ -528,7 +534,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
       </select>
     </div>  
 
-    <!-- แถบนับจำนวนผลลัพธ์การฟิลเตอร์ (บรีฟข้อ 3) -->
     <div class="filter-summary-badge" id="filterSummaryBox">
       🎯 ผลการกรอง: <span id="filterCount">0</span> ห้อง
     </div>
@@ -546,7 +551,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   <div id="backlogTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #2ed573; padding-left: 15px; margin-bottom: 20px;">Backlog Status Summary (Admin Control)</h2>
     
-    <!-- Dashboard นับจำนวนห้อง -->
     <div class="backlog-dashboard">
       <div class="backlog-stat-card" style="background: #2ed573;" onclick="filterBacklogStatus('Booking')">
         <div>🟢 Booking</div>
@@ -581,7 +585,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
       </select>
     </div>
 
-    <!-- แถบสรุปจำนวน Backlog ที่ถูกเลือกฟิลเตอร์ -->
     <div class="filter-summary-badge" style="background: linear-gradient(135deg, #2ed573, #1e90ff);">
       📊 จำนวนในรายการ Backlog: <span id="backlogFilterCount">0</span> ห้อง
     </div>
@@ -696,10 +699,12 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
-<div id="imageZoomModal" onclick="closeImageZoom()">
+<!-- Modal ซูมรูปภาพ (ปรับเงื่อนไขปิดด้วยการ Double Click ตามบรีฟข้อ 1) -->
+<div id="imageZoomModal">
   <div class="zoom-container">
-    <img id="zoomedImg" src="" alt="Zoomed Image">
+    <img id="zoomedImg" src="" alt="Zoomed Image" ondblclick="closeImageZoom()">
     <div id="zoomCaption"></div>
+    <div class="zoom-hint">💡 ดับเบิ้ลคลิก (Double-click) ที่ตัวรูปภาพเพื่อปิดการซูม</div>
   </div>
 </div>
 
@@ -721,6 +726,26 @@ const roomGallery = {
   '1 Bed plus': 'https://i.ibb.co/HDLQtCBb/LINE-ALBUM-1-BR-Plus-211124-2.jpg',
   '1 Bed Exclusive-Private': 'https://i.ibb.co/Nd6KM49N/LINE-ALBUM-1-Bedroom-exclusive-private-211124-15.jpg',
   'default': 'https://i.ibb.co/Xkdny7Lr/Image00015.jpg'
+};
+
+/* แมปรูปแปลนห้องสำหรับแสดงเมื่อกดจากหน้าแรก (บรีฟข้อ 2) */
+const roomPlans = {
+  '1 Bed Extra': {
+    src: 'https://i.ibb.co/fdVvVsqg/1786206078940-0.jpg',
+    title: 'แปลนห้อง - 1 Bed Extra'
+  },
+  '1 Bed Exclusive': {
+    src: 'https://i.ibb.co/xS0QkTZ8/1786206126415-0.jpg',
+    title: 'แปลนห้อง - 1 Bed Exclusive'
+  },
+  '1 Bed Exclusive-Private': {
+    src: 'https://i.ibb.co/60JGfhSn/1786206096716-0.jpg',
+    title: 'แปลนห้อง - 1 Bed Exclusive-Private'
+  },
+  '1 Bed plus': {
+    src: 'https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg',
+    title: 'แปลนห้อง - 1 Bed Plus'
+  }
 };
 
 function parseCSVLine(line) {
@@ -817,6 +842,17 @@ function switchTab(evt, tabName) {
   evt.currentTarget.classList.add("active");
 }
 
+/* ฟังก์ชันกดรูปในแท็บแรก แล้วเปิดรูปแปลนห้อง (บรีฟข้อ 2) */
+function openRoomPlan(roomType) {
+  const plan = roomPlans[roomType];
+  if (plan) {
+    document.getElementById('zoomedImg').src = plan.src;
+    document.getElementById('zoomCaption').textContent = plan.title;
+    document.getElementById('imageZoomModal').style.display = 'flex';
+  }
+}
+
+/* เปิด Modal ซูมรูปภาพทั่วไป */
 function openImageZoom(element) {
   const imgSource = element.querySelector('img').src;
   const imgAlt = element.querySelector('img').alt || '';
@@ -825,7 +861,10 @@ function openImageZoom(element) {
   document.getElementById('imageZoomModal').style.display = 'flex';
 }
 
-function closeImageZoom() { document.getElementById('imageZoomModal').style.display = 'none'; }
+/* ปิด Modal ซูมรูปภาพ (เรียกใช้จากการ Double Click) */
+function closeImageZoom() { 
+  document.getElementById('imageZoomModal').style.display = 'none'; 
+}
 
 function handleFilterChange() { 
   currentPage = 1; 
@@ -921,7 +960,6 @@ function render() {
     const matchType = (typeValue === 'all') || (u.type === typeValue);
     const matchFloor = (floorValue === 'all') || (u.floor.toString() === floorValue);
     
-    /* ระบบฟิลเตอร์ราคาแบบ Minimum Bucket ตามบรีฟข้อ 2 */
     let matchPrice = true;
     if (priceValue !== 'all') {
       const salePriceMB = parseSalePrice(u.sale) / 1000000;
@@ -958,7 +996,6 @@ function render() {
     return matchSearch && matchBuilding && matchType && matchFloor && matchPrice;
   });
 
-  /* นับและแสดงจำนวนห้องที่ถูกกรองตามบรีฟข้อ 3 */
   document.getElementById('filterCount').textContent = filteredUnits.length;
 
   filteredUnits.sort((a, b) => parseSalePrice(a.sale) - parseSalePrice(b.sale));
@@ -1049,7 +1086,6 @@ function renderBacklog() {
     return matchSearch && matchStatus;
   });
 
-  /* อัปเดตตัวเลขนับห้อง Backlog ตามบรีฟข้อ 3 */
   const backlogFilterCountEl = document.getElementById('backlogFilterCount');
   if (backlogFilterCountEl) backlogFilterCountEl.textContent = filtered.length;
 
