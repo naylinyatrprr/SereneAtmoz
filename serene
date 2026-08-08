@@ -461,8 +461,8 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 </div>
 
 <script>
-// เปลี่ยนการดึงข้อมูลไปใช้ Google Visualization API แก้ปัญหา CORS ได้สมบูรณ์
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmnW01ORgCmT0q3EIc6qDpx2vw1WJjYEKwImYcBq-td2P_WRjRqspjs2IxjJl6BPj2K-KDSlQ/gviz/tq?tqx=out:csv&gid=1215420056';
+// แก้ไขลิงก์สำหรับดึง CSV สู่เว็บแบบตรงแล้ว
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmnW01ORgCmT0q3EIc6qDpx2vw1WJjYEKwImYcBq-td2P_WRjRqspjs2IxjJl6BPj2K-KDSlQ/pub?output=csv';
 
 let units = [];
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -474,10 +474,10 @@ const roomGallery = {
   '1 Bed Extra': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/9.jpg',
   '1 Bedroom Plus': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/5.jpg',
   '1 Bedroom Extra': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/9.jpg',
+  '1 Bedroom Extra พิเศษ': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/9.jpg',
   'default': 'https://onlinebooking.assetwise.co.th/Resources/PDC002/Gallery/2.jpg'
 };
 
-// ฟังก์ชันแปลงข้อความ CSV ให้รองรับเครื่องหมายจุลภาคในฟิลด์ที่มีอัญประกาศ
 function parseCSVLine(line) {
   const result = [];
   let cur = '';
@@ -501,28 +501,40 @@ function parseCSV(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
   if (lines.length < 2) return [];
 
-  const headers = parseCSVLine(lines[0]);
+  const headers = parseCSVLine(lines[0]).map(h => h.toLowerCase().trim());
   const data = [];
 
   for (let i = 1; i < lines.length; i++) {
     const row = parseCSVLine(lines[i]);
     const item = {};
+    
     headers.forEach((h, index) => {
       let val = row[index] ? row[index] : '';
-      if (h === 'highlights') {
-        item[h] = val ? val.split(';').map(x => x.trim()) : [];
-      } else if (h === 'floor') {
-        item[h] = parseInt(val) || 0;
+      
+      if (['id', 'unit', 'unit_id', 'room', 'เลขห้อง'].includes(h)) {
+        item['id'] = val;
+      } else if (['type', 'room_type', 'ประเภท'].includes(h)) {
+        item['type'] = val;
+      } else if (['size', 'sqm', 'ขนาด'].includes(h)) {
+        item['size'] = val;
+      } else if (['floor', 'ชั้น'].includes(h)) {
+        item['floor'] = parseInt(val) || 0;
+      } else if (['price', 'ราคาปกติ'].includes(h)) {
+        item['price'] = val;
+      } else if (['sale', 'saleprice', 'ราคาพิเศษ', 'hotdeal'].includes(h)) {
+        item['sale'] = val;
+      } else if (['highlights', 'highlight', 'จุดเด่น'].includes(h)) {
+        item['highlights'] = val ? val.split(';').map(x => x.trim()) : [];
       } else {
         item[h] = val;
       }
     });
+
     if (item.id) data.push(item);
   }
   return data;
 }
 
-// ฟังก์ชันดึงข้อมูลจาก CSV
 async function loadSheetsData() {
   const gridEl = document.getElementById('units');
   gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #6c5ce7; font-weight: bold;">⏳ กำลังโหลดข้อมูลยูนิตจาก Google Sheets...</div>';
@@ -532,22 +544,24 @@ async function loadSheetsData() {
     if (!response.ok) throw new Error("HTTP Status " + response.status);
     const csvData = await response.text();
     units = parseCSV(csvData);
+
+    if (units.length === 0) {
+      gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ โหลดไฟล์สำเร็จ แต่ไม่พบข้อมูลยูนิต โปรดเช็คหัวคอลัมน์ใน Google Sheets</div>';
+      return;
+    }
+
     render();
   } catch (error) {
     console.error("Error loading CSV:", error);
-    gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ ไม่สามารถโหลดข้อมูลได้ โปรดตรวจสอบการตั้งค่า Publish ใน Google Sheets</div>';
+    gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ ไม่สามารถโหลดข้อมูลได้ โปรดตรวจสอบสิทธิ์การ Publish to Web</div>';
   }
 }
 
 function switchTab(evt, tabName) {
   const tabcontents = document.getElementsByClassName("tab-content");
-  for (let i = 0; i < tabcontents.length; i++) {
-    tabcontents[i].classList.remove("active");
-  }
+  for (let i = 0; i < tabcontents.length; i++) tabcontents[i].classList.remove("active");
   const tabbtns = document.getElementsByClassName("tab-btn");
-  for (let i = 0; i < tabbtns.length; i++) {
-    tabbtns[i].classList.remove("active");
-  }
+  for (let i = 0; i < tabbtns.length; i++) tabbtns[i].classList.remove("active");
   document.getElementById(tabName).classList.add("active");
   evt.currentTarget.classList.add("active");
 }
@@ -555,19 +569,13 @@ function switchTab(evt, tabName) {
 function openImageZoom(element) {
   const imgSource = element.querySelector('img').src;
   const imgAlt = element.querySelector('img').alt;
-  
   document.getElementById('zoomedImg').src = imgSource;
   document.getElementById('zoomCaption').textContent = imgAlt;
   document.getElementById('imageZoomModal').style.display = 'flex';
 }
 
-function closeImageZoom() {
-  document.getElementById('imageZoomModal').style.display = 'none';
-}
-
-function handleFilterChange() {
-  render();
-}
+function closeImageZoom() { document.getElementById('imageZoomModal').style.display = 'none'; }
+function handleFilterChange() { render(); }
 
 function toggleCompare(id) {
   if (compare.includes(id)) compare = compare.filter(x => x !== id);
@@ -583,25 +591,16 @@ function toggleFav(id) {
   render();
 }
 
-function toggleFavFromModal(id) {
-  toggleFav(id);
-  updateModalButtons(id);
-}
-
-function toggleCompareFromModal(id) {
-  toggleCompare(id);
-  updateModalButtons(id);
-}
+function toggleFavFromModal(id) { toggleFav(id); updateModalButtons(id); }
+function toggleCompareFromModal(id) { toggleCompare(id); updateModalButtons(id); }
 
 function updateModalButtons(id) {
   const modalActionBox = document.getElementById('modalActionBox');
   if (modalActionBox) {
     const isFav = favorites.includes(id);
     const isCompare = compare.includes(id);
-    
     document.getElementById('modalFavBtn').textContent = isFav ? '❤️ รายการโปรดแล้ว' : '🤍 เพิ่มในรายการโปรด';
     document.getElementById('modalCompareBtn').textContent = isCompare ? '📊 เปรียบเทียบแล้ว' : '📊 เพิ่มเพื่อเปรียบเทียบ';
-    
     document.getElementById('modalFavBtn').style.background = isFav ? '#ffeaa7' : '#00cec9';
     document.getElementById('modalCompareBtn').style.background = isCompare ? '#a29bfe' : '#6c5ce7';
   }
@@ -651,11 +650,9 @@ function render() {
   const priceValue = document.getElementById('priceFilter')?.value || 'all';
 
   const filteredUnits = units.filter(u => {
-    const matchSearch = u.id.toLowerCase().includes(searchText);
-    
-    const buildingName = u.id.charAt(0).toUpperCase();
+    const matchSearch = u.id ? u.id.toLowerCase().includes(searchText) : true;
+    const buildingName = u.id ? u.id.charAt(0).toUpperCase() : '';
     const matchBuilding = (buildingValue === 'all') || (buildingName === buildingValue);
-
     const matchType = (typeValue === 'all') || (u.type === typeValue);
     const matchFloor = (floorValue === 'all') || (u.floor.toString() === floorValue);
     
@@ -800,7 +797,6 @@ function showSummary(type) {
 
 function closeSummaryModal() { document.getElementById('summaryModal').style.display = 'none'; }
 
-// เริ่มดึงข้อมูลเมื่อโหลดหน้าเว็บ
 loadSheetsData();
 </script>
 </body>
