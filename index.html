@@ -40,7 +40,10 @@ header p {
   font-weight: bold;
 }
 
-.container { padding: 30px 20px; }
+.container { 
+  padding: 30px 20px; 
+  position: relative;
+}
 
 .card {
   background: rgba(255, 255, 255, 0.95);
@@ -209,22 +212,33 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 }
 .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
 
+/* แถบเมนูแท็บหลัก */
+.nav-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
 .sales-tabs {
   display: flex;
   gap: 10px;
-  margin-bottom: 25px;
   background: rgba(255, 255, 255, 0.85);
-  padding: 10px;
+  padding: 8px;
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   backdrop-filter: blur(4px);
   flex-wrap: wrap;
+  flex: 1;
 }
+
 .tab-btn {
   flex: 1;
   min-width: 140px;
-  padding: 12px 20px;
-  font-size: 0.95rem;
+  padding: 10px 16px;
+  font-size: 0.9rem;
   border-radius: 12px;
   background: transparent;
   color: #4a5568;
@@ -241,6 +255,34 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   color: #fff;
   box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
 }
+
+/* ปุ่ม Backlog Admin แยกส่วนเฉพาะ */
+.admin-tab-btn {
+  padding: 8px 14px;
+  font-size: 0.78rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #718096;
+  border: 1px solid #cbd5e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.admin-tab-btn:hover {
+  background: #edf2f7;
+  color: #2d3748;
+  border-color: #a0aec0;
+}
+.admin-tab-btn.active {
+  background: #4a5568;
+  color: #fff;
+  border-color: #2d3748;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
 .tab-content {
   display: none;
 }
@@ -358,12 +400,17 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 </header>
 
 <div class="container">
-  <div class="sales-tabs">
-    <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ตัวอย่างห้อง Room Types</button>
-    <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move!</button>
-    <button class="tab-btn" onclick="switchTab(event, 'backlogTab')">📋 Backlog (ขายแล้ว)</button>
-    <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail</button>
-    <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนผังชั้น Floor Plan</button>
+  <!-- โซนเมนูแท็บด้านบน -->
+  <div class="nav-header-wrapper">
+    <div class="sales-tabs">
+      <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ตัวอย่างห้อง Room Types</button>
+      <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move!</button>
+      <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail</button>
+      <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนผังชั้น Floor Plan</button>
+    </div>
+
+    <!-- ปุ่ม Admin (Backlog) ขนาดเล็ก แยกออกมาอิสระ -->
+    <button class="admin-tab-btn" onclick="switchTab(event, 'backlogTab')">🔒 Admin Backlog</button>
   </div>
 
   <!-- แท็บ 1: Room Types -->
@@ -454,9 +501,9 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     </div>
   </div>
 
-  <!-- แท็บ 3: Backlog -->
+  <!-- แท็บ 3: Backlog (Admin Area) -->
   <div id="backlogTab" class="tab-content">
-    <h2 style="color: #2d3436; border-left: 5px solid #2ed573; padding-left: 15px; margin-bottom: 20px;">Backlog Status Summary</h2>
+    <h2 style="color: #2d3436; border-left: 5px solid #2ed573; padding-left: 15px; margin-bottom: 20px;">Backlog Status Summary (Admin Control)</h2>
     
     <!-- Dashboard นับจำนวนห้อง -->
     <div class="backlog-dashboard">
@@ -616,8 +663,8 @@ const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmn
 let units = [];
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let compare = JSON.parse(localStorage.getItem('compare')) || [];
-let solds = JSON.parse(localStorage.getItem('solds')) || []; // เก็บ id ของยูนิตขายแล้ว
-let backlogStatus = JSON.parse(localStorage.getItem('backlogStatus')) || {}; // เก็บสถานะ { unitId: 'Booking' | 'On progress' | 'Transfer' | 'Urgent support!' }
+let solds = JSON.parse(localStorage.getItem('solds')) || []; 
+let backlogStatus = JSON.parse(localStorage.getItem('backlogStatus')) || {}; 
 
 let currentPage = 1;
 const itemsPerPage = 15;
@@ -713,8 +760,13 @@ async function loadSheetsData() {
 function switchTab(evt, tabName) {
   const tabcontents = document.getElementsByClassName("tab-content");
   for (let i = 0; i < tabcontents.length; i++) tabcontents[i].classList.remove("active");
+  
   const tabbtns = document.getElementsByClassName("tab-btn");
   for (let i = 0; i < tabbtns.length; i++) tabbtns[i].classList.remove("active");
+
+  const adminBtn = document.querySelector(".admin-tab-btn");
+  if (adminBtn) adminBtn.classList.remove("active");
+
   document.getElementById(tabName).classList.add("active");
   evt.currentTarget.classList.add("active");
 }
@@ -757,7 +809,7 @@ function toggleFav(id) {
 function setSold(id) {
   if (!solds.includes(id)) {
     solds.push(id);
-    if (!backlogStatus[id]) backlogStatus[id] = 'Booking'; // ค่าเริ่มต้นเมื่อมาร์ค Sold
+    if (!backlogStatus[id]) backlogStatus[id] = 'Booking';
     
     favorites = favorites.filter(x => x !== id);
     compare = compare.filter(x => x !== id);
@@ -801,7 +853,6 @@ function parseSalePrice(saleStr) {
 }
 
 function render() {
-  // กรองเฉพาะห้องที่ "ยังไม่ถูกขาย" มาแสดงใน Ready to Move
   const availableUnits = units.filter(u => !solds.includes(u.id));
 
   document.getElementById('availableCount').textContent = availableUnits.length;
@@ -840,7 +891,6 @@ function render() {
     return matchSearch && matchBuilding && matchType && matchFloor && matchPrice;
   });
 
-  // เรียงราคาจากน้อยไปมาก
   filteredUnits.sort((a, b) => parseSalePrice(a.sale) - parseSalePrice(b.sale));
 
   if (filteredUnits.length === 0) {
@@ -904,7 +954,6 @@ function renderBacklog() {
 
   const soldUnits = units.filter(u => solds.includes(u.id));
 
-  // นับจำนวนสถิติตามหมวดหมู่
   let cBooking = 0, cProgress = 0, cTransfer = 0, cUrgent = 0;
   soldUnits.forEach(u => {
     const st = backlogStatus[u.id] || 'Booking';
