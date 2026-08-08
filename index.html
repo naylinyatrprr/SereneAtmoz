@@ -700,7 +700,13 @@ function render() {
       <p style="margin: 4px 0;"><strong>Type:</strong> ${u.type}</p>
       <p style="margin: 4px 0;"><strong>Size:</strong> ${u.size} sq.m.</p>
       <p style="margin: 4px 0;"><strong>Floor:</strong> ${u.floor}</p>
-      <p style="font-size: 1.1rem; margin: 10px 0;">ราคาปกติ <span style="color:#2d3436; font-weight:bold;">${u.price}</span></p>
+      
+      <!-- ส่วนแสดงทั้งสองราคาตั้งแต่หน้าแรก -->
+      <div style="margin: 10px 0;">
+        <div style="font-size: 0.85rem; color: #7f8c8d; text-decoration: line-through;">ปกติ ${u.price || '-'}</div>
+        <div style="font-size: 1.15rem; color: #ff4757; font-weight: bold;">โปร ${u.sale || '-'}</div>
+      </div>
+
       <div style="display:flex; gap:8px; margin-bottom:10px; margin-top:auto;">
         <button class="primary" style="flex:1" onclick="showUnit('${u.id}')" ${isSold ? 'disabled style="background:#b2bec3;"' : ''}>รายละเอียด</button>
         <button class="secondary" onclick="toggleFav('${u.id}')" ${isSold ? 'disabled style="background:#b2bec3;"' : ''}>${heartIcon}</button>
