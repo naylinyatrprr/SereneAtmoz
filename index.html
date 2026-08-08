@@ -97,12 +97,11 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 .primary:hover { background: #5b4cc4; transform: translateY(-2px); }
 .secondary { background: #00cec9; color: #fff; }
 
-/* ปรับสไตล์แทปรอง (Stats) ให้เล็กลงและเป็นทรงรีทรงเดียวกับแทปหลัก */
 .stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
 .stat {
   background: rgba(255, 255, 255, 0.9);
   padding: 8px 16px;
-  border-radius: 20px; /* ทรงรี */
+  border-radius: 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   font-weight: bold;
   font-size: 0.88rem;
@@ -131,6 +130,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   justify-content: center;
   cursor: pointer;
   transition: transform 0.2s;
+  user-select: none;
 }
 .backlog-stat-card:hover {
   transform: translateY(-3px);
@@ -152,6 +152,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   background: #f1f2f6; 
   color: #57606f;       
   flex: 1;
+  user-select: none;
 }
 .status-btn:hover {
   background: #e4e7eb;
@@ -235,7 +236,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 }
 .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
 
-/* แถบเมนูแท็บหลัก ปุ่มทรงรี */
 .nav-header-wrapper {
   display: flex;
   justify-content: space-between;
@@ -348,12 +348,11 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   border-top: 1px solid #eee;
 }
 
-/* ปรับแต่ง Filter Summary Badge ให้เป็นทรงรี ฟอนต์กระชับ */
 .filter-summary-badge {
   background: linear-gradient(135deg, #6c5ce7, #00cec9);
   color: white;
   padding: 8px 18px;
-  border-radius: 20px; /* ทรงรี */
+  border-radius: 20px;
   font-weight: bold;
   font-size: 0.88rem;
   margin-bottom: 20px;
@@ -388,7 +387,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   cursor: not-allowed;
 }
 
-/* Image Zoom Modal Style (ปรับให้รูปขนาดใหญ่ฟิตเต็มหน้าจอ) */
 #imageZoomModal {
   display: none;
   position: fixed;
@@ -415,7 +413,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   border-radius: 6px;
   box-shadow: 0 0 30px rgba(0,0,0,0.8);
   animation: zoomAnimation 0.2s ease-out;
-  cursor: pointer; /* ดับเบิ้ลคลิกรูปเพื่อปิด */
+  cursor: pointer;
 }
 #zoomCaption {
   color: #fff;
@@ -429,6 +427,31 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   from { transform: scale(0.92); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* Custom Toast Notification Style */
+#toast {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #2ed573;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  padding: 12px 20px;
+  position: fixed;
+  z-index: 3000;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  font-weight: bold;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  opacity: 0;
+  transition: opacity 0.3s, bottom 0.3s, visibility 0.3s;
+}
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 50px;
+}
 </style>
 </head>
 <body>
@@ -439,7 +462,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 </header>
 
 <div class="container">
-  <!-- โซนเมนูแท็บด้านบน -->
   <div class="nav-header-wrapper">
     <div class="sales-tabs">
       <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ตัวอย่างห้อง Room Types</button>
@@ -451,7 +473,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     <button class="admin-tab-btn" onclick="switchTab(event, 'backlogTab')">🔒 Admin Backlog</button>
   </div>
 
-  <!-- แท็บ 1: Room Types (กดรูปแสดงแปลนห้อง) -->
   <div id="roomTypesTab" class="tab-content active">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Room type (คลิกที่รูปเพื่อดูแปลนห้อง)</h2>
     <div class="gallery-layout">
@@ -474,7 +495,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     </div>
   </div>
 
-  <!-- แท็บ 2: Units Ready to Move -->
   <div id="unitsTab" class="tab-content">
     <div class="stats">
       <div class="stat clickable" onclick="showSummary('available')">🏢 จำนวนยูนิตที่ว่าง: <span id="availableCount">0</span></div>
@@ -543,7 +563,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     </div>
   </div>
 
-  <!-- แท็บ 3: Backlog (Admin Area) -->
   <div id="backlogTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #2ed573; padding-left: 15px; margin-bottom: 20px;">Backlog Status Summary (Admin Control)</h2>
     
@@ -588,7 +607,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     <div class="grid" id="backlogUnits"></div>
   </div>
 
-  <!-- แท็บ 4: Project Detail -->
   <div id="projectTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">รายละเอียดโครงการ</h2>
     <div class="gallery-layout">
@@ -623,7 +641,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
     </div>
   </div>
 
-  <!-- แท็บ 5: Floor Plan -->
   <div id="floorplanTab" class="tab-content">
     <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Floor Plan & Room Plan</h2>
     <div class="gallery-layout">
@@ -695,13 +712,15 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
-<!-- Modal ซูมรูปภาพ (ขยายใหญ่เต็มหน้าจอ นำคำแนะนำออก) -->
 <div id="imageZoomModal">
   <div class="zoom-container">
     <img id="zoomedImg" src="" alt="Zoomed Image" ondblclick="closeImageZoom()">
     <div id="zoomCaption"></div>
   </div>
 </div>
+
+<!-- Toast Popup Notification -->
+<div id="toast">✅ เปลี่ยนสถานะห้องสำเร็จ!</div>
 
 <script>
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmnW01ORgCmT0q3EIc6qDpx2vw1WJjYEKwImYcBq-td2P_WRjRqspjs2IxjJl6BPj2K-KDSlQ/pub?output=csv';
@@ -741,6 +760,17 @@ const roomPlans = {
     title: 'แปลนห้อง - 1 Bed Plus'
   }
 };
+
+function showToast(message, bgColor = '#2ed573') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.style.backgroundColor = bgColor;
+  toast.className = 'show';
+  
+  setTimeout(() => {
+    toast.className = toast.className.replace('show', '');
+  }, 2500);
+}
 
 function parseCSVLine(line) {
   const result = [];
@@ -897,6 +927,7 @@ function setSold(id) {
     
     render();
     renderBacklog();
+    showToast(`📌 ย้ายห้อง ${id} ไปยังรายการ Backlog เรียบร้อย`, '#6c5ce7');
   }
 }
 
@@ -910,6 +941,7 @@ function unlockSold(id) {
     
     render();
     renderBacklog();
+    showToast(`🔄 คืนห้อง ${id} กลับสู่รายการห้องว่างเรียบร้อย`, '#ffa502');
   }
 }
 
@@ -917,6 +949,7 @@ function setBacklogSubStatus(id, statusName) {
   backlogStatus[id] = statusName;
   localStorage.setItem('backlogStatus', JSON.stringify(backlogStatus));
   renderBacklog();
+  showToast(`✅ เปลี่ยนสถานะห้อง ${id} เป็น "${statusName}" สำเร็จ!`, '#2ed573');
 }
 
 function parseSalePrice(saleStr) {
@@ -1110,18 +1143,18 @@ function renderBacklog() {
       <p style="margin: 4px 0; color:#ff4757;"><strong>ราคาขาย:</strong> ${u.sale || '-'}</p>
       
       <div style="margin: 10px 0; background: #f8f9fa; padding: 10px; border-radius: 8px;">
-        <div style="font-size: 0.8rem; font-weight: bold; color: #636e72; margin-bottom: 6px;">เลือกสถานะงาน (Backlog Status):</div>
+        <div style="font-size: 0.8rem; font-weight: bold; color: #636e72; margin-bottom: 6px;">เลือกสถานะงาน (ดับเบิ้ลคลิกเพื่อเปลี่ยน):</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-          <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}" onclick="setBacklogSubStatus('${u.id}', 'Booking')">Booking</button>
-          <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}" onclick="setBacklogSubStatus('${u.id}', 'On progress')">On progress</button>
-          <button class="status-btn btn-transfer ${currentStatus === 'Transfer' ? 'active' : ''}" onclick="setBacklogSubStatus('${u.id}', 'Transfer')">Transfer</button>
-          <button class="status-btn btn-urgent ${currentStatus === 'Urgent support!' ? 'active' : ''}" onclick="setBacklogSubStatus('${u.id}', 'Urgent support!')">Urgent!</button>
+          <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}" ondblclick="setBacklogSubStatus('${u.id}', 'Booking')">Booking</button>
+          <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}" ondblclick="setBacklogSubStatus('${u.id}', 'On progress')">On progress</button>
+          <button class="status-btn btn-transfer ${currentStatus === 'Transfer' ? 'active' : ''}" ondblclick="setBacklogSubStatus('${u.id}', 'Transfer')">Transfer</button>
+          <button class="status-btn btn-urgent ${currentStatus === 'Urgent support!' ? 'active' : ''}" ondblclick="setBacklogSubStatus('${u.id}', 'Urgent support!')">Urgent!</button>
         </div>
       </div>
 
       <div style="display:flex; gap:8px; margin-top:auto;">
-        <button class="primary" style="flex:1" onclick="showUnit('${u.id}')">รายละเอียด</button>
-        <button class="btn-sold" style="background:#57606f;" onclick="unlockSold('${u.id}')" title="ย้ายกลับไปห้องว่าง">คืนห้องว่าง</button>
+        <button class="primary" style="flex:1" ondblclick="showUnit('${u.id}')">รายละเอียด</button>
+        <button class="btn-sold" style="background:#57606f;" ondblclick="unlockSold('${u.id}')" title="ดับเบิ้ลคลิกเพื่อย้ายกลับไปห้องว่าง">คืนห้องว่าง</button>
       </div>
     </div>`;
     el.appendChild(card);
@@ -1197,7 +1230,7 @@ function showSummary(type) {
       li.innerHTML = `
         <div>
           <strong>Unit ${u.id}</strong> (${u.type}) - ชั้น ${u.floor}
-          <div class="summary-price-box">ราคาโปร: <span class="summary-sale-price">${u.sale || '-'}</span></div>
+          <div class="summary-price-box">ราคาโปรโมชั่น: <span class="summary-sale-price">${u.sale || '-'}</span></div>
         </div>
         <button class="primary" style="padding: 6px 12px; font-size: 12px;" onclick="closeSummaryModal(); showUnit('${u.id}');">ดู</button>
       `;
