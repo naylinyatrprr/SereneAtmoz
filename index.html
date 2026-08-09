@@ -766,7 +766,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
-<div id="toast">✅ เปลี่ยนสถานะห้องสำเร็จ!</div>
+<div id="toast">เปลี่ยนสถานะห้องสำเร็จ!</div>
 
 <script>
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmnW01ORgCmT0q3EIc6qDpx2vw1WJjYEKwImYcBq-td2P_WRjRqspjs2IxjJl6BPj2K-KDSlQ/pub?output=csv';
@@ -1058,7 +1058,7 @@ function render() {
         <p style="margin: 4px 0 12px 0; color: #ff4757; font-weight: bold; font-size: 1.1rem;">ราคาพิเศษ: ${u.sale} ลบ.</p>
         <div style="display: flex; gap: 8px; margin-top: auto;">
           <button class="primary" style="flex: 1;" onclick="openModal('${u.id}')">รายละเอียด</button>
-          <button class="secondary" onclick="markAsSold('${u.id}')">ขายแล้ว</button>
+          <button class="secondary" ondblclick="markAsSold('${u.id}')">ขายแล้ว</button>
         </div>
       </div>
     `;
