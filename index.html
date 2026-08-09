@@ -848,7 +848,6 @@ function parseCSV(text) {
     const row = parseCSVLine(lines[i]);
     const item = { remark: '', hasRemark: false, highlights: [], hasHighlight: false };
     
-    // ตรวจจับ คอลัมน์ H (Index 7) สำหรับ Remark
     if (row[7] && row[7].trim().length > 0) {
       item['remark'] = row[7].trim();
       item['hasRemark'] = true;
@@ -1031,7 +1030,6 @@ function render() {
     const isComp = compare.includes(u.id);
     const imgSrc = roomGallery[u.type] || roomGallery['default'];
 
-    // ตรวจสอบเงื่อนไขการแสดงปุ่มเหนือรูปภาพ
     let badgeHtml = '';
     if (u.hasRemark) {
       badgeHtml = `<div class="remark-badge-btn">Remark alert</div>`;
@@ -1133,14 +1131,14 @@ function renderBacklog() {
         <p style="margin: 4px 0 12px 0; color: #ff4757; font-weight: bold; font-size: 1rem;">ราคาพิเศษ: ${u.sale} ลบ.</p>
         
         <div style="margin-top: auto;">
-          <label style="font-size: 0.8rem; font-weight: bold; color: #2d3436; display: block; margin-bottom: 6px;">อัปเดตสถานะ Backlog:</label>
+          <label style="font-size: 0.8rem; font-weight: bold; color: #2d3436; display: block; margin-bottom: 6px;">อัปเดตสถานะ Backlog (ดับเบิ้ลคลิกเพื่อเปลี่ยน):</label>
           <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px;">
-            <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}" onclick="setBacklogStatus('${u.id}', 'Booking')">Booking</button>
-            <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}" onclick="setBacklogStatus('${u.id}', 'On progress')">On progress</button>
-            <button class="status-btn btn-transfer ${currentStatus === 'Transfer' ? 'active' : ''}" onclick="setBacklogStatus('${u.id}', 'Transfer')">Transfer</button>
-            <button class="status-btn btn-urgent ${currentStatus === 'Urgent support!' ? 'active' : ''}" onclick="setBacklogStatus('${u.id}', 'Urgent support!')">Urgent</button>
+            <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}" ondblclick="setBacklogStatus('${u.id}', 'Booking')">Booking</button>
+            <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}" ondblclick="setBacklogStatus('${u.id}', 'On progress')">On progress</button>
+            <button class="status-btn btn-transfer ${currentStatus === 'Transfer' ? 'active' : ''}" ondblclick="setBacklogStatus('${u.id}', 'Transfer')">Transfer</button>
+            <button class="status-btn btn-urgent ${currentStatus === 'Urgent support!' ? 'active' : ''}" ondblclick="setBacklogStatus('${u.id}', 'Urgent support!')">Urgent</button>
           </div>
-          <button style="width: 100%; background: #dfe6e9; color: #2d3436; padding: 8px;" onclick="revertToAvailable('${u.id}')">🔄 ดึงกลับมาเป็นยูนิตว่าง</button>
+          <button style="width: 100%; background: #dfe6e9; color: #2d3436; padding: 8px;" ondblclick="revertToAvailable('${u.id}')">ดึงกลับมาเป็นยูนิตว่าง (ดับเบิ้ลคลิก)</button>
         </div>
       </div>
     `;
@@ -1184,7 +1182,7 @@ function revertToAvailable(unitId) {
   localStorage.setItem('solds', JSON.stringify(solds));
   localStorage.setItem('backlogStatus', JSON.stringify(backlogStatus));
 
-  showToast(`🔄 นำห้อง ${unitId} กลับมาเป็ยยูนิตพร้อมขายสำเร็จ!`, '#1e90ff');
+  showToast(`🔄 นำห้อง ${unitId} กลับมาเป็นยูนิตพร้อมขายสำเร็จ!`, '#1e90ff');
   render();
   renderBacklog();
 }
