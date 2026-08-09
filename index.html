@@ -57,6 +57,20 @@ header p {
   position: relative; 
 }
 
+/* แถบปุ่มสีแดงพาสเทล ขนาดเต็มความกว้างรูป */
+.ready-badge-btn {
+  width: 100%;
+  background-color: #ff7675;
+  color: #ffffff;
+  text-align: center;
+  padding: 6px 0;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  user-select: none;
+}
+
 .card-img-box {
   width: 100%;
   height: 160px; 
@@ -428,7 +442,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   to { transform: scale(1); opacity: 1; }
 }
 
-/* Custom Toast Notification Style */
 #toast {
   visibility: hidden;
   min-width: 250px;
@@ -453,7 +466,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   bottom: 50px;
 }
 
-/* Highlight / Remark styles for modal */
 .highlight-title {
   font-weight: bold;
   color: #e67e22;
@@ -740,7 +752,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
-<!-- Toast Popup Notification -->
 <div id="toast">✅ เปลี่ยนสถานะห้องสำเร็จ!</div>
 
 <script>
@@ -838,14 +849,32 @@ function parseCSV(text) {
         item['price'] = val;
       } else if (['sale', 'saleprice', 'ราคาพิเศษ', 'hotdeal'].includes(h)) {
         item['sale'] = val;
-      } else if (['highlights', 'highlight', 'จุดเด่น'].includes(h)) {
+      } else if (['highlights', 'highlight', 'จุดเด่น', 'remark'].includes(h)) {
         item['highlights'] = val ? val.split(';').map(x => x.trim()) : [];
+        item['hasHighlight'] = val.trim().length > 0;
+      } else if (['status', 'backlog', 'backlog_status', 'สถานะ'].includes(h)) {
+        item['sheetStatus'] = val.trim();
       } else {
         item[h] = val;
       }
     });
 
-    if (item.id) data.push(item);
+    if (item.id) {
+      // ดึงข้อมูลสถานะจาก Google Sheets ถ้าระบุไว้ในไฟล์
+      if (item.sheetStatus) {
+        if (['sold', 'booking', 'on progress', 'transfer', 'urgent support!'].some(s => item.sheetStatus.toLowerCase().includes(s))) {
+          if (!solds.includes(item.id)) solds.push(item.id);
+          if (!backlogStatus[item.id]) {
+            let st = 'Booking';
+            if (item.sheetStatus.toLowerCase().includes('progress')) st = 'On progress';
+            else if (item.sheetStatus.toLowerCase().includes('transfer')) st = 'Transfer';
+            else if (item.sheetStatus.toLowerCase().includes('urgent')) st = 'Urgent support!';
+            backlogStatus[item.id] = st;
+          }
+        }
+      }
+      data.push(item);
+    }
   }
   return data;
 }
@@ -1068,10 +1097,14 @@ function render() {
     const heartIcon = favorites.includes(u.id) ? '❤️' : '🤍';
     const imageUrl = roomGallery[u.type] || roomGallery['default'];
     
+    // แสดงปุ่มคาดสีแดงพาสเทลเมื่อมีข้อมูลใน Highlights
+    const readyBadgeHTML = u.hasHighlight ? '<div class="ready-badge-btn">Ready to move</div>' : '';
+
     const card = document.createElement('div');
     card.className = 'card';
 
     card.innerHTML = `
+    ${readyBadgeHTML}
     <div class="card-img-box">
       <img src="${imageUrl}" alt="${u.type}">
     </div>
