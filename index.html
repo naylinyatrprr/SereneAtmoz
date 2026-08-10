@@ -511,17 +511,17 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 <div class="container">
   <div class="nav-header-wrapper">
     <div class="sales-tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')">🏠 ตัวอย่างห้อง Room Types</button>
-      <button class="tab-btn" onclick="switchTab(event, 'unitsTab')">🏢 ยูนิตพร้อมขาย Ready to Move!</button>
-      <button class="tab-btn" onclick="switchTab(event, 'projectTab')">✨ รายละเอียดโครงการ Project detail</button>
-      <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')">📐 แปลนผังชั้น Floor Plan</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')"> ตัวอย่างห้อง Room Types</button>
+      <button class="tab-btn" onclick="switchTab(event, 'unitsTab')"> ยูนิตพร้อมขาย Ready to Move!</button>
+      <button class="tab-btn" onclick="switchTab(event, 'projectTab')">รายละเอียดโครงการ Project detail</button>
+      <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')"> แปลนผังชั้น Floor Plan</button>
     </div>
 
-    <button class="admin-tab-btn" onclick="switchTab(event, 'backlogTab')">🔒 Admin Backlog</button>
+    <button class="admin-tab-btn" onclick="switchTab(event, 'backlogTab')">🔒Backlog</button>
   </div>
 
   <div id="roomTypesTab" class="tab-content active">
-    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Room type (คลิกที่รูปเพื่อดูแปลนห้อง)</h2>
+    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Room type</h2>
     <div class="gallery-layout">
       <div class="gallery-item" onclick="openRoomPlan('1 Bed Extra')">
         <img src="https://i.ibb.co/QvKj7pRV/LINE-ALBUM-1-Bedroom-1-Bedroom-Extra-211124-3.jpg" alt="1 Bedroom Extra">
@@ -778,7 +778,7 @@ let solds = JSON.parse(localStorage.getItem('solds')) || [];
 let backlogStatus = JSON.parse(localStorage.getItem('backlogStatus')) || {}; 
 
 let currentPage = 1;
-const itemsPerPage = 15;
+const itemsPerPage = 16;
 
 const roomGallery = {
   '1 Bed Exclusive': 'https://i.ibb.co/FbHL2p8n/LINE-ALBUM-1-Bedroom-Exclusive-211124-0.jpg',
