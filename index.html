@@ -1,160 +1,1250 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Status Board</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atmoz Serene Sriracha - Sales Toolkit</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: linear-gradient(rgba(241, 238, 252, 0.88), rgba(232, 252, 249, 0.88)), 
+              url('https://i.ibb.co/Xkdny7Lr/Image00015.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
 
-        body {
-            background-color: #f4f6f8;
-            padding: 20px;
-        }
+header {
+  background: linear-gradient(rgba(108, 92, 231, 0.6), rgba(0, 206, 201, 0.4)), 
+              url('https://i.ibb.co/Xkdny7Lr/Image00015.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 70px 30px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
 
-        #room-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
+header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2.8rem;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+}
+header p {
+  margin: 0;
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+}
 
-        /* โครงสร้างการ์ด */
-        .room-card {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #e0e0e0;
-        }
+.container { 
+  padding: 30px 20px; 
+  position: relative;
+}
 
-        /* แถบ Badge */
-        .badge {
-            padding: 8px 12px;
-            font-size: 13px;
-            font-weight: bold;
-            color: #ffffff;
-            text-align: center;
-        }
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(108, 92, 231, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+  position: relative; 
+}
 
-        /* แถบสีแดง - Ready to move ( Highlight ) */
-        .badge-red {
-            background-color: #e53935;
-        }
+.ready-badge-btn {
+  width: 100%;
+  background-color: #ff7675;
+  color: #ffffff;
+  text-align: center;
+  padding: 6px 0;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  user-select: none;
+}
 
-        /* แถบสีเทา - Remark Alert ( Remark ) */
-        .badge-gray {
-            background-color: #757575;
-        }
+.remark-badge-btn {
+  width: 100%;
+  background-color: #8395a7;
+  color: #ffffff;
+  text-align: center;
+  padding: 6px 0;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  user-select: none;
+}
 
-        .card-body {
-            padding: 15px;
-        }
+.card-img-box {
+  width: 100%;
+  height: 160px; 
+  overflow: hidden;
+  background: #eee;
+  position: relative;
+}
+.card-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  transition: transform 0.3s ease;
+}
+.card:hover .card-img-box img {
+  transform: scale(1.05); 
+}
 
-        .card-body h3 {
-            margin-bottom: 8px;
-            color: #333;
-        }
+.card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
 
-        .card-body p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 4px;
-        }
-    </style>
+/* เพิ่ม Style สำหรับแสดง Highlight และ Remark บนตัวการ์ด */
+.card-highlights {
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #e67e22;
+  font-size: 0.8rem;
+  color: #2d3436;
+}
+.card-highlights ul {
+  margin: 3px 0 0 14px;
+  padding: 0;
+}
+.card-highlights li {
+  margin-bottom: 2px;
+}
+
+.card-remark-box {
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: #fff0f0;
+  border-radius: 8px;
+  border: 1px solid #ff7675;
+  font-size: 0.8rem;
+  color: #d63031;
+}
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+
+button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.primary { background: #6c5ce7; color: #fff; transition: 0.3s; }
+.primary:hover { background: #5b4cc4; transform: translateY(-2px); }
+
+.stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.stat {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-weight: bold;
+  font-size: 0.88rem;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+}
+.stat.clickable { cursor: pointer; transition: all 0.25s ease; }
+.stat.clickable:hover { border-color: #6c5ce7; color: #6c5ce7; background: #fff; transform: translateY(-1px); }
+
+.backlog-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.backlog-stat-card {
+  padding: 16px;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  user-select: none;
+}
+.backlog-stat-card:hover {
+  transform: translateY(-3px);
+}
+.backlog-stat-card .count {
+  font-size: 2rem;
+  margin-top: 5px;
+}
+
+.status-btn {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdde1;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  background: #f1f2f6; 
+  color: #57606f;       
+  flex: 1;
+  user-select: none;
+}
+
+.status-btn.btn-booking.active { background: #2ed573; color: white; border-color: #2ed573; }
+.status-btn.btn-on-progress.active { background: #ffa502; color: white; border-color: #ffa502; }
+.status-btn.btn-transfer.active { background: #1e90ff; color: white; border-color: #1e90ff; }
+.status-btn.btn-urgent.active { background: #ff6b81; color: white; border-color: #ff6b81; }
+
+#modal, #summaryModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; backdrop-filter: blur(5px); }
+
+.modal-content {
+  background: white;
+  width: min(800px, 95%);
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 20px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.placeholder { width: 100%; max-height: 380px; background: #eee; border-radius: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.placeholder img { width: 100%; height: 100%; object-fit: cover; }
+
+.summary-modal-box {
+  background: white;
+  width: min(600px, 95%);
+  margin: 4vh auto;
+  padding: 25px;
+  border-radius: 20px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+.summary-list { 
+  margin: 15px 0; 
+  padding: 0 8px 0 0; 
+  list-style: none; 
+  flex-grow: 1;
+  overflow-y: auto; 
+}
+.summary-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+
+.nav-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.sales-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  font-size: 0.88rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.tab-btn:hover { background: #ffffff; color: #6c5ce7; border-color: #6c5ce7; transform: translateY(-1px); }
+.tab-btn.active {
+  background: linear-gradient(135deg, #6c5ce7, #8e2de2);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
+}
+
+.admin-tab-btn {
+  padding: 10px 20px;
+  font-size: 0.88rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.admin-tab-btn:hover { background: #ffffff; color: #2d3748; border-color: #4a5568; transform: translateY(-1px); }
+.admin-tab-btn.active {
+  background: #4a5568;
+  color: #fff;
+  border-color: #2d3748;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.gallery-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+}
+.gallery-item {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer; 
+}
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+.gallery-item img:hover { transform: scale(1.02); }
+.gallery-title {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #4a5568;
+  text-align: center;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.filter-summary-badge {
+  background: linear-gradient(135deg, #6c5ce7, #00cec9);
+  color: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.2);
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 25px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.pagination-btn {
+  background: #6c5ce7;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.pagination-btn:disabled { background: #dcdde1; cursor: not-allowed; }
+
+#imageZoomModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.zoom-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#zoomedImg {
+  max-width: 95vw;
+  max-height: 92vh;
+  object-fit: contain; 
+  border-radius: 6px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+  animation: zoomAnimation 0.2s ease-out;
+  cursor: pointer;
+}
+#zoomCaption {
+  color: #fff;
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+@keyframes zoomAnimation {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.highlight-title { font-weight: bold; color: #e67e22; margin-top: 10px; }
+.highlight-list { margin: 5px 0 0 20px; padding: 0; color: #555; }
+.summary-price-box { font-size: 0.85rem; color: #666; margin-top: 4px; }
+.summary-sale-price { color: #ff4757; font-weight: bold; }
+</style>
 </head>
 <body>
 
-    <div id="room-container">
-        <!-- การ์ดห้องพักจะถูกสร้างและแสดงผลผ่าน JavaScript ตรงนี้ -->
+<header>
+  <h1>Atmoz Serene Sriracha</h1>
+  <p>SALES TOOLKIT</p>
+</header>
+
+<div class="container">
+  <div class="nav-header-wrapper">
+    <div class="sales-tabs">
+      <button class="tab-btn active" onclick="switchTab(event, 'roomTypesTab')"> ตัวอย่างห้อง Room Types</button>
+      <button class="tab-btn" onclick="switchTab(event, 'unitsTab')"> ยูนิตพร้อมขาย Ready to Move!</button>
+      <button class="tab-btn" onclick="switchTab(event, 'projectTab')">รายละเอียดโครงการ Project detail</button>
+      <button class="tab-btn" onclick="switchTab(event, 'floorplanTab')"> แปลนผังชั้น Floor Plan</button>
     </div>
 
-    <script>
-        // 1. ใส่ URL ของ CSV ของคุณตรงนี้
-        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmnW01ORgCmT0q3EIc6qDpx2vw1WJjYEKwImYcBq-td2P_WRjRqspjs2IxjJl6BPj2K-KDSlQ/pub?output=csv';
+    <button class="admin-tab-btn" onclick="switchTab(event, 'backlogTab')">🔒Backlog</button>
+  </div>
 
-        async function loadRoomData() {
-            try {
-                // เติม ?t=${new Date().getTime()} เพื่อป้องกันการติด Browser Cache ทำให้ดึงข้อมูลเรียลไทม์สดๆ เสมอ
-                const response = await fetch(`${CSV_URL}?t=${new Date().getTime()}`);
-                const csvText = await response.text();
-                
-                // แปลง CSV เป็น Object
-                const rooms = parseCSV(csvText); 
-                
-                // แสดงผลการ์ด
-                renderRoomCards(rooms);
-            } catch (error) {
-                console.error("Error fetching CSV data:", error);
-            }
+  <div id="roomTypesTab" class="tab-content active">
+    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Room type</h2>
+    <div class="gallery-layout">
+      <div class="gallery-item" onclick="openRoomPlan('1 Bed Extra')">
+        <img src="https://i.ibb.co/QvKj7pRV/LINE-ALBUM-1-Bedroom-1-Bedroom-Extra-211124-3.jpg" alt="1 Bedroom Extra">
+        <div class="gallery-title">1 Bedroom Extra 📐 (ดูแปลนห้อง)</div>
+      </div>
+      <div class="gallery-item" onclick="openRoomPlan('1 Bed Exclusive')">
+        <img src="https://i.ibb.co/FbHL2p8n/LINE-ALBUM-1-Bedroom-Exclusive-211124-0.jpg" alt="1 Bedroom Exclusive">
+        <div class="gallery-title">1 Bedroom Exclusive 📐 (ดูแปลนห้อง)</div>
+      </div>
+      <div class="gallery-item" onclick="openRoomPlan('1 Bed Exclusive-Private')">
+        <img src="https://i.ibb.co/B2jjkQjx/LINE-ALBUM-1-Bedroom-exclusive-private-211124-0-0.jpg" alt="1 Bedroom Exclusive-Private">
+        <div class="gallery-title">1 Bedroom Exclusive-Private 📐 (ดูแปลนห้อง)</div>
+      </div>
+      <div class="gallery-item" onclick="openRoomPlan('1 Bed plus')">
+        <img src="https://i.ibb.co/HDLQtCBb/LINE-ALBUM-1-BR-Plus-211124-2.jpg" alt="1 Bedroom Plus">
+        <div class="gallery-title">1 Bedroom Plus 📐 (ดูแปลนห้อง)</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="unitsTab" class="tab-content">
+    <div class="stats">
+      <div class="stat clickable" onclick="showSummary('available')">🏢 จำนวนยูนิตที่ว่าง: <span id="availableCount">0</span></div>
+      <div class="stat clickable" onclick="showSummary('compare')">📊 Compare: <span id="compareCount">0</span></div>
+      <div class="stat clickable" onclick="showSummary('favorites')">❤️ Favorites: <span id="favCount">0</span></div>
+    </div>
+
+    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px;">Available Units</h2>
+    <div class="filter-bar" style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+      <input type="text" id="searchInput" placeholder="🔍 ค้นหาเลขห้อง (เช่น A214)..." oninput="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; flex: 1; min-width: 180px;">
+      
+      <select id="buildingFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+        <option value="all">ทุกอาคาร</option>
+        <option value="A">อาคาร A</option>
+        <option value="B">อาคาร B</option>
+        <option value="C">อาคาร C</option>
+      </select>
+
+      <select id="typeFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+        <option value="all">ทุกประเภทห้อง</option>
+        <option value="1 Bed Exclusive">1 Bed Exclusive</option>
+        <option value="1 Bed Extra">1 Bed Extra</option>
+        <option value="1 Bed Exclusive-Private">1 Bed Exclusive-Private</option>
+        <option value="1 Bed plus">1 Bed plus</option>
+      </select>
+
+      <select id="floorFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+        <option value="all">ทุกชั้น</option>
+        <option value="2">ชั้น 2</option>
+        <option value="3">ชั้น 3</option>
+        <option value="4">ชั้น 4</option>
+        <option value="5">ชั้น 5</option>
+        <option value="6">ชั้น 6</option>
+        <option value="7">ชั้น 7</option>
+        <option value="8">ชั้น 8</option>
+      </select>
+
+      <select id="priceFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+      </select>
+    </div>  
+
+    <div class="filter-summary-badge" id="filterSummaryBox">
+      🎯 ผลการกรอง: <span id="filterCount">0</span> ห้อง
+    </div>
+
+    <div class="grid" id="units"></div>
+
+    <div class="pagination-controls">
+      <button id="prevPageBtn" class="pagination-btn" onclick="changePage(-1)">◀ ก่อนหน้า</button>
+      <span id="pageIndicator" style="font-weight: bold; color: #2d3436;">หน้า 1 / 1</span>
+      <button id="nextPageBtn" class="pagination-btn" onclick="changePage(1)">ถัดไป ▶</button>
+    </div>
+  </div>
+
+  <div id="backlogTab" class="tab-content">
+    <h2 style="color: #2d3436; border-left: 5px solid #2ed573; padding-left: 15px; margin-bottom: 20px;">Backlog Status Summary (Admin Control)</h2>
+    
+    <div class="backlog-dashboard">
+      <div class="backlog-stat-card" style="background: #2ed573;" onclick="filterBacklogStatus('Booking')">
+        <div>🟢 Booking</div>
+        <div class="count" id="countBooking">0</div>
+      </div>
+      <div class="backlog-stat-card" style="background: #ffa502;" onclick="filterBacklogStatus('On progress')">
+        <div>🟡 On progress</div>
+        <div class="count" id="countOnProgress">0</div>
+      </div>
+      <div class="backlog-stat-card" style="background: #1e90ff;" onclick="filterBacklogStatus('Transfer')">
+        <div>🔵 Transfer</div>
+        <div class="count" id="countTransfer">0</div>
+      </div>
+      <div class="backlog-stat-card" style="background: #ff6b81;" onclick="filterBacklogStatus('Urgent support!')">
+        <div>🔴 Urgent support!</div>
+        <div class="count" id="countUrgent">0</div>
+      </div>
+      <div class="backlog-stat-card" style="background: #6c5ce7;" onclick="filterBacklogStatus('all')">
+        <div>📦 Total Sold</div>
+        <div class="count" id="countTotalSold">0</div>
+      </div>
+    </div>
+
+    <div class="filter-bar" style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+      <input type="text" id="backlogSearchInput" placeholder="🔍 ค้นหาเลขห้อง Backlog..." oninput="renderBacklog()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; flex: 1; min-width: 200px;">
+      <select id="backlogStatusFilter" onchange="renderBacklog()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+        <option value="all">ทุกสถานะ Backlog</option>
+        <option value="Booking">Booking</option>
+        <option value="On progress">On progress</option>
+        <option value="Transfer">Transfer</option>
+        <option value="Urgent support!">Urgent support!</option>
+      </select>
+    </div>
+
+    <div class="filter-summary-badge" style="background: linear-gradient(135deg, #2ed573, #1e90ff);">
+      📊 จำนวนในรายการ Backlog: <span id="backlogFilterCount">0</span> ห้อง
+    </div>
+
+    <div class="grid" id="backlogUnits"></div>
+  </div>
+
+  <div id="projectTab" class="tab-content">
+    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">รายละเอียดโครงการ</h2>
+    <div class="gallery-layout">
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/j9WY1Yct/1786205983387-0.jpg" alt="รายละเอียดโครงการ Atmoz Serene">
+        <div class="gallery-title">รายละเอียดโครงการ Atmoz Serene</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/KxBh2rNQ/1786206007540-0.jpg" alt="พื้นที่ส่วนกลาง Atmoz Serene">
+        <div class="gallery-title">พื้นที่ส่วนกลาง Atmoz Serene</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/7xjYxnSX/1786206035147-0.jpg" alt="Project Highlight">
+        <div class="gallery-title">Project Highlight</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/99DZKqY6/1786206572523-0.jpg" alt="แผนที่ตั้งโครงการ">
+        <div class="gallery-title">แผนที่ตั้งโครงการ</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/WWNKSCsC/1786206615986-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
+        <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/5XDFpC07/1786206627622-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
+        <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/DPt6DSqd/1786206647561-0.jpg" alt="สถานที่อำนวยความสะดวกใกล้เคียง">
+        <div class="gallery-title">สถานที่อำนวยความสะดวกใกล้เคียง</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="floorplanTab" class="tab-content">
+    <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px; margin-bottom: 20px;">Floor Plan & Room Plan</h2>
+    <div class="gallery-layout">
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/fdVvVsqg/1786206078940-0.jpg" alt="1. แบบห้อง 1 Bed Extra">
+        <div class="gallery-title">1. แบบห้อง 1 Bed Extra</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/xS0QkTZ8/1786206126415-0.jpg" alt="2. แบบห้อง 1 Bed Exclusive">
+        <div class="gallery-title">2. แบบห้อง 1 Bed Exclusive</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/60JGfhSn/1786206096716-0.jpg" alt="3. แบบห้อง 1 Bed Exclusive-Private">
+        <div class="gallery-title">3. แบบห้อง 1 Bed Exclusive-Private</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg" alt="4. แบบห้อง 1 Bed plus">
+        <div class="gallery-title">4. แบบห้อง 1 Bed plus</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_2.jpg" alt="Floor Plan ชั้น 2">
+        <div class="gallery-title">Floor Plan ชั้น 2</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_3.jpg" alt="Floor Plan ชั้น 3">
+        <div class="gallery-title">Floor Plan ชั้น 3</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_4.jpg" alt="Floor Plan ชั้น 4">
+        <div class="gallery-title">Floor Plan ชั้น 4</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_5.jpg" alt="Floor Plan ชั้น 5">
+        <div class="gallery-title">Floor Plan ชั้น 5</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_6.jpg" alt="Floor Plan ชั้น 6">
+        <div class="gallery-title">Floor Plan ชั้น 6</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_7.jpg" alt="Floor Plan ชั้น 7">
+        <div class="gallery-title">Floor Plan ชั้น 7</div>
+      </div>
+      <div class="gallery-item" onclick="openImageZoom(this)">
+        <img src="https://onlinebooking.assetwise.co.th/Resources/PDC001/FloorPlan/MasterPlan_Fl_8.jpg" alt="Floor Plan ชั้น 8">
+        <div class="gallery-title">Floor Plan ชั้น 8</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal">
+  <div class="modal-content">
+    <h2 id="title" style="color: #6c5ce7;"></h2>
+    <div class="placeholder">
+      <img id="roomImg" src="" alt="Room Perspective">
+    </div>
+    <div id="detail" style="line-height: 1.6; color: #2d3436;"></div>
+    <br>
+    <button class="primary" style="width: 100%; padding: 15px;" onclick="closeModal()">กลับหน้าหลัก</button>
+  </div>
+</div>
+
+<div id="summaryModal">
+  <div class="summary-modal-box">
+    <h2 id="summaryTitle" style="margin-top: 0; margin-bottom: 10px;"></h2>
+    <ul id="summaryList" class="summary-list"></ul>
+    <button class="primary" style="width: 100%; margin-top: auto; padding: 12px;" onclick="closeSummaryModal()">ปิดหน้าต่าง</button>
+  </div>
+</div>
+
+<div id="imageZoomModal">
+  <div class="zoom-container">
+    <img id="zoomedImg" src="" alt="Zoomed Image" ondblclick="closeImageZoom()">
+    <div id="zoomCaption"></div>
+  </div>
+</div>
+
+<script>
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmnW01ORgCmT0q3EIc6qDpx2vw1WJjYEKwImYcBq-td2P_WRjRqspjs2IxjJl6BPj2K-KDSlQ/pub?output=csv';
+
+let units = [];
+let favorites = [];
+let compare = [];
+let currentPage = 1;
+const itemsPerPage = 16;
+
+const roomGallery = {
+  '1 Bed Exclusive': 'https://i.ibb.co/FbHL2p8n/LINE-ALBUM-1-Bedroom-Exclusive-211124-0.jpg',
+  '1 Bed Extra': 'https://i.ibb.co/QvKj7pRV/LINE-ALBUM-1-Bedroom-1-Bedroom-Extra-211124-3.jpg',
+  '1 Bed plus': 'https://i.ibb.co/HDLQtCBb/LINE-ALBUM-1-BR-Plus-211124-2.jpg',
+  '1 Bed Exclusive-Private': 'https://i.ibb.co/Nd6KM49N/LINE-ALBUM-1-Bedroom-exclusive-private-211124-15.jpg',
+  'default': 'https://i.ibb.co/Xkdny7Lr/Image00015.jpg'
+};
+
+const roomPlans = {
+  '1 Bed Extra': { src: 'https://i.ibb.co/fdVvVsqg/1786206078940-0.jpg', title: 'แปลนห้อง - 1 Bed Extra' },
+  '1 Bed Exclusive': { src: 'https://i.ibb.co/xS0QkTZ8/1786206126415-0.jpg', title: 'แปลนห้อง - 1 Bed Exclusive' },
+  '1 Bed Exclusive-Private': { src: 'https://i.ibb.co/60JGfhSn/1786206096716-0.jpg', title: 'แปลนห้อง - 1 Bed Exclusive-Private' },
+  '1 Bed plus': { src: 'https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg', title: 'แปลนห้อง - 1 Bed Plus' }
+};
+
+function parseCSVLine(line) {
+  const result = [];
+  let cur = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') {
+      inQuotes = !inQuotes;
+    } else if (c === ',' && !inQuotes) {
+      result.push(cur.trim().replace(/^"|"$/g, ''));
+      cur = '';
+    } else {
+      cur += c;
+    }
+  }
+  result.push(cur.trim().replace(/^"|"$/g, ''));
+  return result;
+}
+
+function parsePrice(priceStr) {
+  if (!priceStr) return 0;
+  const cleaned = priceStr.toString().replace(/,/g, '');
+  const match = cleaned.match(/\d+(\.\d+)?/);
+  if (!match) return 0;
+  let val = parseFloat(match[0]);
+  if (val > 10000) val = val / 1000000;
+  return val;
+}
+
+function parseCSV(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length < 2) return [];
+
+  const headers = parseCSVLine(lines[0]).map(h => h.toLowerCase().trim());
+  const data = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const row = parseCSVLine(lines[i]);
+    const item = { remark: '', hasRemark: false, highlights: [], hasHighlight: false, isSold: false, backlogStatus: 'Booking' };
+
+    if (row[7] && row[7].trim().length > 0) {
+      item['remark'] = row[7].trim();
+      item['hasRemark'] = true;
+    }
+
+    headers.forEach((h, index) => {
+      let val = row[index] ? row[index] : '';
+
+      if (['id', 'unit', 'unit_id', 'room', 'เลขห้อง'].includes(h)) {
+        item['id'] = val;
+      } else if (['type', 'room_type', 'ประเภท'].includes(h)) {
+        item['type'] = val;
+      } else if (['size', 'sqm', 'ขนาด'].includes(h)) {
+        item['size'] = val;
+      } else if (['floor', 'ชั้น'].includes(h)) {
+        item['floor'] = parseInt(val) || (val.match(/\d+/) ? parseInt(val.match(/\d+/)[0]) : 0);
+      } else if (['price', 'ราคาปกติ'].includes(h)) {
+        item['price'] = val;
+      } else if (['sale', 'saleprice', 'ราคาพิเศษ', 'hotdeal'].includes(h)) {
+        item['sale'] = val;
+        item['numericSalePrice'] = parsePrice(val);
+      } else if (['highlights', 'highlight', 'จุดเด่น'].includes(h)) {
+        item['highlights'] = val ? val.split(/;|\n/).map(x => x.trim()).filter(x => x.length > 0) : [];
+        item['hasHighlight'] = item['highlights'].length > 0;
+      } else if (['remark', 'remarks', 'หมายเหตุ'].includes(h)) {
+        if (val.trim().length > 0) {
+          item['remark'] = val.trim();
+          item['hasRemark'] = true;
         }
+      } else if (['status', 'backlog', 'backlog_status', 'สถานะ'].includes(h)) {
+        item['sheetStatus'] = val.trim();
+      } else {
+        item[h] = val;
+      }
+    });
 
-        function renderRoomCards(rooms) {
-            const container = document.getElementById('room-container');
-            container.innerHTML = ''; // ล้างข้อมูลเก่าก่อนแสดงผลใหม่
+    const columnI_Status = row[8] ? row[8].trim() : (item.sheetStatus || '');
 
-            rooms.forEach(room => {
-                const card = document.createElement('div');
-                card.className = 'room-card';
-
-                // --- LOGIC เดิมของคุณ ---
-                
-                // 1. เช็กคอลัมน์ highlight -> แถบสีแดง Ready to move
-                let highlightBadge = '';
-                if (room.highlight && room.highlight.trim() !== '') {
-                    highlightBadge = `<div class="badge badge-red">Ready to move: ${room.highlight}</div>`;
-                }
-
-                // 2. เช็กคอลัมน์ remark -> แถบสีเทา Remark Alert
-                let remarkBadge = '';
-                if (room.remark && room.remark.trim() !== '') {
-                    remarkBadge = `<div class="badge badge-gray">Remark Alert: ${room.remark}</div>`;
-                }
-
-                // ประกอบ HTML ของการ์ดห้องพัก
-                card.innerHTML = `
-                    ${highlightBadge}
-                    ${remarkBadge}
-                    <div class="card-body">
-                        <h3>ห้อง ${room.room_number || room.room || 'N/A'}</h3>
-                        <p>สถานะ: ${room.status || '-'}</p>
-                        <p>ราคา: ${room.price || '-'}</p>
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
+    if (item.id) {
+      if (columnI_Status.length > 0) {
+        item.isSold = true;
+        const lowerStatus = columnI_Status.toLowerCase();
+        if (lowerStatus.includes('progress')) {
+          item.backlogStatus = 'On progress';
+        } else if (lowerStatus.includes('transfer')) {
+          item.backlogStatus = 'Transfer';
+        } else if (lowerStatus.includes('urgent')) {
+          item.backlogStatus = 'Urgent support!';
+        } else {
+          item.backlogStatus = 'Booking';
         }
+      }
+      data.push(item);
+    }
+  }
 
-        // ฟังก์ชันช่วยแปลงข้อความ CSV เป็น JavaScript Array of Objects
-        function parseCSV(text) {
-            const lines = text.trim().split('\n');
-            if (lines.length === 0) return [];
+  return data;
+}
 
-            // หัวคอลัมน์ (แปลงเป็นตัวพิมพ์เล็กเพื่อกันปัญหาเรื่องตัวพิมพ์เล็ก/ใหญ่)
-            const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/^"|"$/g, ''));
-            
-            return lines.slice(1).map(line => {
-                const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
-                let obj = {};
-                headers.forEach((header, index) => {
-                    obj[header] = values[index] || '';
-                });
-                return obj;
-            });
-        }
+function generatePriceFilterOptions() {
+  const priceSelect = document.getElementById('priceFilter');
+  priceSelect.innerHTML = '';
 
-        // โหลดข้อมูลทันทีเมื่อโหลดหน้าเว็บ
-        loadRoomData();
+  const availableUnits = units.filter(u => !u.isSold && u.numericSalePrice > 0);
+  if (availableUnits.length === 0) {
+    priceSelect.innerHTML = '<option value="all">ทุกช่วงราคา Sale</option>';
+    return;
+  }
 
-        // ดึงข้อมูลใหม่ทุกๆ 30 วินาทีเพื่อความเรียลไทม์
-        setInterval(loadRoomData, 30000);
-    </script>
+  const prices = availableUnits.map(u => u.numericSalePrice);
+  const minPrice = Math.min(...prices);
+
+  let firstRangeMax = (Math.floor(minPrice * 10) / 10) + 0.09;
+  if (firstRangeMax < minPrice) firstRangeMax = minPrice;
+
+  const defaultOption = document.createElement('option');
+  defaultOption.value = 'all';
+  defaultOption.textContent = 'ทุกช่วงราคา Sale';
+  priceSelect.appendChild(defaultOption);
+
+  const minOption = document.createElement('option');
+  minOption.value = `<=${firstRangeMax.toFixed(2)}`;
+  minOption.textContent = `ไม่เกิน ${firstRangeMax.toFixed(2)} MB`;
+  priceSelect.appendChild(minOption);
+
+  const steps = [
+    { min: 1.60, max: 1.69 },
+    { min: 1.70, max: 1.79 },
+    { min: 1.80, max: 1.89 },
+    { min: 1.90, max: 1.99 },
+    { min: 2.00, max: 2.09 },
+    { min: 2.10, max: 2.19 },
+    { min: 2.20, max: 2.29 },
+    { min: 2.30, max: 2.39 },
+    { min: 2.40, max: 2.49 },
+    { min: 2.50, max: 2.59 },
+    { min: 2.60, max: 2.99 }
+  ];
+
+  steps.forEach(step => {
+    if (step.min > firstRangeMax) {
+      const opt = document.createElement('option');
+      opt.value = `${step.min.toFixed(2)}-${step.max.toFixed(2)}`;
+      opt.textContent = `${step.min.toFixed(2)} - ${step.max.toFixed(2)} MB`;
+      priceSelect.appendChild(opt);
+    }
+  });
+
+  const maxOption = document.createElement('option');
+  maxOption.value = '>=3.00';
+  maxOption.textContent = '3.00 MB ขึ้นไป';
+  priceSelect.appendChild(maxOption);
+}
+
+async function loadSheetsData() {
+  const gridEl = document.getElementById('units');
+  gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #6c5ce7; font-weight: bold;">⏳ กำลังโหลดข้อมูลยูนิตจาก Google Sheets...</div>';
+  
+  try {
+    const response = await fetch(SHEET_CSV_URL);
+    if (!response.ok) throw new Error("HTTP Status " + response.status);
+    const csvData = await response.text();
+    units = parseCSV(csvData);
+
+    if (units.length === 0) {
+      gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ โหลดไฟล์สำเร็จ แต่ไม่พบข้อมูลยูนิต</div>';
+      return;
+    }
+
+    generatePriceFilterOptions();
+    render();
+    renderBacklog();
+  } catch (error) {
+    console.error("Error loading CSV:", error);
+    gridEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff4757; font-weight: bold;">⚠️ ไม่สามารถโหลดข้อมูลได้</div>';
+  }
+}
+
+function switchTab(evt, tabName) {
+  const tabcontents = document.getElementsByClassName("tab-content");
+  for (let i = 0; i < tabcontents.length; i++) tabcontents[i].classList.remove("active");
+  
+  const tabbtns = document.getElementsByClassName("tab-btn");
+  for (let i = 0; i < tabbtns.length; i++) tabbtns[i].classList.remove("active");
+
+  const adminBtn = document.querySelector(".admin-tab-btn");
+  if (adminBtn) adminBtn.classList.remove("active");
+
+  document.getElementById(tabName).classList.add("active");
+  evt.currentTarget.classList.add("active");
+}
+
+function openRoomPlan(roomType) {
+  const plan = roomPlans[roomType];
+  if (plan) {
+    document.getElementById('zoomedImg').src = plan.src;
+    document.getElementById('zoomCaption').textContent = plan.title;
+    document.getElementById('imageZoomModal').style.display = 'flex';
+  }
+}
+
+function openImageZoom(element) {
+  const imgSource = element.querySelector('img').src;
+  const imgAlt = element.querySelector('img').alt || '';
+  document.getElementById('zoomedImg').src = imgSource;
+  document.getElementById('zoomCaption').textContent = imgAlt;
+  document.getElementById('imageZoomModal').style.display = 'flex';
+}
+
+function closeImageZoom() { 
+  document.getElementById('imageZoomModal').style.display = 'none'; 
+}
+
+function handleFilterChange() { 
+  currentPage = 1; 
+  render(); 
+}
+
+function changePage(direction) {
+  currentPage += direction;
+  render();
+}
+
+function render() {
+  const search = document.getElementById('searchInput').value.toUpperCase().trim();
+  const building = document.getElementById('buildingFilter').value;
+  const type = document.getElementById('typeFilter').value;
+  const floor = document.getElementById('floorFilter').value;
+  const priceRange = document.getElementById('priceFilter').value;
+
+  const filtered = units.filter(u => {
+    if (u.isSold) return false; 
+    
+    if (search && !u.id.toUpperCase().includes(search)) return false;
+    if (building !== 'all' && !u.id.startsWith(building)) return false;
+    if (type !== 'all' && u.type !== type) return false;
+    if (floor !== 'all' && u.floor !== parseInt(floor)) return false;
+
+    if (priceRange !== 'all') {
+      const numPrice = u.numericSalePrice;
+      if (priceRange.startsWith('<=')) {
+        const max = parseFloat(priceRange.replace('<=', ''));
+        if (numPrice > max) return false;
+      } else if (priceRange.includes('-')) {
+        const [min, max] = priceRange.split('-').map(parseFloat);
+        if (numPrice < min || numPrice > max) return false;
+      } else if (priceRange.startsWith('>=')) {
+        const min = parseFloat(priceRange.replace('>=', ''));
+        if (numPrice < min) return false;
+      }
+    }
+    return true;
+  });
+
+  document.getElementById('availableCount').innerText = units.filter(u => !u.isSold).length;
+  document.getElementById('compareCount').innerText = compare.length;
+  document.getElementById('favCount').innerText = favorites.length;
+  document.getElementById('filterCount').innerText = filtered.length;
+
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
+  document.getElementById('pageIndicator').innerText = `หน้า ${currentPage} / ${totalPages}`;
+  document.getElementById('prevPageBtn').disabled = (currentPage === 1);
+  document.getElementById('nextPageBtn').disabled = (currentPage === totalPages);
+
+  const startIdx = (currentPage - 1) * itemsPerPage;
+  const pageUnits = filtered.slice(startIdx, startIdx + itemsPerPage);
+
+  const container = document.getElementById('units');
+  container.innerHTML = '';
+
+  if (pageUnits.length === 0) {
+    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #7f8c8d; font-weight: bold;">❌ ไม่พบข้อมูลยูนิตตามเงื่อนไขที่กรอง</div>';
+    return;
+  }
+
+  pageUnits.forEach(u => {
+    const isFav = favorites.includes(u.id);
+    const isComp = compare.includes(u.id);
+    const imgSrc = roomGallery[u.type] || roomGallery['default'];
+
+    let badgeHtml = '';
+    if (u.hasRemark) {
+      badgeHtml = `<div class="remark-badge-btn">Remark alert</div>`;
+    } else if (u.hasHighlight) {
+      badgeHtml = `<div class="ready-badge-btn">Ready to move</div>`;
+    }
+
+    // สร้างกล่องแสดง Highlights เพิ่มลงในการ์ด
+    let highlightsHtml = '';
+    if (u.hasHighlight) {
+      highlightsHtml = `
+        <div class="card-highlights">
+          <strong>✨ จุดเด่น:</strong>
+          <ul>
+            ${u.highlights.map(h => `<li>${h}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    // สร้างกล่องแสดง Remark เพิ่มลงในการ์ด
+    let remarkBoxHtml = '';
+    if (u.hasRemark) {
+      remarkBoxHtml = `
+        <div class="card-remark-box">
+          <strong>⚠️ Remark:</strong> ${u.remark}
+        </div>
+      `;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      ${badgeHtml}
+      <div class="card-img-box">
+        <img src="${imgSrc}" alt="${u.type}">
+      </div>
+      <div class="card-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="margin: 0; color: #2d3436; font-size: 1.3rem;">ห้อง ${u.id}</h3>
+          <div>
+            <span style="cursor: pointer; font-size: 1.2rem; margin-right: 5px;" onclick="toggleFavorite('${u.id}')">${isFav ? '❤️' : '🤍'}</span>
+            <span style="cursor: pointer; font-size: 1.2rem;" onclick="toggleCompare('${u.id}')">${isComp ? '📊' : '➕'}</span>
+          </div>
+        </div>
+        <p style="margin: 4px 0; color: #636e72; font-size: 0.9rem;"><strong>ประเภท:</strong> ${u.type}</p>
+        <p style="margin: 4px 0; color: #636e72; font-size: 0.9rem;"><strong>ขนาด:</strong> ${u.size} ตร.ม. | <strong>ชั้น:</strong> ${u.floor}</p>
+        <p style="margin: 4px 0; color: #b2bec3; text-decoration: line-through; font-size: 0.85rem;">ราคาปกติ: ${u.price} ลบ.</p>
+        <p style="margin: 4px 0; color: #ff4757; font-weight: bold; font-size: 1.1rem;">ราคาพิเศษ: ${u.sale} ลบ.</p>
+        
+        ${highlightsHtml}
+        ${remarkBoxHtml}
+
+        <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px;">
+          <button class="primary" style="width: 100%;" ondblclick="openModal('${u.id}')">รายละเอียด</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function renderBacklog() {
+  const search = document.getElementById('backlogSearchInput').value.toUpperCase().trim();
+  const statusFilter = document.getElementById('backlogStatusFilter').value;
+
+  let soldUnits = units.filter(u => u.isSold);
+
+  let bookingCount = 0, onProgressCount = 0, transferCount = 0, urgentCount = 0;
+  soldUnits.forEach(u => {
+    const st = u.backlogStatus || 'Booking';
+    if (st === 'Booking') bookingCount++;
+    else if (st === 'On progress') onProgressCount++;
+    else if (st === 'Transfer') transferCount++;
+    else if (st === 'Urgent support!') urgentCount++;
+  });
+
+  document.getElementById('countBooking').innerText = bookingCount;
+  document.getElementById('countOnProgress').innerText = onProgressCount;
+  document.getElementById('countTransfer').innerText = transferCount;
+  document.getElementById('countUrgent').innerText = urgentCount;
+  document.getElementById('countTotalSold').innerText = soldUnits.length;
+
+  const filtered = soldUnits.filter(u => {
+    if (search && !u.id.toUpperCase().includes(search)) return false;
+    const currentStatus = u.backlogStatus || 'Booking';
+    if (statusFilter !== 'all' && currentStatus !== statusFilter) return false;
+    return true;
+  });
+
+  document.getElementById('backlogFilterCount').innerText = filtered.length;
+
+  const container = document.getElementById('backlogUnits');
+  container.innerHTML = '';
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #7f8c8d; font-weight: bold;">📦 ไม่พบรายการใน Backlog ตามเงื่อนไข</div>';
+    return;
+  }
+
+  filtered.forEach(u => {
+    const currentStatus = u.backlogStatus || 'Booking';
+    const imgSrc = roomGallery[u.type] || roomGallery['default'];
+
+    let badgeHtml = '';
+    if (u.hasRemark) {
+      badgeHtml = `<div class="remark-badge-btn">Remark alert</div>`;
+    } else if (u.hasHighlight) {
+      badgeHtml = `<div class="ready-badge-btn">Ready to move</div>`;
+    }
+
+    let remarkBoxHtml = '';
+    if (u.hasRemark) {
+      remarkBoxHtml = `
+        <div class="card-remark-box">
+          <strong>⚠️ Remark:</strong> ${u.remark}
+        </div>
+      `;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      ${badgeHtml}
+      <div class="card-img-box">
+        <img src="${imgSrc}" alt="${u.type}">
+      </div>
+      <div class="card-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="margin: 0; color: #2d3436; font-size: 1.3rem;">ห้อง ${u.id}</h3>
+        </div>
+        <p style="margin: 4px 0; color: #636e72; font-size: 0.9rem;"><strong>ประเภท:</strong> ${u.type}</p>
+        <p style="margin: 4px 0; color: #636e72; font-size: 0.9rem;"><strong>ขนาด:</strong> ${u.size} ตร.ม. | <strong>ชั้น:</strong> ${u.floor}</p>
+        <p style="margin: 4px 0; color: #ff4757; font-weight: bold; font-size: 1rem;">ราคาพิเศษ: ${u.sale} ลบ.</p>
+        
+        ${remarkBoxHtml}
+
+        <div style="margin-top: auto; padding-top: 10px;">
+          <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+            <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}">Booking</button>
+            <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}">On progress</button>
+            <button class="status-btn btn-transfer ${currentStatus === 'Transfer' ? 'active' : ''}">Transfer</button>
+            <button class="status-btn btn-urgent ${currentStatus === 'Urgent support!' ? 'active' : ''}">Urgent</button>
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function filterBacklogStatus(status) {
+  document.getElementById('backlogStatusFilter').value = status;
+  renderBacklog();
+}
+
+function toggleFavorite(unitId) {
+  if (favorites.includes(unitId)) {
+    favorites = favorites.filter(id => id !== unitId);
+  } else {
+    favorites.push(unitId);
+  }
+  render();
+}
+
+function toggleCompare(unitId) {
+  if (compare.includes(unitId)) {
+    compare = compare.filter(id => id !== unitId);
+  } else {
+    if (compare.length >= 4) {
+      alert("เปรียบเทียบได้สูงสุดครั้งละ 4 ยูนิตครับ");
+      return;
+    }
+    compare.push(unitId);
+  }
+  render();
+}
+
+function openModal(unitId) {
+  const u = units.find(x => x.id === unitId);
+  if (!u) return;
+
+  document.getElementById('title').innerText = `รายละเอียดห้อง ${u.id}`;
+  document.getElementById('roomImg').src = roomGallery[u.type] || roomGallery['default'];
+
+  let highlightsHTML = '';
+  if (u.highlights && u.highlights.length > 0) {
+    highlightsHTML = `
+      <div class="highlight-title">✨ จุดเด่นยูนิตนี้:</div>
+      <ul class="highlight-list">
+        ${u.highlights.map(h => `<li>${h}</li>`).join('')}
+      </ul>
+    `;
+  }
+
+  let remarkHTML = '';
+  if (u.hasRemark) {
+    remarkHTML = `
+      <div class="highlight-title" style="color: #d63031;">⚠️ หมายเหตุ (Remark):</div>
+      <div style="color: #2d3436; background: #ffeaa7; padding: 10px; border-radius: 8px; margin-top: 5px;">${u.remark}</div>
+    `;
+  }
+
+  document.getElementById('detail').innerHTML = `
+    <p><strong>ประเภทห้อง:</strong> ${u.type}</p>
+    <p><strong>ขนาดพื้นที่:</strong> ${u.size} ตารางเมตร</p>
+    <p><strong>ชั้น:</strong> ชั้น ${u.floor}</p>
+    <p><strong>ราคาปกติ:</strong> <span style="text-decoration: line-through; color: #888;">${u.price}</span> ล้านบาท</p>
+    <p><strong>ราคาพิเศษ (Sale Price):</strong> <span style="color: #ff4757; font-size: 1.2rem; font-weight: bold;">${u.sale}</span> ล้านบาท</p>
+    ${highlightsHTML}
+    ${remarkHTML}
+  `;
+
+  document.getElementById('modal').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+function showSummary(type) {
+  const modal = document.getElementById('summaryModal');
+  const title = document.getElementById('summaryTitle');
+  const list = document.getElementById('summaryList');
+  list.innerHTML = '';
+
+  let items = [];
+  if (type === 'available') {
+    title.innerText = '🏢 ยูนิตทั้งหมดที่พร้อมขาย';
+    items = units.filter(u => !u.isSold);
+  } else if (type === 'compare') {
+    title.innerText = '📊 รายการยูนิตที่เลือกเปรียบเทียบ';
+    items = units.filter(u => compare.includes(u.id));
+  } else if (type === 'favorites') {
+    title.innerText = '❤️ รายการยูนิตที่สนใจ (Favorites)';
+    items = units.filter(u => favorites.includes(u.id));
+  }
+
+  if (items.length === 0) {
+    list.innerHTML = '<li class="summary-item" style="justify-content: center; color: #888;">ไม่มีรายการในส่วนนี้</li>';
+  } else {
+    items.forEach(u => {
+      const li = document.createElement('li');
+      li.className = 'summary-item';
+      li.innerHTML = `
+        <div>
+          <strong>ห้อง ${u.id}</strong> (${u.type} - ${u.size} ตร.ม.)
+          <div class="summary-price-box">
+            ปกติ ${u.price} ลบ. | <span class="summary-sale-price">พิเศษ ${u.sale} ลบ.</span>
+          </div>
+        </div>
+        <button class="primary" onclick="closeSummaryModal(); openModal('${u.id}');">ดูข้อมูล</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  modal.style.display = 'block';
+}
+
+function closeSummaryModal() {
+  document.getElementById('summaryModal').style.display = 'none';
+}
+
+window.onload = function() {
+  loadSheetsData();
+};
+</script>
 </body>
 </html>
