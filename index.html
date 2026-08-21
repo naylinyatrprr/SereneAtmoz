@@ -172,9 +172,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 }
 
 .status-btn.btn-booking.active { background: #2ed573; color: white; border-color: #2ed573; }
-.status-btn.btn-on-progress.active { background: #ffa502; color: white; border-color: #ffa502; }
-.status-btn.btn-transfer.active { background: #1e90ff; color: white; border-color: #1e90ff; }
-.status-btn.btn-urgent.active { background: #ff6b81; color: white; border-color: #ff6b81; }
 
 #modal, #summaryModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; backdrop-filter: blur(5px); }
 
@@ -495,18 +492,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
         <div>🟢 Booking</div>
         <div class="count" id="countBooking">0</div>
       </div>
-      <div class="backlog-stat-card" style="background: #ffa502;" onclick="filterBacklogStatus('On progress')">
-        <div>🟡 On progress</div>
-        <div class="count" id="countOnProgress">0</div>
-      </div>
-      <div class="backlog-stat-card" style="background: #1e90ff;" onclick="filterBacklogStatus('Transfer')">
-        <div>🔵 Transfer</div>
-        <div class="count" id="countTransfer">0</div>
-      </div>
-      <div class="backlog-stat-card" style="background: #ff6b81;" onclick="filterBacklogStatus('Urgent support!')">
-        <div>🔴 Urgent support!</div>
-        <div class="count" id="countUrgent">0</div>
-      </div>
       <div class="backlog-stat-card" style="background: #6c5ce7;" onclick="filterBacklogStatus('all')">
         <div>📦 Total Sold</div>
         <div class="count" id="countTotalSold">0</div>
@@ -518,9 +503,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
       <select id="backlogStatusFilter" onchange="renderBacklog()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
         <option value="all">ทุกสถานะ Backlog</option>
         <option value="Booking">Booking</option>
-        <option value="On progress">On progress</option>
-        <option value="Transfer">Transfer</option>
-        <option value="Urgent support!">Urgent support!</option>
       </select>
     </div>
 
@@ -743,16 +725,7 @@ function parseCSV(text) {
     if (item.id) {
       if (columnI_Status.length > 0) {
         item.isSold = true;
-        const lowerStatus = columnI_Status.toLowerCase();
-        if (lowerStatus.includes('progress')) {
-          item.backlogStatus = 'On progress';
-        } else if (lowerStatus.includes('transfer')) {
-          item.backlogStatus = 'Transfer';
-        } else if (lowerStatus.includes('urgent')) {
-          item.backlogStatus = 'Urgent support!';
-        } else {
-          item.backlogStatus = 'Booking';
-        }
+        item.backlogStatus = 'Booking';
       }
       data.push(item);
     }
@@ -1001,9 +974,6 @@ function renderBacklog() {
   const soldUnits = units.filter(u => u.isSold);
 
   document.getElementById('countBooking').textContent = soldUnits.filter(u => u.backlogStatus === 'Booking').length;
-  document.getElementById('countOnProgress').textContent = soldUnits.filter(u => u.backlogStatus === 'On progress').length;
-  document.getElementById('countTransfer').textContent = soldUnits.filter(u => u.backlogStatus === 'Transfer').length;
-  document.getElementById('countUrgent').textContent = soldUnits.filter(u => u.backlogStatus === 'Urgent support!').length;
   document.getElementById('countTotalSold').textContent = soldUnits.length;
 
   const filtered = soldUnits.filter(u => {
@@ -1027,9 +997,6 @@ function renderBacklog() {
     card.className = 'card';
 
     let badgeBg = '#2ed573';
-    if (u.backlogStatus === 'On progress') badgeBg = '#ffa502';
-    if (u.backlogStatus === 'Transfer') badgeBg = '#1e90ff';
-    if (u.backlogStatus === 'Urgent support!') badgeBg = '#ff6b81';
 
     card.innerHTML = `
       <div style="background: ${badgeBg}; color: white; padding: 6px; text-align: center; font-weight: bold; font-size: 0.85rem;">
@@ -1087,6 +1054,14 @@ function openModal(id) {
     <p><strong>ราคาปกติ:</strong> ${u.price} บาท</p>
     <p><strong>ราคาขายพิเศษ:</strong> <span style="color: #ff4757; font-weight: bold;">${u.sale} บาท</span></p>
   `;
+
+  if (u.hasHighlight) {
+    content += `<p style="color: #ff7675; font-weight: bold;"><strong>Highlight:</strong> ${u.highlights.join(', ')}</p>`;
+  }
+
+  if (u.hasRemark) {
+    content += `<p style="color: #8395a7; font-weight: bold;"><strong>Remark:</strong> ${u.remark}</p>`;
+  }
 
   document.getElementById('detail').innerHTML = content;
   document.getElementById('modal').style.display = 'block';
