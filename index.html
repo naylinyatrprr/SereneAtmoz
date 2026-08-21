@@ -57,7 +57,6 @@ header p {
   position: relative; 
 }
 
-/* แถบปุ่มสีแดงพาสเทล (Ready to move) */
 .ready-badge-btn {
   width: 100%;
   background-color: #ff7675;
@@ -71,7 +70,6 @@ header p {
   user-select: none;
 }
 
-/* แถบปุ่มสีเทา (Remark alert) */
 .remark-badge-btn {
   width: 100%;
   background-color: #8395a7;
@@ -129,7 +127,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 .stat.clickable { cursor: pointer; transition: all 0.25s ease; }
 .stat.clickable:hover { border-color: #6c5ce7; color: #6c5ce7; background: #fff; transform: translateY(-1px); }
 
-/* Backlog Dashboard Styles */
 .backlog-dashboard {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -158,7 +155,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   margin-top: 5px;
 }
 
-/* Category Button Colors */
 .status-btn {
   padding: 8px 10px;
   border-radius: 6px;
@@ -172,35 +168,11 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   flex: 1;
   user-select: none;
 }
-.status-btn:hover {
-  background: #e4e7eb;
-  border-color: #ced6e0;
-}
 
-.status-btn.btn-booking.active {
-  background: #2ed573;
-  color: white;
-  border-color: #2ed573;
-  box-shadow: 0 2px 8px rgba(46, 213, 115, 0.4);
-}
-.status-btn.btn-on-progress.active {
-  background: #ffa502;
-  color: white;
-  border-color: #ffa502;
-  box-shadow: 0 2px 8px rgba(255, 165, 2, 0.4);
-}
-.status-btn.btn-transfer.active {
-  background: #1e90ff;
-  color: white;
-  border-color: #1e90ff;
-  box-shadow: 0 2px 8px rgba(30, 144, 255, 0.4);
-}
-.status-btn.btn-urgent.active {
-  background: #ff6b81;
-  color: white;
-  border-color: #ff6b81;
-  box-shadow: 0 2px 8px rgba(255, 107, 129, 0.4);
-}
+.status-btn.btn-booking.active { background: #2ed573; color: white; border-color: #2ed573; }
+.status-btn.btn-on-progress.active { background: #ffa502; color: white; border-color: #ffa502; }
+.status-btn.btn-transfer.active { background: #1e90ff; color: white; border-color: #1e90ff; }
+.status-btn.btn-urgent.active { background: #ff6b81; color: white; border-color: #ff6b81; }
 
 #modal, #summaryModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; backdrop-filter: blur(5px); }
 
@@ -215,10 +187,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   box-sizing: border-box;
   box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
-
-.modal-content::-webkit-scrollbar, .summary-list::-webkit-scrollbar { width: 6px; }
-.modal-content::-webkit-scrollbar-track, .summary-list::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-.modal-content::-webkit-scrollbar-thumb, .summary-list::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
 
 .placeholder { width: 100%; max-height: 380px; background: #eee; border-radius: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
 .placeholder img { width: 100%; height: 100%; object-fit: cover; }
@@ -272,12 +240,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   white-space: nowrap;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
-.tab-btn:hover {
-  background: #ffffff;
-  color: #6c5ce7;
-  border-color: #6c5ce7;
-  transform: translateY(-1px);
-}
+.tab-btn:hover { background: #ffffff; color: #6c5ce7; border-color: #6c5ce7; transform: translateY(-1px); }
 .tab-btn.active {
   background: linear-gradient(135deg, #6c5ce7, #8e2de2);
   color: #fff;
@@ -300,12 +263,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   white-space: nowrap;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
-.admin-tab-btn:hover {
-  background: #ffffff;
-  color: #2d3748;
-  border-color: #4a5568;
-  transform: translateY(-1px);
-}
+.admin-tab-btn:hover { background: #ffffff; color: #2d3748; border-color: #4a5568; transform: translateY(-1px); }
 .admin-tab-btn.active {
   background: #4a5568;
   color: #fff;
@@ -313,12 +271,9 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-.tab-content {
-  display: none;
-}
-.tab-content.active {
-  display: block;
-}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
 .gallery-layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -343,9 +298,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   object-fit: cover;
   transition: transform 0.3s;
 }
-.gallery-item img:hover {
-  transform: scale(1.02);
-}
+.gallery-item img:hover { transform: scale(1.02); }
 .gallery-title {
   padding: 10px;
   font-size: 14px;
@@ -390,10 +343,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   cursor: pointer;
   transition: 0.3s;
 }
-.pagination-btn:disabled {
-  background: #dcdde1;
-  cursor: not-allowed;
-}
+.pagination-btn:disabled { background: #dcdde1; cursor: not-allowed; }
 
 #imageZoomModal {
   display: none;
@@ -436,49 +386,10 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   to { transform: scale(1); opacity: 1; }
 }
 
-#toast {
-  visibility: hidden;
-  min-width: 250px;
-  background-color: #2ed573;
-  color: #fff;
-  text-align: center;
-  border-radius: 10px;
-  padding: 12px 20px;
-  position: fixed;
-  z-index: 3000;
-  left: 50%;
-  bottom: 30px;
-  transform: translateX(-50%);
-  font-weight: bold;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-  opacity: 0;
-  transition: opacity 0.3s, bottom 0.3s, visibility 0.3s;
-}
-#toast.show {
-  visibility: visible;
-  opacity: 1;
-  bottom: 50px;
-}
-
-.highlight-title {
-  font-weight: bold;
-  color: #e67e22;
-  margin-top: 10px;
-}
-.highlight-list {
-  margin: 5px 0 0 20px;
-  padding: 0;
-  color: #555;
-}
-.summary-price-box {
-  font-size: 0.85rem;
-  color: #666;
-  margin-top: 4px;
-}
-.summary-sale-price {
-  color: #ff4757;
-  font-weight: bold;
-}
+.highlight-title { font-weight: bold; color: #e67e22; margin-top: 10px; }
+.highlight-list { margin: 5px 0 0 20px; padding: 0; color: #555; }
+.summary-price-box { font-size: 0.85rem; color: #666; margin-top: 4px; }
+.summary-sale-price { color: #ff4757; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -560,20 +471,7 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
       </select>
 
       <select id="priceFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-        <option value="all">ทุกช่วงราคา Sale</option>
-        <option value="<=1.59">ไม่เกิน 1.59 MB</option>
-        <option value="<=1.69">1.60 - 1.69 MB</option>
-        <option value="<=1.79">1.70 - 1.79 MB</option>
-        <option value="<=1.89">1.80 - 1.89 MB</option>
-        <option value="<=1.99">1.90 - 1.99 MB</option>
-        <option value="<=2.09">2.00 - 2.09 MB</option>
-        <option value="<=2.10">2.10 - 2.19 MB</option>
-        <option value="<=2.29">2.20 - 2.29 MB</option>
-        <option value="<=2.39">2.30 - 2.39 MB</option>
-        <option value="<=2.49">2.40 - 2.49 MB</option>
-        <option value="<=2.59">2.50 - 2.59 MB</option>
-        <option value="2.60-2.99">2.60 - 2.99 MB</option>
-        <option value=">=3.00">3.00 MB ขึ้นไป</option>
+        <!-- ตัวเลือกช่วงราคาจะถูกสร้างแบบ Dynamic ตามข้อมูลใน CSV -->
       </select>
     </div>  
 
@@ -746,17 +644,12 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   </div>
 </div>
 
-<div id="toast">เปลี่ยนสถานะห้องสำเร็จ!</div>
-
 <script>
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmnW01ORgCmT0q3EIc6qDpx2vw1WJjYEKwImYcBq-td2P_WRjRqspjs2IxjJl6BPj2K-KDSlQ/pub?output=csv';
 
 let units = [];
-let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-let compare = JSON.parse(localStorage.getItem('compare')) || [];
-let solds = JSON.parse(localStorage.getItem('solds')) || []; 
-let backlogStatus = JSON.parse(localStorage.getItem('backlogStatus')) || {}; 
-
+let favorites = [];
+let compare = [];
 let currentPage = 1;
 const itemsPerPage = 16;
 
@@ -769,34 +662,11 @@ const roomGallery = {
 };
 
 const roomPlans = {
-  '1 Bed Extra': {
-    src: 'https://i.ibb.co/fdVvVsqg/1786206078940-0.jpg',
-    title: 'แปลนห้อง - 1 Bed Extra'
-  },
-  '1 Bed Exclusive': {
-    src: 'https://i.ibb.co/xS0QkTZ8/1786206126415-0.jpg',
-    title: 'แปลนห้อง - 1 Bed Exclusive'
-  },
-  '1 Bed Exclusive-Private': {
-    src: 'https://i.ibb.co/60JGfhSn/1786206096716-0.jpg',
-    title: 'แปลนห้อง - 1 Bed Exclusive-Private'
-  },
-  '1 Bed plus': {
-    src: 'https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg',
-    title: 'แปลนห้อง - 1 Bed Plus'
-  }
+  '1 Bed Extra': { src: 'https://i.ibb.co/fdVvVsqg/1786206078940-0.jpg', title: 'แปลนห้อง - 1 Bed Extra' },
+  '1 Bed Exclusive': { src: 'https://i.ibb.co/xS0QkTZ8/1786206126415-0.jpg', title: 'แปลนห้อง - 1 Bed Exclusive' },
+  '1 Bed Exclusive-Private': { src: 'https://i.ibb.co/60JGfhSn/1786206096716-0.jpg', title: 'แปลนห้อง - 1 Bed Exclusive-Private' },
+  '1 Bed plus': { src: 'https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg', title: 'แปลนห้อง - 1 Bed Plus' }
 };
-
-function showToast(message, bgColor = '#2ed573') {
-  const toast = document.getElementById('toast');
-  toast.textContent = message;
-  toast.style.backgroundColor = bgColor;
-  toast.className = 'show';
-  
-  setTimeout(() => {
-    toast.className = toast.className.replace('show', '');
-  }, 2500);
-}
 
 function parseCSVLine(line) {
   const result = [];
@@ -817,6 +687,16 @@ function parseCSVLine(line) {
   return result;
 }
 
+function parsePrice(priceStr) {
+  if (!priceStr) return 0;
+  const cleaned = priceStr.toString().replace(/,/g, '');
+  const match = cleaned.match(/\d+(\.\d+)?/);
+  if (!match) return 0;
+  let val = parseFloat(match[0]);
+  if (val > 10000) val = val / 1000000;
+  return val;
+}
+
 function parseCSV(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
   if (lines.length < 2) return [];
@@ -826,18 +706,16 @@ function parseCSV(text) {
 
   for (let i = 1; i < lines.length; i++) {
     const row = parseCSVLine(lines[i]);
-    const item = { remark: '', hasRemark: false, highlights: [], hasHighlight: false };
-    
-    // ดึงค่า Remark จาก Column H (Index 7)
+    const item = { remark: '', hasRemark: false, highlights: [], hasHighlight: false, isSold: false, backlogStatus: 'Booking' };
+
     if (row[7] && row[7].trim().length > 0) {
       item['remark'] = row[7].trim();
       item['hasRemark'] = true;
     }
 
-    // อ่านข้อมูลในคอลัมน์ต่างๆ
     headers.forEach((h, index) => {
       let val = row[index] ? row[index] : '';
-      
+
       if (['id', 'unit', 'unit_id', 'room', 'เลขห้อง'].includes(h)) {
         item['id'] = val;
       } else if (['type', 'room_type', 'ประเภท'].includes(h)) {
@@ -850,6 +728,7 @@ function parseCSV(text) {
         item['price'] = val;
       } else if (['sale', 'saleprice', 'ราคาพิเศษ', 'hotdeal'].includes(h)) {
         item['sale'] = val;
+        item['numericSalePrice'] = parsePrice(val);
       } else if (['highlights', 'highlight', 'จุดเด่น'].includes(h)) {
         item['highlights'] = val ? val.split(';').map(x => x.trim()) : [];
         item['hasHighlight'] = val.trim().length > 0;
@@ -865,39 +744,82 @@ function parseCSV(text) {
       }
     });
 
-    // ตรวจสอบคอลัมน์ I (Index 8: Status) เพิ่มเติมเพื่อความแม่นยำ
     const columnI_Status = row[8] ? row[8].trim() : (item.sheetStatus || '');
 
     if (item.id) {
-      // หากคอลัมน์ I มีข้อความ/ข้อมูลใดๆ ปรากฏ ให้ย้ายเข้าสู่ Backlog อัตโนมัติ
       if (columnI_Status.length > 0) {
-        if (!solds.includes(item.id)) {
-          solds.push(item.id);
-        }
-        
-        // กำหนดสถานะใน Backlog
-        if (!backlogStatus[item.id]) {
-          const lowerStatus = columnI_Status.toLowerCase();
-          if (lowerStatus.includes('progress')) {
-            backlogStatus[item.id] = 'On progress';
-          } else if (lowerStatus.includes('transfer')) {
-            backlogStatus[item.id] = 'Transfer';
-          } else if (lowerStatus.includes('urgent')) {
-            backlogStatus[item.id] = 'Urgent support!';
-          } else {
-            backlogStatus[item.id] = 'Booking';
-          }
+        item.isSold = true;
+        const lowerStatus = columnI_Status.toLowerCase();
+        if (lowerStatus.includes('progress')) {
+          item.backlogStatus = 'On progress';
+        } else if (lowerStatus.includes('transfer')) {
+          item.backlogStatus = 'Transfer';
+        } else if (lowerStatus.includes('urgent')) {
+          item.backlogStatus = 'Urgent support!';
+        } else {
+          item.backlogStatus = 'Booking';
         }
       }
       data.push(item);
     }
   }
 
-  // อัปเดตข้อมูลลง LocalStorage เพื่อซิงค์สถานะ
-  localStorage.setItem('solds', JSON.stringify(solds));
-  localStorage.setItem('backlogStatus', JSON.stringify(backlogStatus));
-
   return data;
+}
+
+function generatePriceFilterOptions() {
+  const priceSelect = document.getElementById('priceFilter');
+  priceSelect.innerHTML = '';
+
+  const availableUnits = units.filter(u => !u.isSold && u.numericSalePrice > 0);
+  if (availableUnits.length === 0) {
+    priceSelect.innerHTML = '<option value="all">ทุกช่วงราคา Sale</option>';
+    return;
+  }
+
+  const prices = availableUnits.map(u => u.numericSalePrice);
+  const minPrice = Math.min(...prices);
+
+  let firstRangeMax = (Math.floor(minPrice * 10) / 10) + 0.09;
+  if (firstRangeMax < minPrice) firstRangeMax = minPrice;
+
+  const defaultOption = document.createElement('option');
+  defaultOption.value = 'all';
+  defaultOption.textContent = 'ทุกช่วงราคา Sale';
+  priceSelect.appendChild(defaultOption);
+
+  const minOption = document.createElement('option');
+  minOption.value = `<=${firstRangeMax.toFixed(2)}`;
+  minOption.textContent = `ไม่เกิน ${firstRangeMax.toFixed(2)} MB`;
+  priceSelect.appendChild(minOption);
+
+  const steps = [
+    { min: 1.60, max: 1.69 },
+    { min: 1.70, max: 1.79 },
+    { min: 1.80, max: 1.89 },
+    { min: 1.90, max: 1.99 },
+    { min: 2.00, max: 2.09 },
+    { min: 2.10, max: 2.19 },
+    { min: 2.20, max: 2.29 },
+    { min: 2.30, max: 2.39 },
+    { min: 2.40, max: 2.49 },
+    { min: 2.50, max: 2.59 },
+    { min: 2.60, max: 2.99 }
+  ];
+
+  steps.forEach(step => {
+    if (step.min > firstRangeMax) {
+      const opt = document.createElement('option');
+      opt.value = `${step.min.toFixed(2)}-${step.max.toFixed(2)}`;
+      opt.textContent = `${step.min.toFixed(2)} - ${step.max.toFixed(2)} MB`;
+      priceSelect.appendChild(opt);
+    }
+  });
+
+  const maxOption = document.createElement('option');
+  maxOption.value = '>=3.00';
+  maxOption.textContent = '3.00 MB ขึ้นไป';
+  priceSelect.appendChild(maxOption);
 }
 
 async function loadSheetsData() {
@@ -915,6 +837,7 @@ async function loadSheetsData() {
       return;
     }
 
+    generatePriceFilterOptions();
     render();
     renderBacklog();
   } catch (error) {
@@ -976,7 +899,7 @@ function render() {
   const priceRange = document.getElementById('priceFilter').value;
 
   const filtered = units.filter(u => {
-    if (solds.includes(u.id)) return false; 
+    if (u.isSold) return false; 
     
     if (search && !u.id.toUpperCase().includes(search)) return false;
     if (building !== 'all' && !u.id.startsWith(building)) return false;
@@ -984,7 +907,7 @@ function render() {
     if (floor !== 'all' && u.floor !== parseInt(floor)) return false;
 
     if (priceRange !== 'all') {
-      const numPrice = parseFloat(u.sale.replace(/[^0-9.]/g, '')) || 0;
+      const numPrice = u.numericSalePrice;
       if (priceRange.startsWith('<=')) {
         const max = parseFloat(priceRange.replace('<=', ''));
         if (numPrice > max) return false;
@@ -999,7 +922,7 @@ function render() {
     return true;
   });
 
-  document.getElementById('availableCount').innerText = units.filter(u => !solds.includes(u.id)).length;
+  document.getElementById('availableCount').innerText = units.filter(u => !u.isSold).length;
   document.getElementById('compareCount').innerText = compare.length;
   document.getElementById('favCount').innerText = favorites.length;
   document.getElementById('filterCount').innerText = filtered.length;
@@ -1067,11 +990,11 @@ function renderBacklog() {
   const search = document.getElementById('backlogSearchInput').value.toUpperCase().trim();
   const statusFilter = document.getElementById('backlogStatusFilter').value;
 
-  let soldUnits = units.filter(u => solds.includes(u.id));
+  let soldUnits = units.filter(u => u.isSold);
 
   let bookingCount = 0, onProgressCount = 0, transferCount = 0, urgentCount = 0;
   soldUnits.forEach(u => {
-    const st = backlogStatus[u.id] || 'Booking';
+    const st = u.backlogStatus || 'Booking';
     if (st === 'Booking') bookingCount++;
     else if (st === 'On progress') onProgressCount++;
     else if (st === 'Transfer') transferCount++;
@@ -1086,7 +1009,7 @@ function renderBacklog() {
 
   const filtered = soldUnits.filter(u => {
     if (search && !u.id.toUpperCase().includes(search)) return false;
-    const currentStatus = backlogStatus[u.id] || 'Booking';
+    const currentStatus = u.backlogStatus || 'Booking';
     if (statusFilter !== 'all' && currentStatus !== statusFilter) return false;
     return true;
   });
@@ -1102,7 +1025,7 @@ function renderBacklog() {
   }
 
   filtered.forEach(u => {
-    const currentStatus = backlogStatus[u.id] || 'Booking';
+    const currentStatus = u.backlogStatus || 'Booking';
     const imgSrc = roomGallery[u.type] || roomGallery['default'];
 
     let badgeHtml = '';
@@ -1129,10 +1052,10 @@ function renderBacklog() {
         
         <div style="margin-top: auto;">
           <div style="display: flex; gap: 4px; flex-wrap: wrap;">
-            <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}" ondblclick="setBacklogStatus('${u.id}', 'Booking')">Booking</button>
-            <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}" ondblclick="setBacklogStatus('${u.id}', 'On progress')">On progress</button>
-            <button class="status-btn btn-transfer ${currentStatus === 'Transfer' ? 'active' : ''}" ondblclick="setBacklogStatus('${u.id}', 'Transfer')">Transfer</button>
-            <button class="status-btn btn-urgent ${currentStatus === 'Urgent support!' ? 'active' : ''}" ondblclick="setBacklogStatus('${u.id}', 'Urgent support!')">Urgent</button>
+            <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}">Booking</button>
+            <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}">On progress</button>
+            <button class="status-btn btn-transfer ${currentStatus === 'Transfer' ? 'active' : ''}">Transfer</button>
+            <button class="status-btn btn-urgent ${currentStatus === 'Urgent support!' ? 'active' : ''}">Urgent</button>
           </div>
         </div>
       </div>
@@ -1146,20 +1069,12 @@ function filterBacklogStatus(status) {
   renderBacklog();
 }
 
-function setBacklogStatus(unitId, status) {
-  backlogStatus[unitId] = status;
-  localStorage.setItem('backlogStatus', JSON.stringify(backlogStatus));
-  showToast(`✅ อัปเดตสถานะห้อง ${unitId} เป็น "${status}" แล้ว!`);
-  renderBacklog();
-}
-
 function toggleFavorite(unitId) {
   if (favorites.includes(unitId)) {
     favorites = favorites.filter(id => id !== unitId);
   } else {
     favorites.push(unitId);
   }
-  localStorage.setItem('favorites', JSON.stringify(favorites));
   render();
 }
 
@@ -1173,7 +1088,6 @@ function toggleCompare(unitId) {
     }
     compare.push(unitId);
   }
-  localStorage.setItem('compare', JSON.stringify(compare));
   render();
 }
 
@@ -1228,7 +1142,7 @@ function showSummary(type) {
   let items = [];
   if (type === 'available') {
     title.innerText = '🏢 ยูนิตทั้งหมดที่พร้อมขาย';
-    items = units.filter(u => !solds.includes(u.id));
+    items = units.filter(u => !u.isSold);
   } else if (type === 'compare') {
     title.innerText = '📊 รายการยูนิตที่เลือกเปรียบเทียบ';
     items = units.filter(u => compare.includes(u.id));
