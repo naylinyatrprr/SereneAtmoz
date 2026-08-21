@@ -115,6 +115,15 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 .primary { background: #6c5ce7; color: #fff; transition: 0.3s; }
 .primary:hover { background: #5b4cc4; transform: translateY(-2px); }
 
+.btn-clear {
+  background: #ff4757;
+  color: #fff;
+  transition: 0.3s;
+}
+.btn-clear:hover {
+  background: #ff6b81;
+}
+
 .stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
 .stat {
   background: rgba(255, 255, 255, 0.9);
@@ -469,6 +478,9 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 
       <select id="priceFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
       </select>
+
+      <!-- ปุ่มล้างค่าการกรองตัวเลือกทั้งหมด -->
+      <button class="btn-clear" onclick="clearFilters()">🔄 ล้างการค้นหา</button>
     </div>  
 
     <div class="filter-summary-badge" id="filterSummaryBox">
@@ -612,7 +624,10 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
 
 <div id="summaryModal">
   <div class="summary-modal-box">
-    <h2 id="summaryTitle" style="margin-top: 0; margin-bottom: 10px;"></h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+      <h2 id="summaryTitle" style="margin: 0;"></h2>
+      <button id="clearSummaryBtn" class="btn-clear" style="display: none; padding: 6px 12px; font-size: 0.82rem;" onclick="clearCurrentSummaryGroup()">🗑️ ล้างรายการทั้งหมด</button>
+    </div>
     <ul id="summaryList" class="summary-list"></ul>
     <button class="primary" style="width: 100%; margin-top: auto; padding: 12px;" onclick="closeSummaryModal()">ปิดหน้าต่าง</button>
   </div>
@@ -631,6 +646,7 @@ const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTdclldmn
 let units = [];
 let favorites = [];
 let compare = [];
+let currentSummaryType = '';
 let currentPage = 1;
 const itemsPerPage = 16;
 
@@ -789,6 +805,27 @@ function generatePriceFilterOptions() {
   priceSelect.appendChild(maxOption);
 }
 
+// ฟังก์ชันสำหรับล้างฟิลเตอร์การค้นหาทั้งหมด
+function clearFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('buildingFilter').value = 'all';
+  document.getElementById('typeFilter').value = 'all';
+  document.getElementById('floorFilter').value = 'all';
+  document.getElementById('priceFilter').value = 'all';
+  handleFilterChange();
+}
+
+// ฟังก์ชันล้างรายการ Favorites หรือ Compare เมื่อกดปุ่มใน Modal
+function clearCurrentSummaryGroup() {
+  if (currentSummaryType === 'compare') {
+    compare = [];
+  } else if (currentSummaryType === 'favorites') {
+    favorites = [];
+  }
+  render();
+  showSummary(currentSummaryType);
+}
+
 // ฟังก์ชันโหลดข้อมูล CSV แบบ Real-time
 async function loadSheetsData() {
   const gridEl = document.getElementById('units');
@@ -797,7 +834,6 @@ async function loadSheetsData() {
   }
   
   try {
-    // ใส่ timestamp ป้องกัน Browser cache ข้อมูล
     const response = await fetch(`${SHEET_CSV_URL}&t=${new Date().getTime()}`);
     if (!response.ok) throw new Error("HTTP Status " + response.status);
     const csvData = await response.text();
@@ -1072,21 +1108,26 @@ function closeModal() {
 }
 
 function showSummary(type) {
+  currentSummaryType = type;
   const modal = document.getElementById('summaryModal');
   const title = document.getElementById('summaryTitle');
   const list = document.getElementById('summaryList');
+  const clearBtn = document.getElementById('clearSummaryBtn');
   list.innerHTML = '';
 
   let selectedUnits = [];
   if (type === 'available') {
     title.textContent = '🏢 รายการยูนิตที่พร้อมขายทั้งหมด';
     selectedUnits = units.filter(u => !u.isSold);
+    clearBtn.style.display = 'none';
   } else if (type === 'compare') {
     title.textContent = '📊 เปรียบเทียบยูนิตที่เลือก';
     selectedUnits = units.filter(u => compare.includes(u.id));
+    clearBtn.style.display = selectedUnits.length > 0 ? 'inline-block' : 'none';
   } else if (type === 'favorites') {
     title.textContent = '❤️ รายการยูนิตที่ถูกใจ';
     selectedUnits = units.filter(u => favorites.includes(u.id));
+    clearBtn.style.display = selectedUnits.length > 0 ? 'inline-block' : 'none';
   }
 
   if (selectedUnits.length === 0) {
