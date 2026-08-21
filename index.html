@@ -848,11 +848,13 @@ function parseCSV(text) {
     const row = parseCSVLine(lines[i]);
     const item = { remark: '', hasRemark: false, highlights: [], hasHighlight: false };
     
+    // ดึงค่า Remark จาก Column H (Index 7)
     if (row[7] && row[7].trim().length > 0) {
       item['remark'] = row[7].trim();
       item['hasRemark'] = true;
     }
 
+    // อ่านข้อมูลในคอลัมน์ต่างๆ
     headers.forEach((h, index) => {
       let val = row[index] ? row[index] : '';
       
@@ -883,22 +885,39 @@ function parseCSV(text) {
       }
     });
 
+    // ตรวจสอบคอลัมน์ I (Index 8: Status) เพิ่มเติมเพื่อความแม่นยำ
+    const columnI_Status = row[8] ? row[8].trim() : (item.sheetStatus || '');
+
     if (item.id) {
-      if (item.sheetStatus) {
-        if (['sold', 'booking', 'on progress', 'transfer', 'urgent support!'].some(s => item.sheetStatus.toLowerCase().includes(s))) {
-          if (!solds.includes(item.id)) solds.push(item.id);
-          if (!backlogStatus[item.id]) {
-            let st = 'Booking';
-            if (item.sheetStatus.toLowerCase().includes('progress')) st = 'On progress';
-            else if (item.sheetStatus.toLowerCase().includes('transfer')) st = 'Transfer';
-            else if (item.sheetStatus.toLowerCase().includes('urgent')) st = 'Urgent support!';
-            backlogStatus[item.id] = st;
+      // หากคอลัมน์ I มีข้อความ/ข้อมูลใดๆ ปรากฏ ให้ย้ายเข้าสู่ Backlog อัตโนมัติ
+      if (columnI_Status.length > 0) {
+        if (!solds.includes(item.id)) {
+          solds.push(item.id);
+        }
+        
+        // กำหนดสถานะใน Backlog
+        if (!backlogStatus[item.id]) {
+          const lowerStatus = columnI_Status.toLowerCase();
+          if (lowerStatus.includes('progress')) {
+            backlogStatus[item.id] = 'On progress';
+          } else if (lowerStatus.includes('transfer')) {
+            backlogStatus[item.id] = 'Transfer';
+          } else if (lowerStatus.includes('urgent')) {
+            backlogStatus[item.id] = 'Urgent support!';
+          } else {
+            // Default เป็ น Booking ตามโจทย์
+            backlogStatus[item.id] = 'Booking';
           }
         }
       }
       data.push(item);
     }
   }
+
+  // อัปเดตข้อมูลลง LocalStorage เพื่อซิงค์สถานะ
+  localStorage.setItem('solds', JSON.stringify(solds));
+  localStorage.setItem('backlogStatus', JSON.stringify(backlogStatus));
+
   return data;
 }
 
