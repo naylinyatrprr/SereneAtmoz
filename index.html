@@ -109,33 +109,6 @@ header p {
   flex-grow: 1;
 }
 
-.card-highlights {
-  margin: 8px 0;
-  padding: 8px 10px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border-left: 3px solid #e67e22;
-  font-size: 0.8rem;
-  color: #2d3436;
-}
-.card-highlights ul {
-  margin: 3px 0 0 14px;
-  padding: 0;
-}
-.card-highlights li {
-  margin-bottom: 2px;
-}
-
-.card-remark-box {
-  margin: 8px 0;
-  padding: 8px 10px;
-  background: #fff0f0;
-  border-radius: 8px;
-  border: 1px solid #ff7675;
-  font-size: 0.8rem;
-  color: #d63031;
-}
-
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 
 button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
@@ -415,8 +388,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
   to { transform: scale(1); opacity: 1; }
 }
 
-.highlight-title { font-weight: bold; color: #e67e22; margin-top: 10px; }
-.highlight-list { margin: 5px 0 0 20px; padding: 0; color: #555; }
 .summary-price-box { font-size: 0.85rem; color: #666; margin-top: 4px; }
 .summary-sale-price { color: #ff4757; font-weight: bold; }
 </style>
@@ -984,7 +955,6 @@ function render() {
     const isComp = compare.includes(u.id);
     const imgUrl = roomGallery[u.type] || roomGallery['default'];
 
-    // LOGIC แถบคาด Ready to move (Highlight) และ Remark Alert (Remark)
     let readyBadge = '';
     if (u.hasHighlight) {
       readyBadge = `<div class="ready-badge-btn">Ready to Move!</div>`;
@@ -993,19 +963,6 @@ function render() {
     let remarkBadge = '';
     if (u.hasRemark) {
       remarkBadge = `<div class="remark-badge-btn">Remark Alert</div>`;
-    }
-
-    let highlightHTML = '';
-    if (u.highlights.length > 0) {
-      highlightHTML = `<div class="card-highlights">
-        <strong>จุดเด่นห้อง:</strong>
-        <ul>${u.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
-      </div>`;
-    }
-
-    let remarkHTML = '';
-    if (u.hasRemark) {
-      remarkHTML = `<div class="card-remark-box">⚠️ ${u.remark}</div>`;
     }
 
     const card = document.createElement('div');
@@ -1025,9 +982,6 @@ function render() {
         <p style="margin: 0 0 6px 0; color: #636e72; font-size: 0.88rem;"><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
         <p style="margin: 0 0 6px 0; color: #b2bec3; text-decoration: line-through; font-size: 0.85rem;">ราคาปกติ: ${u.price} บาท</p>
         <p style="margin: 0 0 10px 0; color: #ff4757; font-size: 1.1rem; font-weight: bold;">ราคาพิเศษ: ${u.sale} บาท</p>
-        
-        ${highlightHTML}
-        ${remarkHTML}
 
         <div style="margin-top: auto; display: flex; gap: 8px; padding-top: 10px;">
           <button class="primary" style="flex: 1;" onclick="openModal('${u.id}')">รายละเอียด</button>
@@ -1086,7 +1040,6 @@ function renderBacklog() {
         <p style="margin: 0 0 4px 0; font-size: 0.88rem; color: #636e72;"><strong>ประเภท:</strong> ${u.type}</p>
         <p style="margin: 0 0 4px 0; font-size: 0.88rem; color: #636e72;"><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
         <p style="margin: 0 0 4px 0; font-size: 0.88rem; color: #2ed573; font-weight: bold;"><strong>ราคาขาย:</strong> ${u.sale} บาท</p>
-        ${u.hasRemark ? `<div class="card-remark-box">⚠️ ${u.remark}</div>` : ''}
       </div>
     `;
     grid.appendChild(card);
@@ -1134,15 +1087,6 @@ function openModal(id) {
     <p><strong>ราคาปกติ:</strong> ${u.price} บาท</p>
     <p><strong>ราคาขายพิเศษ:</strong> <span style="color: #ff4757; font-weight: bold;">${u.sale} บาท</span></p>
   `;
-
-  if (u.highlights.length > 0) {
-    content += `<div class="highlight-title">จุดเด่นห้องพัก:</div>
-    <ul class="highlight-list">${u.highlights.map(h => `<li>${h}</li>`).join('')}</ul>`;
-  }
-
-  if (u.hasRemark) {
-    content += `<div class="card-remark-box" style="margin-top: 15px;">⚠️ <strong>Remark:</strong> ${u.remark}</div>`;
-  }
 
   document.getElementById('detail').innerHTML = content;
   document.getElementById('modal').style.display = 'block';
