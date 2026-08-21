@@ -107,6 +107,34 @@ header p {
   flex-grow: 1;
 }
 
+/* เพิ่ม Style สำหรับแสดง Highlight และ Remark บนตัวการ์ด */
+.card-highlights {
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #e67e22;
+  font-size: 0.8rem;
+  color: #2d3436;
+}
+.card-highlights ul {
+  margin: 3px 0 0 14px;
+  padding: 0;
+}
+.card-highlights li {
+  margin-bottom: 2px;
+}
+
+.card-remark-box {
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: #fff0f0;
+  border-radius: 8px;
+  border: 1px solid #ff7675;
+  font-size: 0.8rem;
+  color: #d63031;
+}
+
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 
 button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
@@ -471,7 +499,6 @@ button { padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; 
       </select>
 
       <select id="priceFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-        <!-- ตัวเลือกช่วงราคาจะถูกสร้างแบบ Dynamic ตามข้อมูลใน CSV -->
       </select>
     </div>  
 
@@ -730,8 +757,8 @@ function parseCSV(text) {
         item['sale'] = val;
         item['numericSalePrice'] = parsePrice(val);
       } else if (['highlights', 'highlight', 'จุดเด่น'].includes(h)) {
-        item['highlights'] = val ? val.split(';').map(x => x.trim()) : [];
-        item['hasHighlight'] = val.trim().length > 0;
+        item['highlights'] = val ? val.split(/;|\n/).map(x => x.trim()).filter(x => x.length > 0) : [];
+        item['hasHighlight'] = item['highlights'].length > 0;
       } else if (['remark', 'remarks', 'หมายเหตุ'].includes(h)) {
         if (val.trim().length > 0) {
           item['remark'] = val.trim();
@@ -958,6 +985,29 @@ function render() {
       badgeHtml = `<div class="ready-badge-btn">Ready to move</div>`;
     }
 
+    // สร้างกล่องแสดง Highlights เพิ่มลงในการ์ด
+    let highlightsHtml = '';
+    if (u.hasHighlight) {
+      highlightsHtml = `
+        <div class="card-highlights">
+          <strong>✨ จุดเด่น:</strong>
+          <ul>
+            ${u.highlights.map(h => `<li>${h}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    // สร้างกล่องแสดง Remark เพิ่มลงในการ์ด
+    let remarkBoxHtml = '';
+    if (u.hasRemark) {
+      remarkBoxHtml = `
+        <div class="card-remark-box">
+          <strong>⚠️ Remark:</strong> ${u.remark}
+        </div>
+      `;
+    }
+
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
@@ -976,9 +1026,13 @@ function render() {
         <p style="margin: 4px 0; color: #636e72; font-size: 0.9rem;"><strong>ประเภท:</strong> ${u.type}</p>
         <p style="margin: 4px 0; color: #636e72; font-size: 0.9rem;"><strong>ขนาด:</strong> ${u.size} ตร.ม. | <strong>ชั้น:</strong> ${u.floor}</p>
         <p style="margin: 4px 0; color: #b2bec3; text-decoration: line-through; font-size: 0.85rem;">ราคาปกติ: ${u.price} ลบ.</p>
-        <p style="margin: 4px 0 12px 0; color: #ff4757; font-weight: bold; font-size: 1.1rem;">ราคาพิเศษ: ${u.sale} ลบ.</p>
-        <div style="display: flex; gap: 8px; margin-top: auto;">
-          <button class="primary" style="width: 100%;" onclick="openModal('${u.id}')">รายละเอียด</button>
+        <p style="margin: 4px 0; color: #ff4757; font-weight: bold; font-size: 1.1rem;">ราคาพิเศษ: ${u.sale} ลบ.</p>
+        
+        ${highlightsHtml}
+        ${remarkBoxHtml}
+
+        <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px;">
+          <button class="primary" style="width: 100%;" ondblclick="openModal('${u.id}')">รายละเอียด</button>
         </div>
       </div>
     `;
@@ -1035,6 +1089,15 @@ function renderBacklog() {
       badgeHtml = `<div class="ready-badge-btn">Ready to move</div>`;
     }
 
+    let remarkBoxHtml = '';
+    if (u.hasRemark) {
+      remarkBoxHtml = `
+        <div class="card-remark-box">
+          <strong>⚠️ Remark:</strong> ${u.remark}
+        </div>
+      `;
+    }
+
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
@@ -1048,9 +1111,11 @@ function renderBacklog() {
         </div>
         <p style="margin: 4px 0; color: #636e72; font-size: 0.9rem;"><strong>ประเภท:</strong> ${u.type}</p>
         <p style="margin: 4px 0; color: #636e72; font-size: 0.9rem;"><strong>ขนาด:</strong> ${u.size} ตร.ม. | <strong>ชั้น:</strong> ${u.floor}</p>
-        <p style="margin: 4px 0 12px 0; color: #ff4757; font-weight: bold; font-size: 1rem;">ราคาพิเศษ: ${u.sale} ลบ.</p>
+        <p style="margin: 4px 0; color: #ff4757; font-weight: bold; font-size: 1rem;">ราคาพิเศษ: ${u.sale} ลบ.</p>
         
-        <div style="margin-top: auto;">
+        ${remarkBoxHtml}
+
+        <div style="margin-top: auto; padding-top: 10px;">
           <div style="display: flex; gap: 4px; flex-wrap: wrap;">
             <button class="status-btn btn-booking ${currentStatus === 'Booking' ? 'active' : ''}">Booking</button>
             <button class="status-btn btn-on-progress ${currentStatus === 'On progress' ? 'active' : ''}">On progress</button>
