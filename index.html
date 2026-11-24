@@ -61,29 +61,6 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.22);
     }
 
-    .hero-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.16);
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      backdrop-filter: blur(8px);
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-    }
-
-    .hero-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #4ade80;
-      box-shadow: 0 0 10px #4ade80;
-    }
-
     header h1 {
       margin: 0 0 8px 0;
       font-size: clamp(2rem, 4.5vw, 3rem);
@@ -108,7 +85,6 @@
       position: relative;
     }
 
-    /* Navigation Bar */
     .nav-header-wrapper {
       display: flex;
       justify-content: space-between;
@@ -122,6 +98,8 @@
       border-radius: 24px;
       border: 1px solid rgba(255, 255, 255, 0.75);
       box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 20;
     }
 
     .sales-tabs {
@@ -215,13 +193,14 @@
       background: linear-gradient(180deg, var(--primary), var(--accent));
     }
 
-    /* Stats & Mode Toggle */
     .stats {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       align-items: center;
       margin-bottom: 20px;
+      position: relative;
+      z-index: 10;
     }
 
     .stat {
@@ -288,19 +267,22 @@
       box-shadow: 0 3px 10px rgba(91, 76, 230, 0.28);
     }
 
-    /* Filter Bar */
+    /* Filter Bar - Elevated above unit list/grid */
     .filter-bar {
       display: flex;
       gap: 10px;
       margin-bottom: 16px;
       flex-wrap: wrap;
       align-items: center;
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
       padding: 14px;
       border-radius: var(--radius-md);
-      border: 1px solid rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.9);
       box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 400;
+      overflow: visible;
     }
 
     .filter-bar input[type="text"],
@@ -357,6 +339,11 @@
     .multi-filter {
       position: relative;
       display: inline-block;
+      z-index: 410;
+    }
+
+    .multi-filter.open {
+      z-index: 900;
     }
 
     .multi-filter-btn {
@@ -393,13 +380,13 @@
       top: calc(100% + 6px);
       left: 0;
       min-width: 224px;
-      max-height: 280px;
+      max-height: 220px;
       overflow-y: auto;
-      background: #fff;
-      border: 1px solid #e2e6ef;
+      background: #ffffff;
+      border: 1px solid #d8dee9;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-lg);
-      z-index: 500;
+      z-index: 950;
       padding: 8px;
     }
 
@@ -430,6 +417,7 @@
       accent-color: var(--primary);
       cursor: pointer;
       margin: 0;
+      flex-shrink: 0;
     }
 
     .filter-summary-badge {
@@ -444,13 +432,17 @@
       align-items: center;
       gap: 8px;
       box-shadow: 0 6px 18px rgba(0, 184, 176, 0.22);
+      position: relative;
+      z-index: 5;
     }
 
-    /* Cards & Grid */
+    /* Cards & Grid - Keep lower z-index than open filter dropdowns */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
       gap: 20px;
+      position: relative;
+      z-index: 1;
     }
 
     .card {
@@ -463,6 +455,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      z-index: 1;
       transition: transform 0.24s ease, box-shadow 0.24s ease;
     }
 
@@ -528,16 +521,17 @@
       font-weight: 700;
     }
 
-    /* List View */
+    /* List View - Keep lower z-index than open filter dropdowns */
     .unit-list-wrapper {
       display: flex;
       flex-direction: column;
-      background: var(--surface);
-      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.96);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
       border: 1px solid rgba(255, 255, 255, 0.85);
       overflow: hidden;
+      position: relative;
+      z-index: 1;
     }
 
     .unit-list-row {
@@ -550,6 +544,8 @@
       background: transparent;
       transition: background 0.18s ease;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .unit-list-row:last-child {
@@ -703,6 +699,8 @@
       border-radius: var(--radius-md);
       border: 1px solid var(--line);
       box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
     }
 
     .pagination-btn {
@@ -1403,322 +1401,4 @@
     }
 
     function openRoomPlan(roomType) {
-      const plan = roomPlans[roomType];
-      if (plan) {
-        document.getElementById('zoomedImg').src = plan.src;
-        document.getElementById('zoomCaption').textContent = plan.title;
-        document.getElementById('imageZoomModal').style.display = 'flex';
-      }
-    }
-
-    function openImageZoom(element) {
-      const imgSource = element.querySelector('img').src;
-      const imgAlt = element.querySelector('img').alt || '';
-      document.getElementById('zoomedImg').src = imgSource;
-      document.getElementById('zoomCaption').textContent = imgAlt;
-      document.getElementById('imageZoomModal').style.display = 'flex';
-    }
-
-    function closeImageZoom() {
-      document.getElementById('imageZoomModal').style.display = 'none';
-    }
-
-    function handleFilterChange() {
-      currentPage = 1;
-      render();
-    }
-
-    function changePage(direction) {
-      currentPage += direction;
-      render();
-    }
-
-    function matchesPriceRange(priceValue, rangeStr) {
-      if (rangeStr.startsWith('<=')) {
-        const val = parseFloat(rangeStr.replace('<=', ''));
-        return priceValue <= val;
-      } else if (rangeStr.startsWith('>=')) {
-        const val = parseFloat(rangeStr.replace('>=', ''));
-        return priceValue >= val;
-      } else if (rangeStr.includes('-')) {
-        const [min, max] = rangeStr.split('-').map(parseFloat);
-        return priceValue >= min && priceValue <= max;
-      }
-      return true;
-    }
-
-    function filterFilteredUnits() {
-      const search = document.getElementById('searchInput').value.toLowerCase().trim();
-      const buildings = selectedFilters.building;
-      const types = selectedFilters.type;
-      const floors = selectedFilters.floor;
-      const prices = selectedFilters.price;
-
-      return units.filter(u => {
-        if (u.isSold) return false;
-        if (search && !u.id.toLowerCase().includes(search)) return false;
-        if (buildings.length > 0 && !buildings.some(b => u.id.startsWith(b))) return false;
-        if (types.length > 0 && !types.includes(u.type)) return false;
-        if (floors.length > 0 && !floors.includes(u.floor.toString())) return false;
-        if (prices.length > 0 && !prices.some(range => matchesPriceRange(u.numericSalePrice, range))) return false;
-        return true;
-      });
-    }
-
-    function renderCardView(container, pageUnits) {
-      container.className = 'grid';
-      container.innerHTML = '';
-
-      pageUnits.forEach(u => {
-        const isFav = favorites.includes(u.id);
-        const isComp = compare.includes(u.id);
-        const imgUrl = roomGallery[u.type] || roomGallery['default'];
-        let readyBadge = '';
-        if (u.hasHighlight) {
-          readyBadge = `<div class="ready-badge-btn">Ready to Move!</div>`;
-        }
-        let remarkBadge = '';
-        if (u.hasRemark) {
-          remarkBadge = `<div class="remark-badge-btn">Remark Alert</div>`;
-        }
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          ${readyBadge}
-          ${remarkBadge}
-          <div class="card-img-box">
-            <img src="${imgUrl}" alt="${u.type}">
-          </div>
-          <div class="card-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <h3 style="margin: 0; color: var(--ink); font-size: 1.25rem; font-weight: 700;">ห้อง ${u.id}</h3>
-              <span style="background: #f1efff; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; color: var(--primary);">ชั้น ${u.floor}</span>
-            </div>
-            <p style="margin: 0 0 5px 0; color: var(--muted); font-size: 0.86rem;"><strong>แบบห้อง:</strong> ${u.type}</p>
-            <p style="margin: 0 0 6px 0; color: var(--muted); font-size: 0.86rem;"><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
-            <p style="margin: 0 0 2px 0; color: #94a3b8; text-decoration: line-through; font-size: 0.82rem;">ราคาปกติ: ${u.price} บาท</p>
-            <p class="unit-price-highlight">ราคาพิเศษ: ${u.sale} บาท</p>
-            <div style="margin-top: auto; display: flex; gap: 8px; padding-top: 8px;">
-              <button class="primary" style="flex: 1;" onclick="openModal('${u.id}')">รายละเอียด</button>
-              <button style="background: ${isFav ? '#ffe4e6' : '#f1f5f9'}; color: ${isFav ? '#e11d48' : 'var(--ink)'};" onclick="toggleFav('${u.id}')">${isFav ? '❤️' : '🤍'}</button>
-              <button style="background: ${isComp ? '#ede9fe' : '#f1f5f9'}; color: ${isComp ? 'var(--primary)' : 'var(--ink)'};" onclick="toggleCompare('${u.id}')">📊</button>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function renderListView(container, pageUnits) {
-      container.className = 'unit-list-wrapper';
-      container.innerHTML = '';
-
-      pageUnits.forEach(u => {
-        const isFav = favorites.includes(u.id);
-        const isComp = compare.includes(u.id);
-        const readyTag = u.hasHighlight ? `<span class="mini-tag mini-tag-ready">Ready to Move!</span>` : '';
-        const remarkTag = u.hasRemark ? `<span class="mini-tag mini-tag-remark">Remark Alert</span>` : '';
-
-        const row = document.createElement('div');
-        row.className = 'unit-list-row';
-        row.innerHTML = `
-          <div class="unit-list-main">
-            <div class="unit-list-title">
-              <strong>ห้อง ${u.id}</strong>
-              <span class="unit-list-meta">(${u.type} | ${u.size} ตร.ม. | ชั้น ${u.floor})</span>
-              ${readyTag}
-              ${remarkTag}
-            </div>
-            <div class="unit-list-price">
-              ราคาขาย: <span class="summary-sale-price">${u.sale}</span> บาท
-              <span style="color: #94a3b8; text-decoration: line-through; margin-left: 6px; font-size: 0.82rem;">ปกติ ${u.price} บาท</span>
-            </div>
-          </div>
-          <div class="unit-list-actions">
-            <button class="primary" onclick="openModal('${u.id}')">ดูรายละเอียด</button>
-            <button style="background: ${isFav ? '#ffe4e6' : '#f1f5f9'}; color: ${isFav ? '#e11d48' : 'var(--ink)'};" onclick="toggleFav('${u.id}')">${isFav ? '❤️' : '🤍'}</button>
-            <button style="background: ${isComp ? '#ede9fe' : '#f1f5f9'}; color: ${isComp ? 'var(--primary)' : 'var(--ink)'};" onclick="toggleCompare('${u.id}')">📊</button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function render() {
-      const grid = document.getElementById('units');
-      const availableUnitsTotal = units.filter(u => !u.isSold).length;
-      document.getElementById('availableCount').textContent = availableUnitsTotal;
-      document.getElementById('favCount').textContent = favorites.length;
-      document.getElementById('compareCount').textContent = compare.length;
-
-      const filtered = filterFilteredUnits();
-      document.getElementById('filterCount').textContent = filtered.length;
-
-      const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
-      if (currentPage > totalPages) currentPage = totalPages;
-      document.getElementById('pageIndicator').textContent = `หน้า ${currentPage} / ${totalPages}`;
-      document.getElementById('prevPageBtn').disabled = (currentPage === 1);
-      document.getElementById('nextPageBtn').disabled = (currentPage === totalPages);
-
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const pageUnits = filtered.slice(startIndex, startIndex + itemsPerPage);
-
-      if (pageUnits.length === 0) {
-        grid.className = 'grid';
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted); font-weight: 600;">ไม่พบยูนิตที่ค้นหา</div>';
-        return;
-      }
-
-      if (unitViewMode === 'list') {
-        renderListView(grid, pageUnits);
-      } else {
-        renderCardView(grid, pageUnits);
-      }
-    }
-
-    function renderBacklog() {
-      const search = document.getElementById('backlogSearchInput').value.toLowerCase().trim();
-      const statusFilter = document.getElementById('backlogStatusFilter').value;
-      const soldUnits = units.filter(u => u.isSold);
-      document.getElementById('countBooking').textContent = soldUnits.filter(u => u.backlogStatus === 'Booking').length;
-      document.getElementById('countTotalSold').textContent = soldUnits.length;
-
-      const filtered = soldUnits.filter(u => {
-        if (search && !u.id.toLowerCase().includes(search)) return false;
-        if (statusFilter !== 'all' && u.backlogStatus !== statusFilter) return false;
-        return true;
-      });
-
-      document.getElementById('backlogFilterCount').textContent = filtered.length;
-      const grid = document.getElementById('backlogUnits');
-      grid.innerHTML = '';
-
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted); font-weight: 600;">ไม่พบรายการ Backlog ที่ตรงกับเงื่อนไข</div>';
-        return;
-      }
-
-      filtered.forEach(u => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        let badgeBg = 'linear-gradient(90deg, #22c55e, #16a34a)';
-        card.innerHTML = `
-          <div style="background: ${badgeBg}; color: #fff; padding: 6px; text-align: center; font-weight: 600; font-size: 0.78rem;">
-            STATUS: ${u.backlogStatus}
-          </div>
-          <div class="card-content">
-            <h3 style="margin: 0 0 8px 0; color: var(--ink); font-weight: 700;">ห้อง ${u.id}</h3>
-            <p style="margin: 0 0 4px 0; font-size: 0.86rem; color: var(--muted);"><strong>ประเภท:</strong> ${u.type}</p>
-            <p style="margin: 0 0 4px 0; font-size: 0.86rem; color: var(--muted);"><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
-            <p style="margin: 0 0 4px 0; font-size: 0.92rem; color: var(--success); font-weight: 700;"><strong>ราคาขาย:</strong> ${u.sale} บาท</p>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function filterBacklogStatus(status) {
-      document.getElementById('backlogStatusFilter').value = status;
-      renderBacklog();
-    }
-
-    function toggleFav(id) {
-      if (favorites.includes(id)) {
-        favorites = favorites.filter(x => x !== id);
-      } else {
-        favorites.push(id);
-      }
-      render();
-    }
-
-    function toggleCompare(id) {
-      if (compare.includes(id)) {
-        compare = compare.filter(x => x !== id);
-      } else {
-        if (compare.length >= 4) {
-          alert("เปรียบเทียบได้สูงสุด 4 ห้อง");
-          return;
-        }
-        compare.push(id);
-      }
-      render();
-    }
-
-    function openModal(id) {
-      const u = units.find(x => x.id === id);
-      if (!u) return;
-      document.getElementById('title').textContent = `ยูนิต ${u.id}`;
-      document.getElementById('roomImg').src = roomGallery[u.type] || roomGallery['default'];
-      let content = `
-        <p><strong>ประเภทห้อง:</strong> ${u.type}</p>
-        <p><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
-        <p><strong>ชั้น:</strong> ${u.floor}</p>
-        <p><strong>ราคาปกติ:</strong> ${u.price} บาท</p>
-        <p><strong>ราคาขายพิเศษ:</strong> <span style="color: var(--danger); font-weight: 700;">${u.sale} บาท</span></p>
-      `;
-      if (u.hasHighlight) {
-        content += `<p style="color: #ff6b6b; font-weight: 600;"><strong>Highlight:</strong> ${u.highlights.join(', ')}</p>`;
-      }
-      if (u.hasRemark) {
-        content += `<p style="color: #64748b; font-weight: 600;"><strong>Remark:</strong> ${u.remark}</p>`;
-      }
-      document.getElementById('detail').innerHTML = content;
-      document.getElementById('modal').style.display = 'block';
-    }
-
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-    }
-
-    function showSummary(type) {
-      currentSummaryType = type;
-      const modal = document.getElementById('summaryModal');
-      const title = document.getElementById('summaryTitle');
-      const list = document.getElementById('summaryList');
-      const clearBtn = document.getElementById('clearSummaryBtn');
-      list.innerHTML = '';
-      let selectedUnits = [];
-
-      if (type === 'available') {
-        title.textContent = '🏢 รายการยูนิตที่พร้อมขายทั้งหมด';
-        selectedUnits = units.filter(u => !u.isSold);
-        clearBtn.style.display = 'none';
-      } else if (type === 'compare') {
-        title.textContent = '📊 เปรียบเทียบยูนิตที่เลือก';
-        selectedUnits = units.filter(u => compare.includes(u.id));
-        clearBtn.style.display = selectedUnits.length > 0 ? 'inline-block' : 'none';
-      } else if (type === 'favorites') {
-        title.textContent = '❤️ รายการยูนิตที่ถูกใจ';
-        selectedUnits = units.filter(u => favorites.includes(u.id));
-        clearBtn.style.display = selectedUnits.length > 0 ? 'inline-block' : 'none';
-      }
-
-      if (selectedUnits.length === 0) {
-        list.innerHTML = '<li style="text-align: center; color: var(--muted); padding: 20px;">ไม่มีรายการข้อมูล</li>';
-      } else {
-        selectedUnits.forEach(u => {
-          const li = document.createElement('li');
-          li.className = 'summary-item';
-          li.innerHTML = `
-            <div>
-              <strong>ห้อง ${u.id}</strong> (${u.type} | ${u.size} ตร.ม.)
-              <div class="summary-price-box">ราคาขาย: <span class="summary-sale-price">${u.sale}</span> บาท</div>
-            </div>
-            <button class="primary" onclick="closeSummaryModal(); openModal('${u.id}');">ดูรายละเอียด</button>
-          `;
-          list.appendChild(li);
-        });
-      }
-      modal.style.display = 'block';
-    }
-
-    function closeSummaryModal() {
-      document.getElementById('summaryModal').style.display = 'none';
-    }
-
-    loadSheetsData(false);
-    setInterval(() => loadSheetsData(true), 30000);
-  </script>
-</body>
-</html>
+      const plan =
