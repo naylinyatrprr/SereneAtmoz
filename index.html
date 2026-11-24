@@ -101,6 +101,107 @@
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 20px;
     }
+    /* List View */
+    .unit-list-wrapper {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(108, 92, 231, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+    }
+    .unit-list-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 18px;
+      border-bottom: 1px solid #eee;
+      background: rgba(255, 255, 255, 0.96);
+      transition: background 0.2s ease;
+      flex-wrap: wrap;
+    }
+    .unit-list-row:last-child {
+      border-bottom: none;
+    }
+    .unit-list-row:hover {
+      background: #f8f7ff;
+    }
+    .unit-list-main {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 220px;
+    }
+    .unit-list-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: #2d3436;
+      font-size: 1.05rem;
+    }
+    .unit-list-meta {
+      font-size: 0.88rem;
+      color: #636e72;
+    }
+    .unit-list-price {
+      font-size: 0.88rem;
+      color: #666;
+    }
+    .unit-list-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .mini-tag {
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    .mini-tag-ready {
+      background: #ff7675;
+    }
+    .mini-tag-remark {
+      background: #8395a7;
+    }
+    /* View Toggle Buttons */
+    .view-toggle-group {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #cbd5e0;
+      border-radius: 20px;
+      padding: 3px;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .view-mode-btn {
+      padding: 6px 14px;
+      border-radius: 16px;
+      border: none;
+      background: transparent;
+      color: #4a5568;
+      font-size: 0.85rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .view-mode-btn:hover {
+      color: #6c5ce7;
+      background: rgba(108, 92, 231, 0.08);
+    }
+    .view-mode-btn.active {
+      background: linear-gradient(135deg, #6c5ce7, #8e2de2);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+    }
     button {
       padding: 10px 14px;
       border: none;
@@ -125,7 +226,6 @@
     .btn-clear:hover {
       background: #c29595;
     }
-    /* Multi-select Checkbox Dropdown */
     .multi-filter {
       position: relative;
       display: inline-block;
@@ -200,6 +300,7 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      align-items: center;
       margin-bottom: 20px;
     }
     .stat {
@@ -567,6 +668,10 @@
         <div class="stat clickable" onclick="showSummary('available')">🏢 จำนวนยูนิตที่ว่าง: <span id="availableCount">0</span></div>
         <div class="stat clickable" onclick="showSummary('compare')">📊 Compare: <span id="compareCount">0</span></div>
         <div class="stat clickable" onclick="showSummary('favorites')">❤️ Favorites: <span id="favCount">0</span></div>
+        <div class="view-toggle-group" role="group" aria-label="เลือกรูปแบบการแสดงผลยูนิต">
+          <button type="button" id="cardViewBtn" class="view-mode-btn active" onclick="setUnitViewMode('card')">🃏 การ์ด</button>
+          <button type="button" id="listViewBtn" class="view-mode-btn" onclick="setUnitViewMode('list')">📋 ลิสต์</button>
+        </div>
       </div>
 
       <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px;">Available Units</h2>
@@ -788,6 +893,7 @@
     let compare = [];
     let currentSummaryType = '';
     let currentPage = 1;
+    let unitViewMode = 'card';
     const itemsPerPage = 16;
 
     const selectedFilters = {
@@ -818,6 +924,13 @@
       '1 Bed Exclusive-Private': { src: 'https://i.ibb.co/60JGfhSn/1786206096716-0.jpg', title: 'แปลนห้อง - 1 Bed Exclusive-Private' },
       '1 Bed plus': { src: 'https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg', title: 'แปลนห้อง - 1 Bed Plus' }
     };
+
+    function setUnitViewMode(mode) {
+      unitViewMode = mode === 'list' ? 'list' : 'card';
+      document.getElementById('cardViewBtn').classList.toggle('active', unitViewMode === 'card');
+      document.getElementById('listViewBtn').classList.toggle('active', unitViewMode === 'list');
+      render();
+    }
 
     function toggleFilterDropdown(event, boxId) {
       event.stopPropagation();
@@ -1131,30 +1244,9 @@
       });
     }
 
-    function render() {
-      const grid = document.getElementById('units');
-      const availableUnitsTotal = units.filter(u => !u.isSold).length;
-      document.getElementById('availableCount').textContent = availableUnitsTotal;
-      document.getElementById('favCount').textContent = favorites.length;
-      document.getElementById('compareCount').textContent = compare.length;
-
-      const filtered = filterFilteredUnits();
-      document.getElementById('filterCount').textContent = filtered.length;
-
-      const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
-      if (currentPage > totalPages) currentPage = totalPages;
-      document.getElementById('pageIndicator').textContent = `หน้า ${currentPage} / ${totalPages}`;
-      document.getElementById('prevPageBtn').disabled = (currentPage === 1);
-      document.getElementById('nextPageBtn').disabled = (currentPage === totalPages);
-
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const pageUnits = filtered.slice(startIndex, startIndex + itemsPerPage);
-
-      grid.innerHTML = '';
-      if (pageUnits.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #718096; font-weight: bold;">ไม่พบยูนิตที่ค้นหา</div>';
-        return;
-      }
+    function renderCardView(container, pageUnits) {
+      container.className = 'grid';
+      container.innerHTML = '';
 
       pageUnits.forEach(u => {
         const isFav = favorites.includes(u.id);
@@ -1193,8 +1285,75 @@
             </div>
           </div>
         `;
-        grid.appendChild(card);
+        container.appendChild(card);
       });
+    }
+
+    function renderListView(container, pageUnits) {
+      container.className = 'unit-list-wrapper';
+      container.innerHTML = '';
+
+      pageUnits.forEach(u => {
+        const isFav = favorites.includes(u.id);
+        const isComp = compare.includes(u.id);
+        const readyTag = u.hasHighlight ? `<span class="mini-tag mini-tag-ready">Ready to Move!</span>` : '';
+        const remarkTag = u.hasRemark ? `<span class="mini-tag mini-tag-remark">Remark Alert</span>` : '';
+
+        const row = document.createElement('div');
+        row.className = 'unit-list-row';
+        row.innerHTML = `
+          <div class="unit-list-main">
+            <div class="unit-list-title">
+              <strong>ห้อง ${u.id}</strong>
+              <span class="unit-list-meta">(${u.type} | ${u.size} ตร.ม. | ชั้น ${u.floor})</span>
+              ${readyTag}
+              ${remarkTag}
+            </div>
+            <div class="unit-list-price">
+              ราคาขาย: <span class="summary-sale-price">${u.sale}</span> บาท
+              <span style="color: #b2bec3; text-decoration: line-through; margin-left: 6px; font-size: 0.82rem;">ปกติ ${u.price} บาท</span>
+            </div>
+          </div>
+          <div class="unit-list-actions">
+            <button class="primary" onclick="openModal('${u.id}')">ดูรายละเอียด</button>
+            <button style="background: ${isFav ? '#ff4757' : '#f1f2f6'}; color: ${isFav ? '#fff' : '#2d3436'};" onclick="toggleFav('${u.id}')">${isFav ? '❤️' : '🤍'}</button>
+            <button style="background: ${isComp ? '#6c5ce7' : '#f1f2f6'}; color: ${isComp ? '#fff' : '#2d3436'};" onclick="toggleCompare('${u.id}')">📊</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function render() {
+      const grid = document.getElementById('units');
+      const availableUnitsTotal = units.filter(u => !u.isSold).length;
+      document.getElementById('availableCount').textContent = availableUnitsTotal;
+      document.getElementById('favCount').textContent = favorites.length;
+      document.getElementById('compareCount').textContent = compare.length;
+
+      const filtered = filterFilteredUnits();
+      document.getElementById('filterCount').textContent = filtered.length;
+
+      const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+      document.getElementById('pageIndicator').textContent = `หน้า ${currentPage} / ${totalPages}`;
+      document.getElementById('prevPageBtn').disabled = (currentPage === 1);
+      document.getElementById('nextPageBtn').disabled = (currentPage === totalPages);
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const pageUnits = filtered.slice(startIndex, startIndex + itemsPerPage);
+
+      if (pageUnits.length === 0) {
+        grid.className = 'grid';
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #718096; font-weight: bold;">ไม่พบยูนิตที่ค้นหา</div>';
+        return;
+      }
+
+      if (unitViewMode === 'list') {
+        renderListView(grid, pageUnits);
+      } else {
+        renderCardView(grid, pageUnits);
+      }
     }
 
     function renderBacklog() {
