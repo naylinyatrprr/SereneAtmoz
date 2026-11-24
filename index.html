@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Atmoz Serene Sriracha - Sales Toolkit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,23 +29,19 @@
 
     *, *::before, *::after {
       box-sizing: border-box;
-      min-width: 0;
     }
 
-    html {
+    html, body {
       width: 100%;
-      max-width: 100%;
-      overflow-x: hidden;
+      max-width: 100vw;
+      overflow-x: hidden !important;
       overscroll-behavior-x: none;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       font-family: 'Prompt', 'Plus Jakarta Sans', Arial, sans-serif;
-      margin: 0;
-      width: 100%;
-      max-width: 100%;
-      overflow-x: hidden;
-      overscroll-behavior-x: none;
       color: var(--ink);
       background:
         radial-gradient(circle at 12% 10%, rgba(108, 92, 231, 0.16), transparent 42%),
@@ -67,17 +63,16 @@
       background-size: cover;
       background-position: center;
       color: #fff;
-      padding: 56px 20px;
+      padding: 44px 16px;
       text-align: center;
       box-shadow: var(--shadow-md);
       border-bottom: 1px solid rgba(255, 255, 255, 0.22);
       width: 100%;
-      max-width: 100%;
     }
 
     header h1 {
-      margin: 0 0 8px 0;
-      font-size: clamp(1.75rem, 4.5vw, 3rem);
+      margin: 0 0 6px 0;
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
       font-weight: 700;
       letter-spacing: -0.02em;
       text-shadow: 0 4px 18px rgba(15, 23, 42, 0.35);
@@ -86,8 +81,8 @@
 
     header p {
       margin: 0;
-      font-size: clamp(0.85rem, 1.8vw, 1.15rem);
-      letter-spacing: 0.14em;
+      font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       opacity: 0.92;
       font-weight: 500;
@@ -95,10 +90,10 @@
     }
 
     .container {
-      max-width: 1360px;
+      max-width: 1280px;
       width: 100%;
       margin: 0 auto;
-      padding: 24px 18px 56px;
+      padding: 20px 16px 56px;
       position: relative;
     }
 
@@ -107,41 +102,38 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.74);
+      background: rgba(255, 255, 255, 0.78);
       backdrop-filter: blur(12px);
-      padding: 10px 12px;
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.82);
+      padding: 10px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
       box-shadow: var(--shadow-sm);
       position: relative;
       z-index: 20;
       width: 100%;
-      max-width: 100%;
     }
 
     .sales-tabs {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      flex: 1 1 280px;
+      flex: 1 1 auto;
       align-items: center;
-      max-width: 100%;
     }
 
     .tab-btn {
-      padding: 10px 16px;
-      font-size: 0.86rem;
+      padding: 9px 14px;
+      font-size: 0.85rem;
       font-weight: 500;
-      border-radius: 16px;
+      border-radius: 14px;
       background: transparent;
       color: var(--muted);
       border: 1px solid transparent;
       cursor: pointer;
       transition: all 0.2s ease;
-      max-width: 100%;
-      text-align: center;
+      white-space: nowrap;
     }
 
     .tab-btn:hover {
@@ -153,14 +145,14 @@
       background: linear-gradient(135deg, var(--primary), #7c3aed);
       color: #fff;
       font-weight: 600;
-      box-shadow: 0 6px 16px rgba(91, 76, 230, 0.28);
+      box-shadow: 0 4px 14px rgba(91, 76, 230, 0.28);
     }
 
     .admin-tab-btn {
-      padding: 10px 16px;
-      font-size: 0.86rem;
+      padding: 9px 14px;
+      font-size: 0.85rem;
       font-weight: 600;
-      border-radius: 16px;
+      border-radius: 14px;
       background: rgba(30, 36, 51, 0.06);
       color: var(--ink);
       border: 1px solid rgba(30, 36, 51, 0.1);
@@ -170,7 +162,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      max-width: 100%;
+      white-space: nowrap;
     }
 
     .admin-tab-btn:hover {
@@ -181,14 +173,13 @@
       background: #1e2433;
       color: #fff;
       border-color: #1e2433;
-      box-shadow: 0 6px 16px rgba(30, 36, 51, 0.22);
+      box-shadow: 0 4px 14px rgba(30, 36, 51, 0.22);
     }
 
     .tab-content {
       display: none;
       animation: fadeSlideIn 0.25s ease;
       width: 100%;
-      max-width: 100%;
     }
 
     .tab-content.active {
@@ -205,7 +196,7 @@
       align-items: center;
       gap: 10px;
       margin: 0 0 16px 0;
-      font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+      font-size: clamp(1.1rem, 2.2vw, 1.3rem);
       font-weight: 700;
       color: var(--ink);
     }
@@ -213,7 +204,7 @@
     .section-heading::before {
       content: "";
       width: 5px;
-      height: 24px;
+      height: 22px;
       border-radius: 99px;
       background: linear-gradient(180deg, var(--primary), var(--accent));
       flex-shrink: 0;
@@ -221,20 +212,19 @@
 
     .stats {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 100%;
     }
 
     .stats-group {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -242,14 +232,14 @@
     .stat {
       background: var(--surface);
       backdrop-filter: blur(10px);
-      padding: 9px 15px;
+      padding: 8px 14px;
       border-radius: 999px;
       box-shadow: var(--shadow-sm);
       font-weight: 500;
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       color: var(--ink);
       border: 1px solid var(--line);
-      max-width: 100%;
+      white-space: nowrap;
     }
 
     .stat span {
@@ -279,16 +269,15 @@
       padding: 3px;
       gap: 3px;
       box-shadow: var(--shadow-sm);
-      max-width: 100%;
     }
 
     .view-mode-btn {
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 999px;
       border: none;
       background: transparent;
       color: var(--muted);
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -304,35 +293,43 @@
       box-shadow: 0 3px 10px rgba(91, 76, 230, 0.28);
     }
 
+    /* ใช้ Grid เพื่อให้แท็บเล็ตแสดงผลสมดุลไม่ดันล้น */
     .filter-bar {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 10px;
       margin-bottom: 16px;
-      flex-wrap: wrap;
-      align-items: stretch;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       padding: 14px;
       border-radius: var(--radius-md);
-      border: 1px solid rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.95);
       box-shadow: var(--shadow-sm);
       position: relative;
       z-index: 400;
-      overflow: visible;
       width: 100%;
-      max-width: 100%;
+    }
+
+    .filter-bar input[type="text"] {
+      grid-column: 1 / -1;
+    }
+
+    @media (min-width: 640px) {
+      .filter-bar input[type="text"] {
+        grid-column: span 2;
+      }
     }
 
     .filter-bar input[type="text"],
     .filter-bar select {
       font-family: inherit;
-      padding: 10px 14px;
+      padding: 9px 12px;
       border-radius: var(--radius-sm);
       border: 1px solid #d5dae5;
       background: #fff;
       color: var(--ink);
-      font-size: 0.88rem;
-      max-width: 100%;
+      font-size: 0.85rem;
+      width: 100%;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -345,12 +342,11 @@
 
     button {
       font-family: inherit;
-      padding: 10px 14px;
+      padding: 9px 14px;
       border: none;
       border-radius: var(--radius-sm);
       cursor: pointer;
       font-weight: 600;
-      max-width: 100%;
       transition: all 0.2s ease;
     }
 
@@ -370,6 +366,7 @@
       color: #be123c;
       border: 1px solid #fecdd3;
       white-space: nowrap;
+      width: 100%;
     }
 
     .btn-clear:hover {
@@ -378,10 +375,8 @@
 
     .multi-filter {
       position: relative;
-      display: flex;
-      flex: 1 1 145px;
+      width: 100%;
       z-index: 410;
-      max-width: 100%;
     }
 
     .multi-filter.open {
@@ -390,17 +385,16 @@
 
     .multi-filter-btn {
       width: 100%;
-      padding: 10px 13px;
+      padding: 9px 12px;
       border-radius: var(--radius-sm);
       border: 1px solid #d5dae5;
       background: #fff;
       color: var(--ink);
       font-weight: 500;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
-      gap: 8px;
-      max-width: 100%;
+      gap: 6px;
       justify-content: space-between;
     }
 
@@ -428,9 +422,8 @@
       position: absolute;
       top: calc(100% + 6px);
       left: 0;
-      min-width: 210px;
-      width: max-content;
-      max-width: min(280px, calc(100vw - 36px));
+      width: 100%;
+      min-width: 190px;
       max-height: 220px;
       overflow-y: auto;
       overflow-x: hidden;
@@ -439,7 +432,7 @@
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-lg);
       z-index: 950;
-      padding: 8px;
+      padding: 6px;
     }
 
     .multi-filter.open .multi-filter-menu {
@@ -449,11 +442,11 @@
     .multi-filter-option {
       display: flex;
       align-items: center;
-      gap: 9px;
-      padding: 8px 10px;
-      border-radius: 8px;
+      gap: 8px;
+      padding: 7px 9px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--ink);
       user-select: none;
       transition: background 0.15s ease;
@@ -464,8 +457,8 @@
     }
 
     .multi-filter-option input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       accent-color: var(--primary);
       cursor: pointer;
       margin: 0;
@@ -473,7 +466,7 @@
     }
 
     .multi-filter-empty {
-      padding: 10px;
+      padding: 8px;
       text-align: center;
       font-size: 0.82rem;
       color: var(--muted);
@@ -485,34 +478,30 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       width: 100%;
     }
 
     .filter-summary-badge {
       background: linear-gradient(135deg, var(--primary), var(--accent));
       color: #fff;
-      padding: 8px 16px;
+      padding: 7px 15px;
       border-radius: 999px;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 6px 18px rgba(0, 184, 176, 0.22);
-      position: relative;
-      z-index: 5;
-      max-width: 100%;
+      box-shadow: 0 4px 14px rgba(0, 184, 176, 0.2);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(265px, 100%), 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 18px;
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 100%;
     }
 
     .card {
@@ -527,7 +516,6 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 100%;
       transition: transform 0.24s ease, box-shadow 0.24s ease;
     }
 
@@ -541,9 +529,9 @@
       background: linear-gradient(90deg, #ff5e62, #ff7675);
       color: #fff;
       text-align: center;
-      padding: 6px 0;
+      padding: 5px 0;
       font-weight: 600;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       letter-spacing: 0.04em;
       user-select: none;
     }
@@ -553,16 +541,16 @@
       background: linear-gradient(90deg, #64748b, #8395a7);
       color: #fff;
       text-align: center;
-      padding: 6px 0;
+      padding: 5px 0;
       font-weight: 600;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       letter-spacing: 0.04em;
       user-select: none;
     }
 
     .card-img-box {
       width: 100%;
-      height: 164px;
+      height: 155px;
       overflow: hidden;
       background: #eef2f7;
       position: relative;
@@ -580,16 +568,16 @@
     }
 
     .card-content {
-      padding: 16px 18px 18px;
+      padding: 14px 16px 16px;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
     }
 
     .unit-price-highlight {
-      margin: 2px 0 12px 0;
+      margin: 2px 0 10px 0;
       color: var(--danger);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
     }
 
@@ -604,23 +592,19 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 100%;
     }
 
     .unit-list-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
-      padding: 15px 20px;
+      gap: 12px;
+      padding: 14px 18px;
       border-bottom: 1px solid rgba(148, 163, 184, 0.18);
       background: transparent;
       transition: background 0.18s ease;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
       width: 100%;
-      max-width: 100%;
     }
 
     .unit-list-row:last-child {
@@ -635,8 +619,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      flex: 1 1 220px;
-      max-width: 100%;
+      flex: 1 1 200px;
     }
 
     .unit-list-title {
@@ -645,16 +628,16 @@
       gap: 8px;
       flex-wrap: wrap;
       color: var(--ink);
-      font-size: 1.02rem;
+      font-size: 1rem;
     }
 
     .unit-list-meta {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: var(--muted);
     }
 
     .unit-list-price {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--muted);
     }
 
@@ -663,13 +646,12 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      max-width: 100%;
     }
 
     .mini-tag {
-      padding: 2px 9px;
+      padding: 2px 8px;
       border-radius: 999px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       color: #fff;
     }
@@ -684,15 +666,14 @@
 
     .backlog-dashboard {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-      gap: 16px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
       width: 100%;
-      max-width: 100%;
     }
 
     .backlog-stat-card {
-      padding: 18px;
+      padding: 16px;
       border-radius: var(--radius-md);
       color: #fff;
       font-weight: 600;
@@ -712,28 +693,26 @@
     }
 
     .backlog-stat-card .count {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
       margin-top: 4px;
     }
 
     .gallery-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
       background: rgba(255, 255, 255, 0.78);
       backdrop-filter: blur(12px);
-      padding: 20px;
+      padding: 18px;
       border-radius: var(--radius-lg);
       border: 1px solid rgba(255, 255, 255, 0.85);
       box-shadow: var(--shadow-sm);
       width: 100%;
-      max-width: 100%;
     }
 
     .gallery-item {
       width: 100%;
-      max-width: 100%;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
       overflow: hidden;
@@ -756,8 +735,8 @@
     }
 
     .gallery-title {
-      padding: 11px 14px;
-      font-size: 0.88rem;
+      padding: 10px 12px;
+      font-size: 0.86rem;
       font-weight: 600;
       color: var(--ink);
       text-align: center;
@@ -769,25 +748,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 26px;
-      padding: 14px 18px;
+      margin-top: 24px;
+      padding: 12px 16px;
       background: var(--surface);
       backdrop-filter: blur(10px);
       border-radius: var(--radius-md);
       border: 1px solid var(--line);
       box-shadow: var(--shadow-sm);
-      position: relative;
-      z-index: 1;
       width: 100%;
-      max-width: 100%;
     }
 
     .pagination-btn {
       background: var(--primary);
       color: #fff;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
       border: none;
       cursor: pointer;
@@ -812,26 +788,25 @@
 
     .modal-content {
       background: #fff;
-      width: min(780px, 100%);
-      margin: 24px auto;
-      padding: 24px;
-      border-radius: 24px;
+      width: min(720px, 100%);
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 20px;
       max-height: 88vh;
       overflow-y: auto;
-      overflow-x: hidden;
       box-shadow: var(--shadow-lg);
     }
 
     .placeholder {
       width: 100%;
-      max-height: 380px;
+      max-height: 360px;
       background: #f1f5f9;
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .placeholder img {
@@ -842,40 +817,38 @@
 
     .summary-modal-box {
       background: #fff;
-      width: min(600px, 100%);
+      width: min(580px, 100%);
       margin: 4vh auto;
-      padding: 24px;
-      border-radius: 24px;
+      padding: 20px;
+      border-radius: 20px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
       box-shadow: var(--shadow-lg);
     }
 
     .summary-list {
-      margin: 14px 0;
-      padding: 0 6px 0 0;
+      margin: 12px 0;
+      padding: 0 4px 0 0;
       list-style: none;
       flex-grow: 1;
       overflow-y: auto;
-      overflow-x: hidden;
     }
 
     .summary-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      padding: 14px 10px;
+      padding: 12px 8px;
       border-bottom: 1px solid #eef2f7;
     }
 
     .summary-price-box {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--muted);
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     .summary-sale-price {
@@ -893,7 +866,6 @@
       align-items: center;
       justify-content: center;
       padding: 12px;
-      overflow: hidden;
     }
 
     .zoom-container {
@@ -918,7 +890,7 @@
     #zoomCaption {
       color: #fff;
       margin-top: 10px;
-      font-size: 0.96rem;
+      font-size: 0.95rem;
       font-weight: 500;
       text-align: center;
     }
@@ -983,7 +955,7 @@
 
       <h2 class="section-heading">Available Units</h2>
       <div class="filter-bar">
-        <input type="text" id="searchInput" placeholder="🔍 ค้นหาเลขห้อง (เช่น A214)..." oninput="handleFilterChange()" style="flex: 1 1 220px;">
+        <input type="text" id="searchInput" placeholder="🔍 ค้นหาเลขห้อง (เช่น A214)..." oninput="handleFilterChange()">
 
         <div class="multi-filter" id="buildingFilterBox">
           <button type="button" class="multi-filter-btn" onclick="toggleFilterDropdown(event, 'buildingFilterBox')">
@@ -1066,8 +1038,8 @@
       </div>
 
       <div class="filter-bar">
-        <input type="text" id="backlogSearchInput" placeholder="🔍 ค้นหาเลขห้อง Backlog..." oninput="renderBacklog()" style="flex: 1 1 220px;">
-        <select id="backlogStatusFilter" onchange="renderBacklog()" style="flex: 0 1 200px;">
+        <input type="text" id="backlogSearchInput" placeholder="🔍 ค้นหาเลขห้อง Backlog..." oninput="renderBacklog()">
+        <select id="backlogStatusFilter" onchange="renderBacklog()">
           <option value="all">ทุกสถานะ Backlog</option>
           <option value="Booking">Booking</option>
         </select>
@@ -1183,7 +1155,7 @@
     <div class="summary-modal-box">
       <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid #eef2f7; padding-bottom: 12px;">
         <h2 id="summaryTitle" style="margin: 0; font-size: 1.15rem;"></h2>
-        <button id="clearSummaryBtn" class="btn-clear" style="display: none; padding: 6px 12px; font-size: 0.82rem;" onclick="clearCurrentSummaryGroup()">🗑️ ล้างรายการทั้งหมด</button>
+        <button id="clearSummaryBtn" class="btn-clear" style="display: none; padding: 6px 12px; font-size: 0.82rem; width: auto;" onclick="clearCurrentSummaryGroup()">🗑️ ล้างรายการทั้งหมด</button>
       </div>
       <ul id="summaryList" class="summary-list"></ul>
       <button class="primary" style="width: 100%; margin-top: auto; padding: 12px;" onclick="closeSummaryModal()">ปิดหน้าต่าง</button>
@@ -1244,8 +1216,8 @@
       const rect = menu.getBoundingClientRect();
       const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
       if (rect.right > viewportWidth - 12) {
-        const overflow = rect.right - (viewportWidth - 12);
-        menu.style.left = `${-Math.min(overflow, rect.left - 12)}px`;
+        menu.style.left = 'auto';
+        menu.style.right = '0px';
       }
     }
 
@@ -1664,14 +1636,14 @@
           </div>
           <div class="card-content">
             <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <h3 style="margin: 0; color: var(--ink); font-size: 1.2rem; font-weight: 700;">ห้อง ${u.id}</h3>
+              <h3 style="margin: 0; color: var(--ink); font-size: 1.15rem; font-weight: 700;">ห้อง ${u.id}</h3>
               <span style="background: #f1efff; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; color: var(--primary);">ชั้น ${u.floor}</span>
             </div>
-            <p style="margin: 0 0 5px 0; color: var(--muted); font-size: 0.86rem;"><strong>แบบห้อง:</strong> ${u.type}</p>
-            <p style="margin: 0 0 6px 0; color: var(--muted); font-size: 0.86rem;"><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
-            <p style="margin: 0 0 2px 0; color: #94a3b8; text-decoration: line-through; font-size: 0.82rem;">ราคาปกติ: ${u.price} บาท</p>
+            <p style="margin: 0 0 4px 0; color: var(--muted); font-size: 0.85rem;"><strong>แบบห้อง:</strong> ${u.type}</p>
+            <p style="margin: 0 0 5px 0; color: var(--muted); font-size: 0.85rem;"><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
+            <p style="margin: 0 0 2px 0; color: #94a3b8; text-decoration: line-through; font-size: 0.8rem;">ราคาปกติ: ${u.price} บาท</p>
             <p class="unit-price-highlight">ราคาพิเศษ: ${u.sale} บาท</p>
-            <div style="margin-top: auto; display: flex; gap: 8px; padding-top: 8px;">
+            <div style="margin-top: auto; display: flex; gap: 6px; padding-top: 8px;">
               <button class="primary" style="flex: 1;" onclick="openModal('${u.id}')">รายละเอียด</button>
               <button style="background: ${isFav ? '#ffe4e6' : '#f1f5f9'}; color: ${isFav ? '#e11d48' : 'var(--ink)'};" onclick="toggleFav('${u.id}')">${isFav ? '❤️' : '🤍'}</button>
               <button style="background: ${isComp ? '#ede9fe' : '#f1f5f9'}; color: ${isComp ? 'var(--primary)' : 'var(--ink)'};" onclick="toggleCompare('${u.id}')">📊</button>
@@ -1704,7 +1676,7 @@
             </div>
             <div class="unit-list-price">
               ราคาขาย: <span class="summary-sale-price">${u.sale}</span> บาท
-              <span style="color: #94a3b8; text-decoration: line-through; margin-left: 6px; font-size: 0.82rem;">ปกติ ${u.price} บาท</span>
+              <span style="color: #94a3b8; text-decoration: line-through; margin-left: 6px; font-size: 0.8rem;">ปกติ ${u.price} บาท</span>
             </div>
           </div>
           <div class="unit-list-actions">
@@ -1778,14 +1750,14 @@
         card.className = 'card';
         let badgeBg = 'linear-gradient(90deg, #22c55e, #16a34a)';
         card.innerHTML = `
-          <div style="background: ${badgeBg}; color: #fff; padding: 6px; text-align: center; font-weight: 600; font-size: 0.78rem;">
+          <div style="background: ${badgeBg}; color: #fff; padding: 5px; text-align: center; font-weight: 600; font-size: 0.76rem;">
             STATUS: ${u.backlogStatus}
           </div>
           <div class="card-content">
-            <h3 style="margin: 0 0 8px 0; color: var(--ink); font-weight: 700;">ห้อง ${u.id}</h3>
-            <p style="margin: 0 0 4px 0; font-size: 0.86rem; color: var(--muted);"><strong>ประเภท:</strong> ${u.type}</p>
-            <p style="margin: 0 0 4px 0; font-size: 0.86rem; color: var(--muted);"><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
-            <p style="margin: 0 0 4px 0; font-size: 0.92rem; color: var(--success); font-weight: 700;"><strong>ราคาขาย:</strong> ${u.sale} บาท</p>
+            <h3 style="margin: 0 0 6px 0; color: var(--ink); font-weight: 700;">ห้อง ${u.id}</h3>
+            <p style="margin: 0 0 4px 0; font-size: 0.85rem; color: var(--muted);"><strong>ประเภท:</strong> ${u.type}</p>
+            <p style="margin: 0 0 4px 0; font-size: 0.85rem; color: var(--muted);"><strong>ขนาด:</strong> ${u.size} ตร.ม.</p>
+            <p style="margin: 0 0 4px 0; font-size: 0.9rem; color: var(--success); font-weight: 700;"><strong>ราคาขาย:</strong> ${u.sale} บาท</p>
           </div>
         `;
         grid.appendChild(card);
