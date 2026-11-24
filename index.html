@@ -50,7 +50,6 @@
       flex-direction: column;
       position: relative;
     }
-    /* แถบคาด Ready to Move สีแดง */
     .ready-badge-btn {
       width: 100%;
       background-color: #ff7675;
@@ -63,7 +62,6 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       user-select: none;
     }
-    /* แถบคาด Remark Alert สีเทา */
     .remark-badge-btn {
       width: 100%;
       background-color: #8395a7;
@@ -125,7 +123,78 @@
       transition: 0.3s;
     }
     .btn-clear:hover {
-      background: #d1abab;
+      background: #c29595;
+    }
+    /* Multi-select Checkbox Dropdown */
+    .multi-filter {
+      position: relative;
+      display: inline-block;
+    }
+    .multi-filter-btn {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #2d3436;
+      font-weight: normal;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 150px;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .multi-filter-btn:hover,
+    .multi-filter.open .multi-filter-btn {
+      border-color: #6c5ce7;
+      box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.12);
+    }
+    .multi-filter-btn.has-selection {
+      border-color: #6c5ce7;
+      background: #f5f3ff;
+      color: #5b4cc4;
+      font-weight: bold;
+    }
+    .multi-filter-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 220px;
+      max-height: 280px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #dcdde1;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 500;
+      padding: 8px;
+    }
+    .multi-filter.open .multi-filter-menu {
+      display: block;
+    }
+    .multi-filter-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      color: #2d3436;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+    .multi-filter-option:hover {
+      background: #f1f2f6;
+    }
+    .multi-filter-option input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #6c5ce7;
+      cursor: pointer;
+      margin: 0;
     }
     .stats {
       display: flex;
@@ -501,34 +570,59 @@
       </div>
 
       <h2 style="color: #2d3436; border-left: 5px solid #6c5ce7; padding-left: 15px;">Available Units</h2>
-      <div class="filter-bar" style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+      <div class="filter-bar" style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center;">
         <input type="text" id="searchInput" placeholder="🔍 ค้นหาเลขห้อง (เช่น A214)..." oninput="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; flex: 1; min-width: 180px;">
-        <select id="buildingFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-          <option value="all">ทุกอาคาร</option>
-          <option value="A">อาคาร A</option>
-          <option value="B">อาคาร B</option>
-          <option value="C">อาคาร C</option>
-        </select>
-        <select id="typeFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-          <option value="all">ทุกประเภทห้อง</option>
-          <option value="1 Bed Exclusive">1 Bed Exclusive</option>
-          <option value="1 Bed Extra">1 Bed Extra</option>
-          <option value="1 Bed Exclusive-Private">1 Bed Exclusive-Private</option>
-          <option value="1 Bed plus">1 Bed plus</option>
-        </select>
-        <select id="floorFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-          <option value="all">ทุกชั้น</option>
-          <option value="2">ชั้น 2</option>
-          <option value="3">ชั้น 3</option>
-          <option value="4">ชั้น 4</option>
-          <option value="5">ชั้น 5</option>
-          <option value="6">ชั้น 6</option>
-          <option value="7">ชั้น 7</option>
-          <option value="8">ชั้น 8</option>
-        </select>
-        <select id="priceFilter" onchange="handleFilterChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-        </select>
-        <button class="btn-clear" onclick="clearFilters()">ล้างการค้นหา</button>
+
+        <div class="multi-filter" id="buildingFilterBox">
+          <button type="button" class="multi-filter-btn" onclick="toggleFilterDropdown(event, 'buildingFilterBox')">
+            <span class="filter-label">ทุกอาคาร</span>
+            <span>▾</span>
+          </button>
+          <div class="multi-filter-menu" id="buildingFilterMenu">
+            <label class="multi-filter-option"><input type="checkbox" value="A" onchange="onMultiCheckboxChange('building')"> อาคาร A</label>
+            <label class="multi-filter-option"><input type="checkbox" value="B" onchange="onMultiCheckboxChange('building')"> อาคาร B</label>
+            <label class="multi-filter-option"><input type="checkbox" value="C" onchange="onMultiCheckboxChange('building')"> อาคาร C</label>
+          </div>
+        </div>
+
+        <div class="multi-filter" id="typeFilterBox">
+          <button type="button" class="multi-filter-btn" onclick="toggleFilterDropdown(event, 'typeFilterBox')">
+            <span class="filter-label">ทุกประเภทห้อง</span>
+            <span>▾</span>
+          </button>
+          <div class="multi-filter-menu" id="typeFilterMenu">
+            <label class="multi-filter-option"><input type="checkbox" value="1 Bed Exclusive" onchange="onMultiCheckboxChange('type')"> 1 Bed Exclusive</label>
+            <label class="multi-filter-option"><input type="checkbox" value="1 Bed Extra" onchange="onMultiCheckboxChange('type')"> 1 Bed Extra</label>
+            <label class="multi-filter-option"><input type="checkbox" value="1 Bed Exclusive-Private" onchange="onMultiCheckboxChange('type')"> 1 Bed Exclusive-Private</label>
+            <label class="multi-filter-option"><input type="checkbox" value="1 Bed plus" onchange="onMultiCheckboxChange('type')"> 1 Bed plus</label>
+          </div>
+        </div>
+
+        <div class="multi-filter" id="floorFilterBox">
+          <button type="button" class="multi-filter-btn" onclick="toggleFilterDropdown(event, 'floorFilterBox')">
+            <span class="filter-label">ทุกชั้น</span>
+            <span>▾</span>
+          </button>
+          <div class="multi-filter-menu" id="floorFilterMenu">
+            <label class="multi-filter-option"><input type="checkbox" value="2" onchange="onMultiCheckboxChange('floor')"> ชั้น 2</label>
+            <label class="multi-filter-option"><input type="checkbox" value="3" onchange="onMultiCheckboxChange('floor')"> ชั้น 3</label>
+            <label class="multi-filter-option"><input type="checkbox" value="4" onchange="onMultiCheckboxChange('floor')"> ชั้น 4</label>
+            <label class="multi-filter-option"><input type="checkbox" value="5" onchange="onMultiCheckboxChange('floor')"> ชั้น 5</label>
+            <label class="multi-filter-option"><input type="checkbox" value="6" onchange="onMultiCheckboxChange('floor')"> ชั้น 6</label>
+            <label class="multi-filter-option"><input type="checkbox" value="7" onchange="onMultiCheckboxChange('floor')"> ชั้น 7</label>
+            <label class="multi-filter-option"><input type="checkbox" value="8" onchange="onMultiCheckboxChange('floor')"> ชั้น 8</label>
+          </div>
+        </div>
+
+        <div class="multi-filter" id="priceFilterBox">
+          <button type="button" class="multi-filter-btn" onclick="toggleFilterDropdown(event, 'priceFilterBox')">
+            <span class="filter-label">ทุกช่วงราคา Sale</span>
+            <span>▾</span>
+          </button>
+          <div class="multi-filter-menu" id="priceFilterMenu"></div>
+        </div>
+
+        <button type="button" class="btn-clear" onclick="clearFilters()">ล้างการค้นหา</button>
       </div>
 
       <div class="filter-summary-badge" id="filterSummaryBox">
@@ -696,6 +790,20 @@
     let currentPage = 1;
     const itemsPerPage = 16;
 
+    const selectedFilters = {
+      building: [],
+      type: [],
+      floor: [],
+      price: []
+    };
+
+    const filterConfig = {
+      building: { boxId: 'buildingFilterBox', menuId: 'buildingFilterMenu', defaultLabel: 'ทุกอาคาร', prefix: 'อาคาร ' },
+      type: { boxId: 'typeFilterBox', menuId: 'typeFilterMenu', defaultLabel: 'ทุกประเภทห้อง', prefix: '' },
+      floor: { boxId: 'floorFilterBox', menuId: 'floorFilterMenu', defaultLabel: 'ทุกชั้น', prefix: 'ชั้น ' },
+      price: { boxId: 'priceFilterBox', menuId: 'priceFilterMenu', defaultLabel: 'ทุกช่วงราคา Sale', prefix: '' }
+    };
+
     const roomGallery = {
       '1 Bed Exclusive': 'https://i.ibb.co/FbHL2p8n/LINE-ALBUM-1-Bedroom-Exclusive-211124-0.jpg',
       '1 Bed Extra': 'https://i.ibb.co/QvKj7pRV/LINE-ALBUM-1-Bedroom-1-Bedroom-Extra-211124-3.jpg',
@@ -710,6 +818,51 @@
       '1 Bed Exclusive-Private': { src: 'https://i.ibb.co/60JGfhSn/1786206096716-0.jpg', title: 'แปลนห้อง - 1 Bed Exclusive-Private' },
       '1 Bed plus': { src: 'https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg', title: 'แปลนห้อง - 1 Bed Plus' }
     };
+
+    function toggleFilterDropdown(event, boxId) {
+      event.stopPropagation();
+      const targetBox = document.getElementById(boxId);
+      const isOpen = targetBox.classList.contains('open');
+      document.querySelectorAll('.multi-filter.open').forEach(el => {
+        if (el.id !== boxId) el.classList.remove('open');
+      });
+      targetBox.classList.toggle('open', !isOpen);
+    }
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.multi-filter')) {
+        document.querySelectorAll('.multi-filter.open').forEach(el => el.classList.remove('open'));
+      }
+    });
+
+    function onMultiCheckboxChange(category) {
+      const menu = document.getElementById(filterConfig[category].menuId);
+      const checkedValues = Array.from(menu.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+      selectedFilters[category] = checkedValues;
+      updateFilterButtonLabel(category);
+      handleFilterChange();
+    }
+
+    function updateFilterButtonLabel(category) {
+      const cfg = filterConfig[category];
+      const box = document.getElementById(cfg.boxId);
+      const btn = box.querySelector('.multi-filter-btn');
+      const labelEl = box.querySelector('.filter-label');
+      const values = selectedFilters[category];
+
+      if (!values || values.length === 0) {
+        labelEl.textContent = cfg.defaultLabel;
+        btn.classList.remove('has-selection');
+      } else if (values.length === 1) {
+        const menu = document.getElementById(cfg.menuId);
+        const matchedCb = Array.from(menu.querySelectorAll('input[type="checkbox"]')).find(cb => cb.value === values[0]);
+        labelEl.textContent = matchedCb ? matchedCb.parentElement.textContent.trim() : `${cfg.prefix}${values[0]}`;
+        btn.classList.add('has-selection');
+      } else {
+        labelEl.textContent = `${cfg.defaultLabel.replace(/^ทุก/, '')} (${values.length})`;
+        btn.classList.add('has-selection');
+      }
+    }
 
     function parseCSVLine(line) {
       const result = [];
@@ -789,15 +942,28 @@
       return data;
     }
 
+    function appendPriceCheckbox(menu, value, text, checkedSet) {
+      const label = document.createElement('label');
+      label.className = 'multi-filter-option';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.value = value;
+      cb.checked = checkedSet.has(value);
+      cb.onchange = () => onMultiCheckboxChange('price');
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode(' ' + text));
+      menu.appendChild(label);
+    }
+
     function generatePriceFilterOptions() {
-      const priceSelect = document.getElementById('priceFilter');
-      const previousValue = priceSelect.value || 'all';
-      priceSelect.innerHTML = '';
+      const priceMenu = document.getElementById('priceFilterMenu');
+      const prevChecked = new Set(selectedFilters.price);
+      priceMenu.innerHTML = '';
 
       const availableUnits = units.filter(u => !u.isSold && u.numericSalePrice > 0);
       if (availableUnits.length === 0) {
-        priceSelect.innerHTML = '<option value="all">ทุกช่วงราคา Sale</option>';
-        priceSelect.value = 'all';
+        selectedFilters.price = [];
+        updateFilterButtonLabel('price');
         return;
       }
 
@@ -806,15 +972,11 @@
       let firstRangeMax = (Math.floor(minPrice * 10) / 10) + 0.09;
       if (firstRangeMax < minPrice) firstRangeMax = minPrice;
 
-      const defaultOption = document.createElement('option');
-      defaultOption.value = 'all';
-      defaultOption.textContent = 'ทุกช่วงราคา Sale';
-      priceSelect.appendChild(defaultOption);
-
-      const minOption = document.createElement('option');
-      minOption.value = `<=${firstRangeMax.toFixed(2)}`;
-      minOption.textContent = `ไม่เกิน ${firstRangeMax.toFixed(2)} MB`;
-      priceSelect.appendChild(minOption);
+      const optionsList = [];
+      optionsList.push({
+        value: `<=${firstRangeMax.toFixed(2)}`,
+        text: `ไม่เกิน ${firstRangeMax.toFixed(2)} MB`
+      });
 
       const steps = [
         { min: 1.60, max: 1.69 }, { min: 1.70, max: 1.79 }, { min: 1.80, max: 1.89 },
@@ -825,28 +987,35 @@
 
       steps.forEach(step => {
         if (step.min > firstRangeMax) {
-          const opt = document.createElement('option');
-          opt.value = `${step.min.toFixed(2)}-${step.max.toFixed(2)}`;
-          opt.textContent = `${step.min.toFixed(2)} - ${step.max.toFixed(2)} MB`;
-          priceSelect.appendChild(opt);
+          optionsList.push({
+            value: `${step.min.toFixed(2)}-${step.max.toFixed(2)}`,
+            text: `${step.min.toFixed(2)} - ${step.max.toFixed(2)} MB`
+          });
         }
       });
 
-      const maxOption = document.createElement('option');
-      maxOption.value = '>=3.00';
-      maxOption.textContent = '3.00 MB ขึ้นไป';
-      priceSelect.appendChild(maxOption);
+      optionsList.push({
+        value: '>=3.00',
+        text: '3.00 MB ขึ้นไป'
+      });
 
-      const hasPrev = Array.from(priceSelect.options).some(opt => opt.value === previousValue);
-      priceSelect.value = hasPrev ? previousValue : 'all';
+      const validValuesSet = new Set(optionsList.map(o => o.value));
+      optionsList.forEach(opt => {
+        appendPriceCheckbox(priceMenu, opt.value, opt.text, prevChecked);
+      });
+
+      selectedFilters.price = Array.from(prevChecked).filter(v => validValuesSet.has(v));
+      updateFilterButtonLabel('price');
     }
 
     function clearFilters() {
       document.getElementById('searchInput').value = '';
-      document.getElementById('buildingFilter').value = 'all';
-      document.getElementById('typeFilter').value = 'all';
-      document.getElementById('floorFilter').value = 'all';
-      document.getElementById('priceFilter').value = 'all';
+      Object.keys(filterConfig).forEach(category => {
+        selectedFilters[category] = [];
+        const menu = document.getElementById(filterConfig[category].menuId);
+        menu.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+        updateFilterButtonLabel(category);
+      });
       handleFilterChange();
     }
 
@@ -930,32 +1099,34 @@
       render();
     }
 
+    function matchesPriceRange(priceValue, rangeStr) {
+      if (rangeStr.startsWith('<=')) {
+        const val = parseFloat(rangeStr.replace('<=', ''));
+        return priceValue <= val;
+      } else if (rangeStr.startsWith('>=')) {
+        const val = parseFloat(rangeStr.replace('>=', ''));
+        return priceValue >= val;
+      } else if (rangeStr.includes('-')) {
+        const [min, max] = rangeStr.split('-').map(parseFloat);
+        return priceValue >= min && priceValue <= max;
+      }
+      return true;
+    }
+
     function filterFilteredUnits() {
       const search = document.getElementById('searchInput').value.toLowerCase().trim();
-      const building = document.getElementById('buildingFilter').value;
-      const type = document.getElementById('typeFilter').value;
-      const floor = document.getElementById('floorFilter').value;
-      const price = document.getElementById('priceFilter').value;
+      const buildings = selectedFilters.building;
+      const types = selectedFilters.type;
+      const floors = selectedFilters.floor;
+      const prices = selectedFilters.price;
 
       return units.filter(u => {
         if (u.isSold) return false;
         if (search && !u.id.toLowerCase().includes(search)) return false;
-        if (building !== 'all' && !u.id.startsWith(building)) return false;
-        if (type !== 'all' && u.type !== type) return false;
-        if (floor !== 'all' && u.floor.toString() !== floor) return false;
-        if (price !== 'all') {
-          const p = u.numericSalePrice;
-          if (price.startsWith('<=')) {
-            const val = parseFloat(price.replace('<=', ''));
-            if (p > val) return false;
-          } else if (price.startsWith('>=')) {
-            const val = parseFloat(price.replace('>=', ''));
-            if (p < val) return false;
-          } else if (price.includes('-')) {
-            const [min, max] = price.split('-').map(parseFloat);
-            if (p < min || p > max) return false;
-          }
-        }
+        if (buildings.length > 0 && !buildings.some(b => u.id.startsWith(b))) return false;
+        if (types.length > 0 && !types.includes(u.type)) return false;
+        if (floors.length > 0 && !floors.includes(u.floor.toString())) return false;
+        if (prices.length > 0 && !prices.some(range => matchesPriceRange(u.numericSalePrice, range))) return false;
         return true;
       });
     }
