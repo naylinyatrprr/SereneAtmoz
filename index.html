@@ -267,7 +267,6 @@
       box-shadow: 0 3px 10px rgba(91, 76, 230, 0.28);
     }
 
-    /* Filter Bar - Elevated above unit list/grid */
     .filter-bar {
       display: flex;
       gap: 10px;
@@ -335,7 +334,6 @@
       background: #ffe4e6;
     }
 
-    /* Multi-select Checkbox Dropdown */
     .multi-filter {
       position: relative;
       display: inline-block;
@@ -420,6 +418,13 @@
       flex-shrink: 0;
     }
 
+    .multi-filter-empty {
+      padding: 10px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
     .filter-summary-badge {
       background: linear-gradient(135deg, var(--primary), var(--accent));
       color: #fff;
@@ -436,7 +441,6 @@
       z-index: 5;
     }
 
-    /* Cards & Grid - Keep lower z-index than open filter dropdowns */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
@@ -521,7 +525,6 @@
       font-weight: 700;
     }
 
-    /* List View - Keep lower z-index than open filter dropdowns */
     .unit-list-wrapper {
       display: flex;
       flex-direction: column;
@@ -606,7 +609,6 @@
       background: #8395a7;
     }
 
-    /* Backlog */
     .backlog-dashboard {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -640,7 +642,6 @@
       margin-top: 4px;
     }
 
-    /* Gallery */
     .gallery-layout {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -686,7 +687,6 @@
       border-top: 1px solid #eef1f6;
     }
 
-    /* Pagination */
     .pagination-controls {
       display: flex;
       justify-content: center;
@@ -718,7 +718,6 @@
       box-shadow: none;
     }
 
-    /* Modals */
     #modal, #summaryModal {
       display: none;
       position: fixed;
@@ -1340,6 +1339,68 @@
       updateFilterButtonLabel('price');
     }
 
+    function unitMatchesCategoryValue(unit, category, value) {
+      if (category === 'building') return unit.id.startsWith(value);
+      if (category === 'type') return unit.type === value;
+      if (category === 'floor') return unit.floor.toString() === value;
+      if (category === 'price') return matchesPriceRange(unit.numericSalePrice, value);
+      return true;
+    }
+
+    function getUnitsMatchingOtherCategories(excludeCategory) {
+      const search = document.getElementById('searchInput').value.toLowerCase().trim();
+      const buildings = excludeCategory === 'building' ? [] : selectedFilters.building;
+      const types = excludeCategory === 'type' ? [] : selectedFilters.type;
+      const floors = excludeCategory === 'floor' ? [] : selectedFilters.floor;
+      const prices = excludeCategory === 'price' ? [] : selectedFilters.price;
+
+      return units.filter(u => {
+        if (u.isSold) return false;
+        if (search && !u.id.toLowerCase().includes(search)) return false;
+        if (buildings.length > 0 && !buildings.some(b => u.id.startsWith(b))) return false;
+        if (types.length > 0 && !types.includes(u.type)) return false;
+        if (floors.length > 0 && !floors.includes(u.floor.toString())) return false;
+        if (prices.length > 0 && !prices.some(range => matchesPriceRange(u.numericSalePrice, range))) return false;
+        return true;
+      });
+    }
+
+    function syncDynamicFilterOptions() {
+      Object.keys(filterConfig).forEach(category => {
+        const cfg = filterConfig[category];
+        const menu = document.getElementById(cfg.menuId);
+        const labels = Array.from(menu.querySelectorAll('label.multi-filter-option'));
+        const candidateUnits = getUnitsMatchingOtherCategories(category);
+        let visibleCount = 0;
+
+        labels.forEach(label => {
+          const cb = label.querySelector('input[type="checkbox"]');
+          const hasMatchingUnit = candidateUnits.some(u => unitMatchesCategoryValue(u, category, cb.value));
+          label.style.display = hasMatchingUnit ? 'flex' : 'none';
+          if (!hasMatchingUnit && cb.checked) {
+            cb.checked = false;
+          }
+          if (hasMatchingUnit) visibleCount += 1;
+        });
+
+        let emptyHint = menu.querySelector('.multi-filter-empty');
+        if (visibleCount === 0) {
+          if (!emptyHint) {
+            emptyHint = document.createElement('div');
+            emptyHint.className = 'multi-filter-empty';
+            emptyHint.textContent = 'ไม่มีตัวเลือกที่มีห้องว่าง';
+            menu.appendChild(emptyHint);
+          }
+          emptyHint.style.display = 'block';
+        } else if (emptyHint) {
+          emptyHint.style.display = 'none';
+        }
+
+        selectedFilters[category] = Array.from(menu.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        updateFilterButtonLabel(category);
+      });
+    }
+
     function clearFilters() {
       document.getElementById('searchInput').value = '';
       Object.keys(filterConfig).forEach(category => {
@@ -1544,6 +1605,8 @@
     }
 
     function render() {
+      syncDynamicFilterOptions();
+
       const grid = document.getElementById('units');
       const availableUnitsTotal = units.filter(u => !u.isSold).length;
       document.getElementById('availableCount').textContent = availableUnitsTotal;
