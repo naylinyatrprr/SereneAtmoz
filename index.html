@@ -293,7 +293,6 @@
       box-shadow: 0 3px 10px rgba(91, 76, 230, 0.28);
     }
 
-    /* ใช้ Grid เพื่อให้แท็บเล็ตแสดงผลสมดุลไม่ดันล้น */
     .filter-bar {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -641,11 +640,91 @@
       color: var(--muted);
     }
 
+    .unit-list-original-price {
+      color: #94a3b8;
+      text-decoration: line-through;
+      margin-left: 6px;
+      font-size: 0.8rem;
+    }
+
     .unit-list-actions {
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+    }
+
+    .list-detail-btn {
+      padding: 8px 14px;
+      font-size: 0.86rem;
+    }
+
+    .list-icon-btn {
+      padding: 8px 10px;
+      font-size: 0.9rem;
+      line-height: 1;
+    }
+
+    /* ปรับเฉพาะมุมมองมือถือ (< 768px) สำหรับโหมดลิสต์ */
+    @media (max-width: 767px) {
+      .unit-list-row {
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        padding: 9px 10px;
+      }
+
+      .unit-list-main {
+        flex: 1 1 auto;
+        min-width: 0;
+        gap: 2px;
+      }
+
+      .unit-list-title {
+        gap: 4px;
+        font-size: 0.84rem;
+        line-height: 1.25;
+      }
+
+      .unit-list-meta {
+        font-size: 0.72rem;
+        line-height: 1.2;
+      }
+
+      .unit-list-price {
+        font-size: 0.75rem;
+        line-height: 1.2;
+      }
+
+      .unit-list-original-price {
+        display: none;
+      }
+
+      .unit-list-actions {
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+        gap: 4px;
+      }
+
+      .list-detail-btn {
+        padding: 5px 7px;
+        font-size: 0.7rem;
+        border-radius: 7px;
+        white-space: nowrap;
+      }
+
+      .list-icon-btn {
+        padding: 5px 6px;
+        font-size: 0.74rem;
+        border-radius: 7px;
+        min-width: 24px;
+      }
+
+      .mini-tag {
+        padding: 1px 6px;
+        font-size: 0.62rem;
+      }
     }
 
     .mini-tag {
@@ -1208,6 +1287,23 @@
       '1 Bed plus': { src: 'https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg', title: 'แปลนห้อง - 1 Bed Plus' }
     };
 
+    function isMobileViewport() {
+      return (window.innerWidth || document.documentElement.clientWidth || 0) < 768;
+    }
+
+    function formatShortMillionPrice(priceStr) {
+      if (!priceStr) return '';
+      const raw = priceStr.toString().trim();
+      const cleaned = raw.replace(/,/g, '');
+      const match = cleaned.match(/\d+(\.\d+)?/);
+      if (!match) return raw;
+      const num = parseFloat(match[0]);
+      if (Number.isNaN(num)) return raw;
+      const millions = num > 10000 ? num / 1000000 : num;
+      const formatted = Number(millions.toFixed(2)).toString();
+      return `${formatted} ล้านบาท`;
+    }
+
     function positionDropdownWithinViewport(box) {
       const menu = box.querySelector('.multi-filter-menu');
       if (!menu) return;
@@ -1249,6 +1345,9 @@
 
     window.addEventListener('resize', () => {
       document.querySelectorAll('.multi-filter.open').forEach(el => positionDropdownWithinViewport(el));
+      if (unitViewMode === 'list') {
+        render();
+      }
     });
 
     function onMultiCheckboxChange(category) {
@@ -1657,12 +1756,18 @@
     function renderListView(container, pageUnits) {
       container.className = 'unit-list-wrapper';
       container.innerHTML = '';
+      const mobile = isMobileViewport();
 
       pageUnits.forEach(u => {
         const isFav = favorites.includes(u.id);
         const isComp = compare.includes(u.id);
         const readyTag = u.hasHighlight ? `<span class="mini-tag mini-tag-ready">Ready to Move!</span>` : '';
         const remarkTag = u.hasRemark ? `<span class="mini-tag mini-tag-remark">Remark Alert</span>` : '';
+        const saleText = mobile ? formatShortMillionPrice(u.sale) : `${u.sale} บาท`;
+        const originalPriceHtml = mobile
+          ? ''
+          : `<span class="unit-list-original-price">ปกติ ${u.price} บาท</span>`;
+        const detailBtnText = mobile ? 'ดู' : 'ดูรายละเอียด';
 
         const row = document.createElement('div');
         row.className = 'unit-list-row';
@@ -1675,14 +1780,14 @@
               ${remarkTag}
             </div>
             <div class="unit-list-price">
-              ราคาขาย: <span class="summary-sale-price">${u.sale}</span> บาท
-              <span style="color: #94a3b8; text-decoration: line-through; margin-left: 6px; font-size: 0.8rem;">ปกติ ${u.price} บาท</span>
+              ราคาขาย: <span class="summary-sale-price">${saleText}</span>
+              ${originalPriceHtml}
             </div>
           </div>
           <div class="unit-list-actions">
-            <button class="primary" onclick="openModal('${u.id}')">ดูรายละเอียด</button>
-            <button style="background: ${isFav ? '#ffe4e6' : '#f1f5f9'}; color: ${isFav ? '#e11d48' : 'var(--ink)'};" onclick="toggleFav('${u.id}')">${isFav ? '❤️' : '🤍'}</button>
-            <button style="background: ${isComp ? '#ede9fe' : '#f1f5f9'}; color: ${isComp ? 'var(--primary)' : 'var(--ink)'};" onclick="toggleCompare('${u.id}')">📊</button>
+            <button class="primary list-detail-btn" onclick="openModal('${u.id}')">${detailBtnText}</button>
+            <button class="list-icon-btn" style="background: ${isFav ? '#ffe4e6' : '#f1f5f9'}; color: ${isFav ? '#e11d48' : 'var(--ink)'};" onclick="toggleFav('${u.id}')">${isFav ? '❤️' : '🤍'}</button>
+            <button class="list-icon-btn" style="background: ${isComp ? '#ede9fe' : '#f1f5f9'}; color: ${isComp ? 'var(--primary)' : 'var(--ink)'};" onclick="toggleCompare('${u.id}')">📊</button>
           </div>
         `;
         container.appendChild(row);
