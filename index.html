@@ -27,18 +27,25 @@
       --radius-sm: 10px;
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
+      min-width: 0;
     }
 
-    html, body {
+    html {
+      width: 100%;
       max-width: 100%;
-      overflow-x: clip;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
     }
 
     body {
       font-family: 'Prompt', 'Plus Jakarta Sans', Arial, sans-serif;
       margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
       color: var(--ink);
       background:
         radial-gradient(circle at 12% 10%, rgba(108, 92, 231, 0.16), transparent 42%),
@@ -60,16 +67,17 @@
       background-size: cover;
       background-position: center;
       color: #fff;
-      padding: 56px 20px;
+      padding: 52px 16px;
       text-align: center;
       box-shadow: var(--shadow-md);
       border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+      width: 100%;
       max-width: 100%;
     }
 
     header h1 {
       margin: 0 0 8px 0;
-      font-size: clamp(1.75rem, 4.5vw, 3rem);
+      font-size: clamp(1.65rem, 4.5vw, 3rem);
       font-weight: 700;
       letter-spacing: -0.02em;
       text-shadow: 0 4px 18px rgba(15, 23, 42, 0.35);
@@ -78,8 +86,8 @@
 
     header p {
       margin: 0;
-      font-size: clamp(0.85rem, 1.8vw, 1.15rem);
-      letter-spacing: 0.14em;
+      font-size: clamp(0.82rem, 1.8vw, 1.15rem);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       opacity: 0.92;
       font-weight: 500;
@@ -90,9 +98,8 @@
       max-width: 1360px;
       width: 100%;
       margin: 0 auto;
-      padding: 24px 16px 56px;
+      padding: 20px 14px 56px;
       position: relative;
-      min-width: 0;
     }
 
     .nav-header-wrapper {
@@ -100,7 +107,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
       background: rgba(255, 255, 255, 0.68);
       backdrop-filter: blur(12px);
@@ -110,21 +117,21 @@
       box-shadow: var(--shadow-sm);
       position: relative;
       z-index: 20;
+      width: 100%;
       max-width: 100%;
-      min-width: 0;
     }
 
     .sales-tabs {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      flex: 1 1 260px;
-      min-width: 0;
+      flex: 1 1 240px;
+      max-width: 100%;
     }
 
     .tab-btn {
       padding: 10px 14px;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 500;
       border-radius: 16px;
       background: transparent;
@@ -150,7 +157,7 @@
 
     .admin-tab-btn {
       padding: 10px 14px;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 600;
       border-radius: 16px;
       background: rgba(30, 36, 51, 0.06);
@@ -178,8 +185,8 @@
     .tab-content {
       display: none;
       animation: fadeSlideIn 0.25s ease;
+      width: 100%;
       max-width: 100%;
-      min-width: 0;
     }
 
     .tab-content.active {
@@ -195,8 +202,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 0 0 18px 0;
-      font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+      margin: 0 0 16px 0;
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
       font-weight: 700;
       color: var(--ink);
     }
@@ -212,23 +219,24 @@
 
     .stats {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       position: relative;
       z-index: 10;
+      width: 100%;
       max-width: 100%;
     }
 
     .stat {
       background: var(--surface);
       backdrop-filter: blur(10px);
-      padding: 9px 14px;
+      padding: 8px 13px;
       border-radius: 999px;
       box-shadow: var(--shadow-sm);
       font-weight: 500;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       color: var(--ink);
       border: 1px solid var(--line);
       max-width: 100%;
@@ -288,34 +296,33 @@
 
     .filter-bar {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 16px;
       flex-wrap: wrap;
       align-items: center;
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
-      padding: 14px;
+      padding: 12px;
       border-radius: var(--radius-md);
       border: 1px solid rgba(255, 255, 255, 0.9);
       box-shadow: var(--shadow-sm);
       position: relative;
       z-index: 400;
       overflow: visible;
+      width: 100%;
       max-width: 100%;
-      min-width: 0;
     }
 
     .filter-bar input[type="text"],
     .filter-bar select {
       font-family: inherit;
-      padding: 10px 14px;
+      padding: 10px 12px;
       border-radius: var(--radius-sm);
       border: 1px solid #d5dae5;
       background: #fff;
       color: var(--ink);
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       max-width: 100%;
-      min-width: 0;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -363,7 +370,6 @@
       display: inline-block;
       z-index: 410;
       max-width: 100%;
-      min-width: 0;
     }
 
     .multi-filter.open {
@@ -377,11 +383,11 @@
       background: #fff;
       color: var(--ink);
       font-weight: 500;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
-      gap: 8px;
-      min-width: 132px;
+      gap: 6px;
+      min-width: 118px;
       max-width: 100%;
       justify-content: space-between;
     }
@@ -410,10 +416,11 @@
       position: absolute;
       top: calc(100% + 6px);
       left: 0;
-      min-width: 210px;
-      max-width: calc(100vw - 44px);
+      min-width: 200px;
+      max-width: min(260px, calc(100vw - 40px));
       max-height: 220px;
       overflow-y: auto;
+      overflow-x: hidden;
       background: #ffffff;
       border: 1px solid #d8dee9;
       border-radius: var(--radius-md);
@@ -433,7 +440,7 @@
       padding: 8px 10px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: var(--ink);
       user-select: none;
       transition: background 0.15s ease;
@@ -466,7 +473,7 @@
       border-radius: 999px;
       font-weight: 600;
       font-size: 0.85rem;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -479,9 +486,10 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(min(265px, 100%), 1fr));
-      gap: 20px;
+      gap: 18px;
       position: relative;
       z-index: 1;
+      width: 100%;
       max-width: 100%;
     }
 
@@ -496,7 +504,8 @@
       flex-direction: column;
       position: relative;
       z-index: 1;
-      min-width: 0;
+      width: 100%;
+      max-width: 100%;
       transition: transform 0.24s ease, box-shadow 0.24s ease;
     }
 
@@ -549,17 +558,16 @@
     }
 
     .card-content {
-      padding: 16px 18px 18px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      min-width: 0;
     }
 
     .unit-price-highlight {
       margin: 2px 0 12px 0;
       color: var(--danger);
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 700;
     }
 
@@ -573,6 +581,7 @@
       overflow: hidden;
       position: relative;
       z-index: 1;
+      width: 100%;
       max-width: 100%;
     }
 
@@ -581,14 +590,15 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      padding: 15px 16px;
+      padding: 14px 16px;
       border-bottom: 1px solid rgba(148, 163, 184, 0.18);
       background: transparent;
       transition: background 0.18s ease;
       flex-wrap: wrap;
       position: relative;
       z-index: 1;
-      min-width: 0;
+      width: 100%;
+      max-width: 100%;
     }
 
     .unit-list-row:last-child {
@@ -603,8 +613,8 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      flex: 1 1 200px;
-      min-width: 0;
+      flex: 1 1 190px;
+      max-width: 100%;
     }
 
     .unit-list-title {
@@ -613,16 +623,16 @@
       gap: 8px;
       flex-wrap: wrap;
       color: var(--ink);
-      font-size: 1.02rem;
+      font-size: 1rem;
     }
 
     .unit-list-meta {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: var(--muted);
     }
 
     .unit-list-price {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--muted);
     }
 
@@ -631,7 +641,7 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      min-width: 0;
+      max-width: 100%;
     }
 
     .mini-tag {
@@ -652,9 +662,11 @@
 
     .backlog-dashboard {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
-      gap: 16px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
     }
 
     .backlog-stat-card {
@@ -685,20 +697,21 @@
 
     .gallery-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+      gap: 18px;
       background: rgba(255, 255, 255, 0.78);
       backdrop-filter: blur(12px);
-      padding: 18px;
+      padding: 16px;
       border-radius: var(--radius-lg);
       border: 1px solid rgba(255, 255, 255, 0.85);
       box-shadow: var(--shadow-sm);
+      width: 100%;
       max-width: 100%;
     }
 
     .gallery-item {
       width: 100%;
-      min-width: 0;
+      max-width: 100%;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
       overflow: hidden;
@@ -736,8 +749,8 @@
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 26px;
-      padding: 14px 16px;
+      margin-top: 24px;
+      padding: 12px 14px;
       background: var(--surface);
       backdrop-filter: blur(10px);
       border-radius: var(--radius-md);
@@ -745,6 +758,7 @@
       box-shadow: var(--shadow-sm);
       position: relative;
       z-index: 1;
+      width: 100%;
       max-width: 100%;
     }
 
@@ -771,16 +785,18 @@
       z-index: 1000;
       backdrop-filter: blur(6px);
       padding: 16px;
+      overflow-x: hidden;
     }
 
     .modal-content {
       background: #fff;
       width: min(780px, 100%);
       margin: 24px auto;
-      padding: 26px;
+      padding: 24px;
       border-radius: 24px;
       max-height: 88vh;
       overflow-y: auto;
+      overflow-x: hidden;
       box-shadow: var(--shadow-lg);
     }
 
@@ -806,11 +822,12 @@
       background: #fff;
       width: min(600px, 100%);
       margin: 4vh auto;
-      padding: 26px;
+      padding: 24px;
       border-radius: 24px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
       box-shadow: var(--shadow-lg);
     }
 
@@ -820,6 +837,7 @@
       list-style: none;
       flex-grow: 1;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .summary-item {
@@ -827,6 +845,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
+      flex-wrap: wrap;
       padding: 14px 10px;
       border-bottom: 1px solid #eef2f7;
     }
@@ -852,6 +871,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px;
+      overflow: hidden;
     }
 
     .zoom-container {
@@ -864,8 +884,8 @@
     }
 
     #zoomedImg {
-      max-width: 95vw;
-      max-height: 90vh;
+      max-width: 95%;
+      max-height: 90%;
       object-fit: contain;
       border-radius: 12px;
       box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65);
@@ -939,7 +959,7 @@
 
       <h2 class="section-heading">Available Units</h2>
       <div class="filter-bar">
-        <input type="text" id="searchInput" placeholder="🔍 ค้นหาเลขห้อง (เช่น A214)..." oninput="handleFilterChange()" style="flex: 1 1 180px;">
+        <input type="text" id="searchInput" placeholder="🔍 ค้นหาเลขห้อง (เช่น A214)..." oninput="handleFilterChange()" style="flex: 1 1 160px;">
 
         <div class="multi-filter" id="buildingFilterBox">
           <button type="button" class="multi-filter-btn" onclick="toggleFilterDropdown(event, 'buildingFilterBox')">
@@ -1020,7 +1040,7 @@
       </div>
 
       <div class="filter-bar">
-        <input type="text" id="backlogSearchInput" placeholder="🔍 ค้นหาเลขห้อง Backlog..." oninput="renderBacklog()" style="flex: 1 1 180px;">
+        <input type="text" id="backlogSearchInput" placeholder="🔍 ค้นหาเลขห้อง Backlog..." oninput="renderBacklog()" style="flex: 1 1 160px;">
         <select id="backlogStatusFilter" onchange="renderBacklog()">
           <option value="all">ทุกสถานะ Backlog</option>
           <option value="Booking">Booking</option>
@@ -1133,8 +1153,8 @@
 
   <div id="summaryModal">
     <div class="summary-modal-box">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eef2f7; padding-bottom: 12px;">
-        <h2 id="summaryTitle" style="margin: 0; font-size: 1.2rem;"></h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid #eef2f7; padding-bottom: 12px;">
+        <h2 id="summaryTitle" style="margin: 0; font-size: 1.15rem;"></h2>
         <button id="clearSummaryBtn" class="btn-clear" style="display: none; padding: 6px 12px; font-size: 0.82rem;" onclick="clearCurrentSummaryGroup()">🗑️ ล้างรายการทั้งหมด</button>
       </div>
       <ul id="summaryList" class="summary-list"></ul>
@@ -1188,6 +1208,19 @@
       '1 Bed plus': { src: 'https://i.ibb.co/N64mMhwQ/1786206108424-0.jpg', title: 'แปลนห้อง - 1 Bed Plus' }
     };
 
+    function positionDropdownWithinViewport(box) {
+      const menu = box.querySelector('.multi-filter-menu');
+      if (!menu) return;
+      menu.style.left = '0px';
+      menu.style.right = 'auto';
+      const rect = menu.getBoundingClientRect();
+      const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+      if (rect.right > viewportWidth - 12) {
+        const overflow = rect.right - (viewportWidth - 12);
+        menu.style.left = `${-Math.min(overflow, rect.left - 12)}px`;
+      }
+    }
+
     function setUnitViewMode(mode) {
       unitViewMode = mode === 'list' ? 'list' : 'card';
       document.getElementById('cardViewBtn').classList.toggle('active', unitViewMode === 'card');
@@ -1203,12 +1236,19 @@
         if (el.id !== boxId) el.classList.remove('open');
       });
       targetBox.classList.toggle('open', !isOpen);
+      if (!isOpen) {
+        positionDropdownWithinViewport(targetBox);
+      }
     }
 
     document.addEventListener('click', (event) => {
       if (!event.target.closest('.multi-filter')) {
         document.querySelectorAll('.multi-filter.open').forEach(el => el.classList.remove('open'));
       }
+    });
+
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.multi-filter.open').forEach(el => positionDropdownWithinViewport(el));
     });
 
     function onMultiCheckboxChange(category) {
@@ -1595,8 +1635,8 @@
             <img src="${imgUrl}" alt="${u.type}">
           </div>
           <div class="card-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <h3 style="margin: 0; color: var(--ink); font-size: 1.25rem; font-weight: 700;">ห้อง ${u.id}</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <h3 style="margin: 0; color: var(--ink); font-size: 1.2rem; font-weight: 700;">ห้อง ${u.id}</h3>
               <span style="background: #f1efff; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; color: var(--primary);">ชั้น ${u.floor}</span>
             </div>
             <p style="margin: 0 0 5px 0; color: var(--muted); font-size: 0.86rem;"><strong>แบบห้อง:</strong> ${u.type}</p>
