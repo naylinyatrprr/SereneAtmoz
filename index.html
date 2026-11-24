@@ -31,6 +31,11 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
     body {
       font-family: 'Prompt', 'Plus Jakarta Sans', Arial, sans-serif;
       margin: 0;
@@ -55,41 +60,46 @@
       background-size: cover;
       background-position: center;
       color: #fff;
-      padding: 64px 28px;
+      padding: 56px 20px;
       text-align: center;
       box-shadow: var(--shadow-md);
       border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+      max-width: 100%;
     }
 
     header h1 {
       margin: 0 0 8px 0;
-      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-size: clamp(1.75rem, 4.5vw, 3rem);
       font-weight: 700;
       letter-spacing: -0.02em;
       text-shadow: 0 4px 18px rgba(15, 23, 42, 0.35);
+      overflow-wrap: anywhere;
     }
 
     header p {
       margin: 0;
-      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-      letter-spacing: 0.24em;
+      font-size: clamp(0.85rem, 1.8vw, 1.15rem);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       opacity: 0.92;
       font-weight: 500;
+      overflow-wrap: anywhere;
     }
 
     .container {
       max-width: 1360px;
+      width: 100%;
       margin: 0 auto;
-      padding: 28px 20px 56px;
+      padding: 24px 16px 56px;
       position: relative;
+      min-width: 0;
     }
 
     .nav-header-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 24px;
       flex-wrap: wrap;
       background: rgba(255, 255, 255, 0.68);
@@ -100,18 +110,21 @@
       box-shadow: var(--shadow-sm);
       position: relative;
       z-index: 20;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .sales-tabs {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      flex: 1;
+      flex: 1 1 260px;
+      min-width: 0;
     }
 
     .tab-btn {
-      padding: 10px 18px;
-      font-size: 0.88rem;
+      padding: 10px 14px;
+      font-size: 0.86rem;
       font-weight: 500;
       border-radius: 16px;
       background: transparent;
@@ -119,7 +132,8 @@
       border: 1px solid transparent;
       cursor: pointer;
       transition: all 0.2s ease;
-      white-space: nowrap;
+      max-width: 100%;
+      text-align: left;
     }
 
     .tab-btn:hover {
@@ -135,8 +149,8 @@
     }
 
     .admin-tab-btn {
-      padding: 10px 18px;
-      font-size: 0.88rem;
+      padding: 10px 14px;
+      font-size: 0.86rem;
       font-weight: 600;
       border-radius: 16px;
       background: rgba(30, 36, 51, 0.06);
@@ -144,10 +158,10 @@
       border: 1px solid rgba(30, 36, 51, 0.1);
       cursor: pointer;
       transition: all 0.2s ease;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      white-space: nowrap;
+      max-width: 100%;
     }
 
     .admin-tab-btn:hover {
@@ -164,6 +178,8 @@
     .tab-content {
       display: none;
       animation: fadeSlideIn 0.25s ease;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .tab-content.active {
@@ -180,7 +196,7 @@
       align-items: center;
       gap: 10px;
       margin: 0 0 18px 0;
-      font-size: 1.35rem;
+      font-size: clamp(1.15rem, 2.5vw, 1.35rem);
       font-weight: 700;
       color: var(--ink);
     }
@@ -191,6 +207,7 @@
       height: 24px;
       border-radius: 99px;
       background: linear-gradient(180deg, var(--primary), var(--accent));
+      flex-shrink: 0;
     }
 
     .stats {
@@ -201,18 +218,20 @@
       margin-bottom: 20px;
       position: relative;
       z-index: 10;
+      max-width: 100%;
     }
 
     .stat {
       background: var(--surface);
       backdrop-filter: blur(10px);
-      padding: 9px 16px;
+      padding: 9px 14px;
       border-radius: 999px;
       box-shadow: var(--shadow-sm);
       font-weight: 500;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       color: var(--ink);
       border: 1px solid var(--line);
+      max-width: 100%;
     }
 
     .stat span {
@@ -242,19 +261,19 @@
       padding: 3px;
       gap: 3px;
       box-shadow: var(--shadow-sm);
+      max-width: 100%;
     }
 
     .view-mode-btn {
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 999px;
       border: none;
       background: transparent;
       color: var(--muted);
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
-      white-space: nowrap;
     }
 
     .view-mode-btn:hover {
@@ -282,6 +301,8 @@
       position: relative;
       z-index: 400;
       overflow: visible;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .filter-bar input[type="text"],
@@ -293,6 +314,8 @@
       background: #fff;
       color: var(--ink);
       font-size: 0.88rem;
+      max-width: 100%;
+      min-width: 0;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -310,6 +333,7 @@
       border-radius: var(--radius-sm);
       cursor: pointer;
       font-weight: 600;
+      max-width: 100%;
       transition: all 0.2s ease;
     }
 
@@ -338,6 +362,8 @@
       position: relative;
       display: inline-block;
       z-index: 410;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .multi-filter.open {
@@ -345,18 +371,25 @@
     }
 
     .multi-filter-btn {
-      padding: 10px 14px;
+      padding: 10px 12px;
       border-radius: var(--radius-sm);
       border: 1px solid #d5dae5;
       background: #fff;
       color: var(--ink);
       font-weight: 500;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       display: flex;
       align-items: center;
       gap: 8px;
-      min-width: 148px;
+      min-width: 132px;
+      max-width: 100%;
       justify-content: space-between;
+    }
+
+    .multi-filter-btn .filter-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .multi-filter-btn:hover,
@@ -377,7 +410,8 @@
       position: absolute;
       top: calc(100% + 6px);
       left: 0;
-      min-width: 224px;
+      min-width: 210px;
+      max-width: calc(100vw - 44px);
       max-height: 220px;
       overflow-y: auto;
       background: #ffffff;
@@ -439,14 +473,16 @@
       box-shadow: 0 6px 18px rgba(0, 184, 176, 0.22);
       position: relative;
       z-index: 5;
+      max-width: 100%;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(265px, 100%), 1fr));
       gap: 20px;
       position: relative;
       z-index: 1;
+      max-width: 100%;
     }
 
     .card {
@@ -460,6 +496,7 @@
       flex-direction: column;
       position: relative;
       z-index: 1;
+      min-width: 0;
       transition: transform 0.24s ease, box-shadow 0.24s ease;
     }
 
@@ -516,6 +553,7 @@
       display: flex;
       flex-direction: column;
       flex-grow: 1;
+      min-width: 0;
     }
 
     .unit-price-highlight {
@@ -535,20 +573,22 @@
       overflow: hidden;
       position: relative;
       z-index: 1;
+      max-width: 100%;
     }
 
     .unit-list-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
-      padding: 15px 20px;
+      gap: 12px;
+      padding: 15px 16px;
       border-bottom: 1px solid rgba(148, 163, 184, 0.18);
       background: transparent;
       transition: background 0.18s ease;
       flex-wrap: wrap;
       position: relative;
       z-index: 1;
+      min-width: 0;
     }
 
     .unit-list-row:last-child {
@@ -563,8 +603,8 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      flex: 1;
-      min-width: 220px;
+      flex: 1 1 200px;
+      min-width: 0;
     }
 
     .unit-list-title {
@@ -591,6 +631,7 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      min-width: 0;
     }
 
     .mini-tag {
@@ -611,7 +652,7 @@
 
     .backlog-dashboard {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
       gap: 16px;
       margin-bottom: 22px;
     }
@@ -644,18 +685,20 @@
 
     .gallery-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
       gap: 20px;
       background: rgba(255, 255, 255, 0.78);
       backdrop-filter: blur(12px);
-      padding: 22px;
+      padding: 18px;
       border-radius: var(--radius-lg);
       border: 1px solid rgba(255, 255, 255, 0.85);
       box-shadow: var(--shadow-sm);
+      max-width: 100%;
     }
 
     .gallery-item {
       width: 100%;
+      min-width: 0;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
       overflow: hidden;
@@ -691,9 +734,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-top: 26px;
-      padding: 14px 18px;
+      padding: 14px 16px;
       background: var(--surface);
       backdrop-filter: blur(10px);
       border-radius: var(--radius-md);
@@ -701,12 +745,13 @@
       box-shadow: var(--shadow-sm);
       position: relative;
       z-index: 1;
+      max-width: 100%;
     }
 
     .pagination-btn {
       background: var(--primary);
       color: #fff;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
       border: none;
       cursor: pointer;
@@ -810,8 +855,8 @@
     }
 
     .zoom-container {
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -894,7 +939,7 @@
 
       <h2 class="section-heading">Available Units</h2>
       <div class="filter-bar">
-        <input type="text" id="searchInput" placeholder="🔍 ค้นหาเลขห้อง (เช่น A214)..." oninput="handleFilterChange()" style="flex: 1; min-width: 190px;">
+        <input type="text" id="searchInput" placeholder="🔍 ค้นหาเลขห้อง (เช่น A214)..." oninput="handleFilterChange()" style="flex: 1 1 180px;">
 
         <div class="multi-filter" id="buildingFilterBox">
           <button type="button" class="multi-filter-btn" onclick="toggleFilterDropdown(event, 'buildingFilterBox')">
@@ -975,7 +1020,7 @@
       </div>
 
       <div class="filter-bar">
-        <input type="text" id="backlogSearchInput" placeholder="🔍 ค้นหาเลขห้อง Backlog..." oninput="renderBacklog()" style="flex: 1; min-width: 200px;">
+        <input type="text" id="backlogSearchInput" placeholder="🔍 ค้นหาเลขห้อง Backlog..." oninput="renderBacklog()" style="flex: 1 1 180px;">
         <select id="backlogStatusFilter" onchange="renderBacklog()">
           <option value="all">ทุกสถานะ Backlog</option>
           <option value="Booking">Booking</option>
@@ -1752,34 +1797,3 @@
       } else if (type === 'favorites') {
         title.textContent = '❤️ รายการยูนิตที่ถูกใจ';
         selectedUnits = units.filter(u => favorites.includes(u.id));
-        clearBtn.style.display = selectedUnits.length > 0 ? 'inline-block' : 'none';
-      }
-
-      if (selectedUnits.length === 0) {
-        list.innerHTML = '<li style="text-align: center; color: var(--muted); padding: 20px;">ไม่มีรายการข้อมูล</li>';
-      } else {
-        selectedUnits.forEach(u => {
-          const li = document.createElement('li');
-          li.className = 'summary-item';
-          li.innerHTML = `
-            <div>
-              <strong>ห้อง ${u.id}</strong> (${u.type} | ${u.size} ตร.ม.)
-              <div class="summary-price-box">ราคาขาย: <span class="summary-sale-price">${u.sale}</span> บาท</div>
-            </div>
-            <button class="primary" onclick="closeSummaryModal(); openModal('${u.id}');">ดูรายละเอียด</button>
-          `;
-          list.appendChild(li);
-        });
-      }
-      modal.style.display = 'block';
-    }
-
-    function closeSummaryModal() {
-      document.getElementById('summaryModal').style.display = 'none';
-    }
-
-    loadSheetsData(false);
-    setInterval(() => loadSheetsData(true), 30000);
-  </script>
-</body>
-</html>
