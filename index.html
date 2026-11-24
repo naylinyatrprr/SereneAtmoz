@@ -1797,3 +1797,34 @@
       } else if (type === 'favorites') {
         title.textContent = '❤️ รายการยูนิตที่ถูกใจ';
         selectedUnits = units.filter(u => favorites.includes(u.id));
+        clearBtn.style.display = selectedUnits.length > 0 ? 'inline-block' : 'none';
+      }
+
+      if (selectedUnits.length === 0) {
+        list.innerHTML = '<li style="text-align: center; color: var(--muted); padding: 20px;">ไม่มีรายการข้อมูล</li>';
+      } else {
+        selectedUnits.forEach(u => {
+          const li = document.createElement('li');
+          li.className = 'summary-item';
+          li.innerHTML = `
+            <div>
+              <strong>ห้อง ${u.id}</strong> (${u.type} | ${u.size} ตร.ม.)
+              <div class="summary-price-box">ราคาขาย: <span class="summary-sale-price">${u.sale}</span> บาท</div>
+            </div>
+            <button class="primary" onclick="closeSummaryModal(); openModal('${u.id}');">ดูรายละเอียด</button>
+          `;
+          list.appendChild(li);
+        });
+      }
+      modal.style.display = 'block';
+    }
+
+    function closeSummaryModal() {
+      document.getElementById('summaryModal').style.display = 'none';
+    }
+
+    loadSheetsData(false);
+    setInterval(() => loadSheetsData(true), 30000);
+  </script>
+</body>
+</html>
